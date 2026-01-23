@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import * as crypto from 'node:crypto'
@@ -30,5 +30,32 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  static accessTokens = DbAccessTokensProvider.forModel(User)
+  @beforeCreate()
+  static async generate(user: User) {
+    user.id = crypto.randomUUID()
+  }
+
+  getId() {
+    return this.id
+  }
+
+  getEmail() {
+    return this.email
+  }
+
+  getFullName() {
+    return this.fullName
+  }
+
+  getCreatedAt() {
+    return this.createdAt
+  }
+
+  static accessTokens = DbAccessTokensProvider.forModel(User, {
+    expiresIn: '7 days',
+    prefix: 'oat_',
+    table: 'auth_access_tokens',
+    type: 'auth_token',
+    tokenSecretLength: 50,
+  })
 }
