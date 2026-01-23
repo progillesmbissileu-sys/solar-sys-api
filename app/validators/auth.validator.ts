@@ -20,6 +20,6 @@ export const registerSchema = vine.compile(
 export const loginSchema = vine.compile(
   vine.object({
     email: vine.string().email().normalizeEmail(),
-    password: vine.string().minLength(8),
+    password: vine.string(),
   })
 )

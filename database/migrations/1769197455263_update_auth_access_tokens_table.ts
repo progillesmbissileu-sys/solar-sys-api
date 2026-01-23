@@ -6,7 +6,6 @@ export default class extends BaseSchema {
   async up() {
     this.schema.alterTable(this.tableName, (table) => {
       table.dropColumn('id')
-      // table.increments('id').primary().notNullable().unsigned().alter()
     })
   }
 

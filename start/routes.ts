@@ -19,7 +19,7 @@ router
 
       router.get('/me', [AuthController, 'me']).use(middleware.auth())
 
-      router.delete('/logout', [AuthController, 'logout'])
+      router.get('/logout', [AuthController, 'logout'])
     })
 
     router.group(() => {}).prefix('/market')

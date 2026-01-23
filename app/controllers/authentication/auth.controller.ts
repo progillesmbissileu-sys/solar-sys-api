@@ -41,10 +41,8 @@ export default class AuthController {
     })
   }
 
-  async me({ auth, request, response }: HttpContext) {
+  async me({ auth, response }: HttpContext) {
     await auth.check()
-
-    console.log(request.headers())
 
     const user = auth.user as User
 
@@ -61,8 +59,6 @@ export default class AuthController {
   }
 
   async logout({ auth }: HttpContext) {
-    const user = auth.user!
-
-    await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+    await auth.use('api').invalidateToken()
   }
 }
