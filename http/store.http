@@ -1,0 +1,9 @@
+###
+POST {{baseUrl}}/store
+Content-Type: application/json
+
+{
+  "designation": "Store 1",
+  "description": "store-1",
+  "domainUrl": "store-1.com"
+}
