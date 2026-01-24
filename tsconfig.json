@@ -3,8 +3,11 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./build",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/kernel/*": ["./src/kernel/*"],
+      "@/shared/*": ["./src/shared/*"]
     }
   }
 }
