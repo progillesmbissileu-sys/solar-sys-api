@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import User from '#database/ar/user'
+import User from '../../../database/active-records-models/user'
 import { loginSchema, registerSchema } from '#validators/auth.validator'
 
 export default class AuthController {
