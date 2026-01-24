@@ -3,8 +3,8 @@ export class Store {
     private id: any,
     private designation: string,
     private domainName: string,
-    private createdAt: any = null,
-    private updatedAt: any = null
+    private createdAt: Date | null = null,
+    private updatedAt: Date | null = null
   ) {}
 
   getId(): any {
@@ -17,5 +17,12 @@ export class Store {
 
   getDesignation(): string {
     return this.designation
+  }
+
+  getCreatedAt(): any {
+    return this.createdAt
+  }
+  getUpdatedAt(): any {
+    return this.updatedAt
   }
 }

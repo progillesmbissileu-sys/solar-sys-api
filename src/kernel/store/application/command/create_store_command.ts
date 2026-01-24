@@ -5,7 +5,8 @@ export class CreateStoreCommand implements Command {
 
   constructor(
     public designation: string,
-    public domainUrl: string
+    public domainUrl: string,
+    public description: string = ''
   ) {
     this.timestamp = new Date()
   }

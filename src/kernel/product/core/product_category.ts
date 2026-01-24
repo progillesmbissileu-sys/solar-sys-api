@@ -1,21 +1,18 @@
 import string from '@adonisjs/core/helpers/string'
 
-export class Product {
+export class ProductCategory {
   constructor(
     private id: any,
     private designation: string,
-    private categoryId: any,
-    private description: string,
-    private pictureUrl: string,
-    private price: number,
     private slug?: string,
-    private brand?: string,
-    private isAvailable?: boolean,
-    private isDeleted?: boolean,
+    private type: 'CATEGORY' | 'TAG' = 'CATEGORY',
+    private parentId: any | null = null,
     private createdAt: Date | null = null,
     private updatedAt: Date | null = null
   ) {
-    this.slug = slug ?? string.slug(this.designation + '-' + string.generateRandom(8))
+    if (!slug) {
+      this.slug = string.slug(this.designation + '-' + string.generateRandom(8))
+    }
   }
 
   getId(): any {
