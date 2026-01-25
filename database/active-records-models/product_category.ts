@@ -1,26 +1,33 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
 import crypto from 'node:crypto'
 
 export default class ProductCategory extends BaseModel {
   @column({ isPrimary: true })
-  declare id: crypto.UUID
+  declare private id: crypto.UUID
 
   @column()
-  declare designation: string
+  declare private designation: string
 
   @column({ columnName: 'category_slug' })
-  declare slug: string
+  declare private slug: string
 
   @column({ columnName: 'category_type' })
-  declare type: 'CATEGORY' | 'TAG'
+  declare private type: 'CATEGORY' | 'TAG'
 
   @column()
-  declare parentId: crypto.UUID
+  declare private parentId: crypto.UUID
 
+  // @ts-ignore
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare private createdAt: DateTime
 
+  // @ts-ignore
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare private updatedAt: DateTime
+
+  @beforeCreate()
+  static async beforeCreate(category: ProductCategory) {
+    category.id = crypto.randomUUID()
+  }
 }

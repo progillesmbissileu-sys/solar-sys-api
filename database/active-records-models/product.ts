@@ -6,43 +6,46 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
-  declare id: crypto.UUID
+  declare private id: crypto.UUID
 
   @column({ columnName: 'category_id' })
-  declare categoryId: crypto.UUID
+  declare private categoryId: crypto.UUID
 
   @column()
-  declare designation: string
+  declare private designation: string
 
   @column({ columnName: 'product_slug' })
-  declare slug: string
+  declare private slug: string
 
   @column()
-  declare description: string
+  declare private description: string
 
   @column({ columnName: 'picture_url' })
-  declare pictureUrl: string
+  declare private pictureUrl: string
 
   @column()
-  declare price: number
+  declare private price: number
 
   @column()
-  declare brand: string
+  declare private brand: string
 
   @column({ columnName: 'is_available' })
-  declare isAvailable: boolean
+  declare private isAvailable: boolean
 
   @column({ columnName: 'is_deleted' })
-  declare isDeleted: boolean
+  declare private isDeleted: boolean
 
+  // @ts-ignore
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare private createdAt: DateTime
 
+  // @ts-ignore
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare private updatedAt: DateTime
 
+  // @ts-ignore
   @belongsTo(() => ProductCategory, { foreignKey: 'categoryId' })
-  declare category: BelongsTo<typeof ProductCategory>
+  declare private category: BelongsTo<typeof ProductCategory>
 
   @beforeCreate()
   static async beforeCreate(product: Product) {

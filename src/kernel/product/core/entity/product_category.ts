@@ -4,9 +4,9 @@ export class ProductCategory {
   constructor(
     private id: any,
     private designation: string,
-    private slug?: string,
     private type: 'CATEGORY' | 'TAG' = 'CATEGORY',
     private parentId: any | null = null,
+    private slug?: string,
     private createdAt: Date | null = null,
     private updatedAt: Date | null = null
   ) {

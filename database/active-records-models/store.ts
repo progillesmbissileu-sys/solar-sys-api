@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
 import crypto from 'node:crypto'
 
 export default class Store extends BaseModel {
@@ -20,4 +20,9 @@ export default class Store extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @beforeCreate()
+  static async generate(store: Store) {
+    store.id = crypto.randomUUID()
+  }
 }

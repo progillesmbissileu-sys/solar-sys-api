@@ -1,19 +1,19 @@
-import { ProductRepository } from '#kernel/product/core/product_repository'
-import { Product } from '#kernel/product/core/product'
+import { ProductRepository } from '#kernel/product/core/repository/product_repository'
+import { default as ProductActiveRecord } from '#database/active-records-models/product'
+import { Product } from '#kernel/product/core/entity/product'
 
 export class ProductARRepository implements ProductRepository {
-  findById(id: any): Promise<Product> {
-    console.log(id)
-    return Promise.reject(new Error('Not implemented'))
+  async findById(id: any): Promise<Product> {
+    return (await ProductActiveRecord.findOrFail({ id: id })) as any
   }
 
-  save(entity: Product): Promise<void> {
-    console.log(entity)
-    return Promise.reject(new Error('Not implemented'))
+  async save(entity: Product): Promise<void> {
+    if (entity.getId()) await ProductActiveRecord.updateOrCreate({ id: entity.getId() }, entity)
+    else await ProductActiveRecord.create(entity)
   }
 
-  delete(id: any): Promise<void> {
-    console.log(id)
-    return Promise.reject(new Error('Not implemented'))
+  async delete(id: any): Promise<void> {
+    const product = await ProductActiveRecord.findOrFail(id)
+    await product.delete()
   }
 }

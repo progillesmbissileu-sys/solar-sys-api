@@ -5,7 +5,11 @@ export class CreateProductCommand implements Command {
 
   constructor(
     public designation: string,
-    public domainUrl: string
+    public readonly categoryId: any,
+    public readonly description: string,
+    public readonly pictureUrl: string,
+    public readonly price: number,
+    public readonly brand?: string
   ) {
     this.timestamp = new Date()
   }
