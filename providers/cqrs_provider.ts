@@ -4,6 +4,8 @@ import { UpdateStoreHandler } from '#kernel/store/application/command_handler/up
 import { CreateStoreHandler } from '#kernel/store/application/command_handler/create_store_handler'
 import { CreateProductHandler } from '#kernel/product/application/command-handler/create_product_handler'
 import { UpdateProductHandler } from '#kernel/product/application/command-handler/update_product_handler'
+import { CreateProductCategoryHandler } from '#kernel/product/application/command-handler/create_product_category_handler'
+import { UpdateProductCategoryHandler } from '#kernel/product/application/command-handler/update_product_category_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -16,6 +18,12 @@ export default class CqrsProvider {
       commandBus.register('UpdateStoreCommand', UpdateStoreHandler, ['StoreRepository'])
       commandBus.register('CreateProductCommand', CreateProductHandler, ['ProductRepository'])
       commandBus.register('UpdateProductCommand', UpdateProductHandler, ['ProductRepository'])
+      commandBus.register('CreateProductCategoryCommand', CreateProductCategoryHandler, [
+        'ProductCategoryRepository',
+      ])
+      commandBus.register('UpdateProductCategoryCommand', UpdateProductCategoryHandler, [
+        'ProductCategoryRepository',
+      ])
 
       return commandBus
     })
