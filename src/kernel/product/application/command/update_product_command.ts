@@ -9,7 +9,9 @@ export class UpdateProductCommand implements Command {
     public readonly description: string,
     public readonly pictureUrl: string,
     public readonly price: number,
-    public readonly brand?: string
+    public readonly brand?: string,
+    public readonly isAvailable?: boolean,
+    public readonly isDeleted?: boolean
   ) {
     this.timestamp = new Date()
   }

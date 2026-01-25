@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./build",
+    "module": "preserve",
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+    "noUnusedLocals": false
   }
 }

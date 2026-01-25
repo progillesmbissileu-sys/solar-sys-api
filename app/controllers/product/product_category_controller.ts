@@ -19,6 +19,13 @@ export default class ProductCategoryController extends AppAbstractController {
     return response.accepted({ data: result })
   }
 
+  public async show({ response, request }: HttpContext) {
+    const categoryId = await request.param('id')
+    const result = await ActiveRecord.find(categoryId)
+
+    return response.accepted({ data: result })
+  }
+
   public async store({ request, response }: HttpContext) {
     const payload = await request.validateUsing(createProductCategorySchema)
 

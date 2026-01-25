@@ -4,11 +4,32 @@ import { ProductCategory } from '#kernel/product/core/entity/product_category'
 
 export class ProductCategoryARRepository implements ProductCategoryRepository {
   async findById(id: any): Promise<ProductCategory> {
-    return (await ActiveRecord.findOrFail({ id: id })) as any
+    const category = await ActiveRecord.find(id)
+
+    if (category) {
+      return new ProductCategory(
+        category.id,
+        category.designation,
+        category.type,
+        category.parentId,
+        category.slug,
+        category.createdAt as any,
+        category.updatedAt as any
+      )
+    }
+    return Promise.reject(category)
   }
 
   async save(entity: ProductCategory): Promise<void> {
-    if (entity.getId()) await ActiveRecord.updateOrCreate({ id: entity.getId() }, entity)
-    else await ActiveRecord.create(entity)
+    const object = {
+      id: entity['id'],
+      designation: entity['designation'],
+      type: entity['type'],
+      parentId: entity['parentId'],
+      slug: entity['slug'] as any,
+    }
+
+    if (entity.getId()) await ActiveRecord.updateOrCreate({ id: entity.getId() }, object)
+    else await ActiveRecord.create(object)
   }
 }

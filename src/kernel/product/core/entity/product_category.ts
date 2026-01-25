@@ -6,12 +6,12 @@ export class ProductCategory {
     private designation: string,
     private type: 'CATEGORY' | 'TAG' = 'CATEGORY',
     private parentId: any | null = null,
-    private slug?: string,
-    private createdAt: Date | null = null,
-    private updatedAt: Date | null = null
+    private slug: string | null = null,
+    private createdAt?: Date,
+    private updatedAt?: Date
   ) {
     if (!slug) {
-      this.slug = string.slug(this.designation + '-' + string.generateRandom(8))
+      this.slug = string.slug(this.designation + '-' + string.generateRandom(8)).toLowerCase()
     }
   }
 
@@ -19,14 +19,18 @@ export class ProductCategory {
     return this.id
   }
 
-  getDesignation(): string {
-    return this.designation
+  getParentId(): any | null {
+    return this.parentId
   }
 
-  getCreatedAt(): Date | null {
+  getSlug(): string | null {
+    return this.slug
+  }
+
+  getCreatedAt(): any {
     return this.createdAt
   }
-  getUpdatedAt(): Date | null {
+  getUpdatedAt(): any {
     return this.updatedAt
   }
 }

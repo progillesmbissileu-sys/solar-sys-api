@@ -12,24 +12,33 @@ export class Product {
     private slug?: string,
     private isAvailable?: boolean,
     private isDeleted?: boolean,
-    private createdAt: Date | null = null,
-    private updatedAt: Date | null = null
+    private createdAt?: Date,
+    private updatedAt?: Date
   ) {
-    this.slug = slug ?? string.slug(this.designation + '-' + string.generateRandom(8))
+    this.slug = slug ?? string.slug(this.designation + '-' + string.generateRandom(8)).toLowerCase()
+    this.isAvailable = isAvailable ?? false
+    this.isDeleted = isDeleted ?? false
   }
 
   getId(): any {
     return this.id
   }
 
-  getDesignation(): string {
-    return this.designation
+  getSlug(): string | undefined {
+    return this.slug
   }
 
-  getCreatedAt(): Date | null {
+  getIsAvailable(): boolean | undefined {
+    return this.isAvailable
+  }
+  getIsDeleted(): boolean | undefined {
+    return this.isDeleted
+  }
+
+  getCreatedAt(): any {
     return this.createdAt
   }
-  getUpdatedAt(): Date | null {
+  getUpdatedAt(): any {
     return this.updatedAt
   }
 }

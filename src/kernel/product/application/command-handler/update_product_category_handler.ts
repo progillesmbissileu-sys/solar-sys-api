@@ -5,13 +5,18 @@ import { UpdateProductCategoryCommand } from '#kernel/product/application/comman
 
 export class UpdateProductCategoryHandler implements CommandHandler<UpdateProductCategoryCommand> {
   constructor(private repository: ProductCategoryRepository) {}
-  handle(command: UpdateProductCategoryCommand): Promise<void> {
-    const category = new ProductCategory(
-      command.categoryId,
-      command.designation,
-      command.type,
-      command.parentId
+  async handle(command: UpdateProductCategoryCommand): Promise<void> {
+    const category: ProductCategory = await this.repository.findById(command.categoryId)
+
+    return this.repository.save(
+      new ProductCategory(
+        category.getId(),
+        command.designation,
+        command.type,
+        command.parentId,
+        category.getSlug(),
+        category.getCreatedAt()
+      )
     )
-    return this.repository.save(category)
   }
 }

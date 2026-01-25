@@ -4,27 +4,27 @@ import crypto from 'node:crypto'
 
 export default class ProductCategory extends BaseModel {
   @column({ isPrimary: true })
-  declare private id: crypto.UUID
+  declare id: crypto.UUID
 
   @column()
-  declare private designation: string
+  declare designation: string
 
   @column({ columnName: 'category_slug' })
-  declare private slug: string
+  declare slug: string
 
   @column({ columnName: 'category_type' })
-  declare private type: 'CATEGORY' | 'TAG'
+  declare type: 'CATEGORY' | 'TAG'
 
   @column()
-  declare private parentId: crypto.UUID
+  declare parentId: crypto.UUID
 
   // @ts-ignore
   @column.dateTime({ autoCreate: true })
-  declare private createdAt: DateTime
+  declare createdAt: DateTime
 
   // @ts-ignore
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare private updatedAt: DateTime
+  declare updatedAt: DateTime
 
   @beforeCreate()
   static async beforeCreate(category: ProductCategory) {
