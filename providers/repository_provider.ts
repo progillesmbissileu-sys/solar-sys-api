@@ -3,6 +3,7 @@ import { StoreARRepository } from '#kernel/store/infrastructure/persistence/stor
 import { ProductARRepository } from '#kernel/product/infrastructure/persistence/product_ar_repository'
 import { ProductCategoryARRepository } from '#kernel/product/infrastructure/persistence/product_category_ar_repository'
 import { MarketServiceARRepository } from '#kernel/market/infrastructure/persistence/market_service_ar_repository'
+import { ImageMediaARRepository } from '#kernel/medias/infrastructure/persistence/image_media_ar_repository'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -22,7 +23,7 @@ export default class RepositoryProvider {
         return new MarketServiceARRepository()
       })
       this.app.container.bind('ImageMediaRepository', () => {
-        return new MarketServiceARRepository()
+        return new ImageMediaARRepository()
       })
     }
   }

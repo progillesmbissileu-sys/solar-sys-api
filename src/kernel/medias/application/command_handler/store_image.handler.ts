@@ -31,7 +31,9 @@ export class StoreImageHandler implements CommandHandler<StoreImageCommand> {
         command.title,
         upload.url as string,
         command.altDescription,
-        command.dimension
+        upload.metadata,
+        null,
+        null
       )
     )
   }
