@@ -1,16 +1,22 @@
 import { ImageMediaRepository } from '#kernel/medias/domain/image_media_repository'
 import { MediaUploader } from '#shared/application/services/upload/media_uploader'
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
-import { StoreImageCommand } from '#kernel/medias/application/command/store_image_command'
+import {
+  StoreImageCommand,
+  StoreImageCommandReturnType,
+} from '#kernel/medias/application/command/store_image_command'
 import { ImageMedia } from '#kernel/medias/domain/image_media'
 
-export class StoreImageHandler implements CommandHandler<StoreImageCommand> {
+export class StoreImageHandler implements CommandHandler<
+  StoreImageCommand,
+  StoreImageCommandReturnType
+> {
   constructor(
     private repository: ImageMediaRepository,
     private uploadService: MediaUploader
   ) {}
 
-  async handle(command: StoreImageCommand): Promise<void> {
+  async handle(command: StoreImageCommand): Promise<StoreImageCommandReturnType> {
     const upload = await this.uploadService.uploadImage(
       {
         buffer: await command.file.getBuffer(),
@@ -25,7 +31,7 @@ export class StoreImageHandler implements CommandHandler<StoreImageCommand> {
       throw new Error(`${upload.error}`)
     }
 
-    await this.repository.save(
+    const id = (await this.repository.save(
       new ImageMedia(
         null,
         command.title,
@@ -35,6 +41,8 @@ export class StoreImageHandler implements CommandHandler<StoreImageCommand> {
         null,
         null
       )
-    )
+    )) as string
+
+    return { id, url: upload.url as string }
   }
 }

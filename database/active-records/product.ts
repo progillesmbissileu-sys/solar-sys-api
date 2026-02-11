@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
+import { afterFind, BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
 import crypto from 'node:crypto'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import ProductCategory from '#database/active-records/product_category'
+import ImageMedia from '#database/active-records/image_media'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -20,8 +20,8 @@ export default class Product extends BaseModel {
   @column()
   declare description: string
 
-  @column({ columnName: 'picture_url' })
-  declare pictureUrl: string
+  @column({ columnName: 'picture_id' })
+  declare pictureId: crypto.UUID
 
   @column()
   declare price: number
@@ -43,12 +43,18 @@ export default class Product extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  // @ts-ignore
-  @belongsTo(() => ProductCategory, { foreignKey: 'categoryId' })
-  declare category: BelongsTo<typeof ProductCategory>
+  declare picture: ImageMedia | null
+
+  declare category: ProductCategory | null
 
   @beforeCreate()
   static async beforeCreate(product: Product) {
     product.id = crypto.randomUUID()
+  }
+
+  @afterFind()
+  static async afterFind(product: Product) {
+    product.picture = await ImageMedia.find(product.pictureId)
+    product.category = await ProductCategory.find(product.categoryId)
   }
 }

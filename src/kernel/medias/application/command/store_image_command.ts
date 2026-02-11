@@ -1,6 +1,7 @@
-import { DimensionType } from '#shared/domain/dimension'
 import { Command } from '#shared/application/use-cases/command'
 import { AppFile } from '#shared/domain/app_file'
+
+export type StoreImageCommandReturnType = { id: string; url: string }
 
 export class StoreImageCommand implements Command {
   readonly timestamp: Date
@@ -8,8 +9,7 @@ export class StoreImageCommand implements Command {
   constructor(
     public readonly file: AppFile,
     public readonly title: string,
-    public readonly altDescription: string,
-    public readonly dimension?: DimensionType
+    public readonly altDescription: string
   ) {
     this.timestamp = new Date()
   }

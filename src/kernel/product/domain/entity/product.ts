@@ -4,16 +4,18 @@ export class Product {
   constructor(
     private id: any,
     private designation: string,
+    private pictureId: any,
     private categoryId: any,
     private description: string,
-    private pictureUrl: string,
     private price: number,
     private brand?: string,
     private readonly slug?: string,
     private readonly isAvailable?: boolean,
     private readonly isDeleted?: boolean,
     private createdAt?: Date,
-    private updatedAt?: Date
+    private updatedAt?: Date,
+    private pictureUrl: string | null = null,
+    private categoryName: string | null = null
   ) {
     this.slug = slug ?? string.slug(this.designation + '-' + string.generateRandom(8)).toLowerCase()
     this.isAvailable = isAvailable ?? false

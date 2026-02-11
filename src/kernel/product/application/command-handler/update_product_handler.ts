@@ -12,9 +12,9 @@ export class UpdateProductHandler implements CommandHandler<UpdateProductCommand
       new Product(
         store.getId(),
         command.designation,
+        command.pictureId,
         command.categoryId,
         command.description,
-        command.pictureUrl,
         command.price,
         command.brand,
         store.getSlug(),

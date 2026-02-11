@@ -5,9 +5,9 @@ export class CreateProductCommand implements Command {
 
   constructor(
     public designation: string,
+    public readonly pictureId: any,
     public readonly categoryId: any,
     public readonly description: string,
-    public readonly pictureUrl: string,
     public readonly price: number,
     public readonly brand?: string
   ) {

@@ -19,9 +19,15 @@ export default class ProductController extends AppAbstractController {
   public async show({ request, response }: HttpContext) {
     const productId = await request.param('id')
 
-    const result = await ActiveRecord.find(productId)
+    const product = await ActiveRecord.find(productId)
 
-    return response.accepted({ data: result })
+    return response.accepted({
+      data: {
+        product,
+        pictureUrl: product?.picture?.url,
+        categoryName: product?.category?.designation,
+      },
+    })
   }
 
   public async store({ request, response }: HttpContext) {
@@ -30,9 +36,9 @@ export default class ProductController extends AppAbstractController {
     await this.handleCommand(
       new CreateProductCommand(
         payload.designation,
+        payload.pictureId,
         payload.categoryId,
         payload.description,
-        payload.pictureUrl,
         payload.price,
         payload.brand
       )
@@ -48,9 +54,9 @@ export default class ProductController extends AppAbstractController {
       new UpdateProductCommand(
         productId,
         payload.designation,
+        payload.pictureId,
         payload.categoryId,
         payload.description,
-        payload.pictureUrl,
         payload.price,
         payload.brand
       )

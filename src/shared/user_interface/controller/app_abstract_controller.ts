@@ -4,10 +4,10 @@ import { Query } from '#shared/application/use-cases/query'
 import { ContainerBindings } from '@adonisjs/core/types'
 
 export class AppAbstractController {
-  protected async handleCommand(command: Command) {
+  protected async handleCommand<ReturnType>(command: Command) {
     const bus = await app.container.make('CQRS/CommandBus')
 
-    return await bus.execute(command)
+    return await bus.execute<Command, ReturnType>(command)
   }
 
   protected async handleQuery(command: Query) {

@@ -3,7 +3,7 @@ import { ImageMedia } from '#kernel/medias/domain/image_media'
 import { default as EntityActiveRecord } from '#database/active-records/image_media'
 import { IdentifierInterface } from '#shared/domain/identifier_interface'
 export class ImageMediaARRepository implements ImageMediaRepository {
-  async save(entity: ImageMedia): Promise<void> {
+  async save(entity: ImageMedia): Promise<string | void> {
     const object = {
       url: entity['url'],
       title: entity['title'],
@@ -13,9 +13,14 @@ export class ImageMediaARRepository implements ImageMediaRepository {
       updatedAt: entity['updatedAt'] as any,
     }
 
-    entity.getId()
-      ? await EntityActiveRecord.updateOrCreate({ id: entity.getId() }, object)
-      : await EntityActiveRecord.create(object)
+    if (entity.getId()) {
+      await EntityActiveRecord.updateOrCreate({ id: entity.getId() }, object)
+      return Promise.resolve()
+    }
+
+    const result = await EntityActiveRecord.create(object)
+
+    return result.id
   }
 
   async findById(_id: string): Promise<ImageMedia | null> {

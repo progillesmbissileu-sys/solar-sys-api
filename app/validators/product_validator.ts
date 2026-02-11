@@ -5,7 +5,7 @@ export const createProductSchema = vine.compile(
     designation: vine.string().minLength(2),
     description: vine.string(),
     categoryId: vine.string().uuid(),
-    pictureUrl: vine.string(),
+    pictureId: vine.string().uuid(),
     price: vine.number(),
     brand: vine.string().optional(),
   })
@@ -16,7 +16,7 @@ export const updateProductSchema = vine.compile(
     designation: vine.string().minLength(2),
     description: vine.string(),
     categoryId: vine.string().uuid(),
-    pictureUrl: vine.string(),
+    pictureId: vine.string().uuid(),
     price: vine.number(),
     brand: vine.string().optional(),
   })
