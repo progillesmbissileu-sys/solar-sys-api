@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import crypto from 'node:crypto'
-import { MarketServiceFeature } from '#kernel/market/core/type/market_service_feature_type'
-import type { MarketServiceContentDescription } from '#kernel/market/core/type/market_service_content_description.type'
+import { MarketServiceFeature } from '#kernel/market/domain/type/market_service_feature_type'
+import type { MarketServiceContentDescription } from '#kernel/market/domain/type/market_service_content_description.type'
 
 export default class MarketService extends BaseModel {
   @column({ isPrimary: true })

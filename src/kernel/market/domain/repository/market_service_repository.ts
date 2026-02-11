@@ -1,4 +1,4 @@
-import { IdentifierInterface } from '#shared/domain/identifier'
+import { IdentifierInterface } from '#shared/domain/identifier_interface'
 import { RepositoryInterface } from '#shared/domain/repository_interface'
 import { MarketService } from '../entity/market_service'
 

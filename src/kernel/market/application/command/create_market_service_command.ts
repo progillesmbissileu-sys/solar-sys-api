@@ -1,4 +1,4 @@
-import { MarketServiceFeature } from '#kernel/market/core/type/market_service_feature_type'
+import { MarketServiceFeature } from '#kernel/market/domain/type/market_service_feature_type'
 import { Command } from '#shared/application/use-cases/command'
 
 export class CreateMarketServiceCommand implements Command {

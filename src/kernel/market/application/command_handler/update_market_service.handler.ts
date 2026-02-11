@@ -1,5 +1,5 @@
-import { MarketService } from '#kernel/market/core/entity/market_service'
-import { MarketServiceRepository } from '#kernel/market/core/repository/market_service_repository'
+import { MarketService } from '#kernel/market/domain/entity/market_service'
+import { MarketServiceRepository } from '#kernel/market/domain/repository/market_service_repository'
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
 import { UpdateMarketServiceCommand } from '../command/update_market_service.command'
 

@@ -1,6 +1,6 @@
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
-import { ProductCategoryRepository } from '#kernel/product/core/repository/product_category_repository'
-import { ProductCategory } from '#kernel/product/core/entity/product_category'
+import { ProductCategoryRepository } from '#kernel/product/domain/repository/product_category_repository'
+import { ProductCategory } from '#kernel/product/domain/entity/product_category'
 import { CreateProductCategoryCommand } from '#kernel/product/application/command/create_product_category_command'
 
 export class CreateProductCategoryHandler implements CommandHandler<CreateProductCategoryCommand> {

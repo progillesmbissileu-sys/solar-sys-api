@@ -10,6 +10,7 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const ImageMediasController = () => import('#controllers/media/image_medias_controller')
 const ProductCategoryController = () => import('#controllers/product/product_category_controller')
 const ProductController = () => import('#controllers/product/product_controller')
 const StoreController = () => import('#controllers/store/store_controller')
@@ -30,7 +31,7 @@ router
       router.resource('store', StoreController)
       router.resource('product', ProductController).use('*', middleware.auth())
       router.resource('product-category', ProductCategoryController).use('*', middleware.auth())
+      router.resource('image_media', ImageMediasController).use('*', middleware.auth())
     })
-    // .middleware(middleware.auth())
   })
   .prefix('/api')

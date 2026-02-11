@@ -1,6 +1,6 @@
-import { MarketServiceFeature } from '#kernel/market/core/type/market_service_feature_type'
+import { MarketServiceFeature } from '#kernel/market/domain/type/market_service_feature_type'
 import { Command } from '#shared/application/use-cases/command'
-import { IdentifierInterface } from '#shared/domain/identifier'
+import { IdentifierInterface } from '#shared/domain/identifier_interface'
 
 export class UpdateMarketServiceCommand implements Command {
   readonly timestamp: Date

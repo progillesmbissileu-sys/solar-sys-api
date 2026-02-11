@@ -1,6 +1,6 @@
-import { ProductRepository } from '#kernel/product/core/repository/product_repository'
+import { ProductRepository } from '#kernel/product/domain/repository/product_repository'
 import { default as ProductActiveRecord } from '#database/active-records/product'
-import { Product } from '#kernel/product/core/entity/product'
+import { Product } from '#kernel/product/domain/entity/product'
 
 export class ProductARRepository implements ProductRepository {
   async findById(id: any): Promise<Product> {

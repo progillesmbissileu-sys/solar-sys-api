@@ -1,7 +1,7 @@
-import { ProductRepository } from '#kernel/product/core/repository/product_repository'
+import { ProductRepository } from '#kernel/product/domain/repository/product_repository'
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
 import { UpdateProductCommand } from '../command/update_product_command'
-import { Product } from '#kernel/product/core/entity/product'
+import { Product } from '#kernel/product/domain/entity/product'
 
 export class UpdateProductHandler implements CommandHandler<UpdateProductCommand> {
   constructor(private repository: ProductRepository) {}

@@ -1,4 +1,4 @@
-import { IdentifierInterface } from '#shared/domain/identifier'
+import { IdentifierInterface } from '#shared/domain/identifier_interface'
 import string from '@adonisjs/core/helpers/string'
 import { MarketServiceFeature } from '../type/market_service_feature_type'
 import { MarketServiceContentDescription } from '../type/market_service_content_description.type'

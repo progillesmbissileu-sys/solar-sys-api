@@ -31,6 +31,7 @@
     "#tests/*": "./tests/*.js",
     "#config/*": "./config/*.js",
     "#kernel/*": "./src/kernel/*.ts",
+    "#core/*": "./src/core/*.ts",
     "#shared/*": "./src/shared/*.ts"
   },
   "devDependencies": {

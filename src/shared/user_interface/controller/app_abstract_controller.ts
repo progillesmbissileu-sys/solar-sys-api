@@ -1,6 +1,7 @@
 import { Command } from '#shared/application/use-cases/command'
 import app from '@adonisjs/core/services/app'
 import { Query } from '#shared/application/use-cases/query'
+import { ContainerBindings } from '@adonisjs/core/types'
 
 export class AppAbstractController {
   protected async handleCommand(command: Command) {
@@ -13,5 +14,9 @@ export class AppAbstractController {
     const bus = await app.container.make('CQRS/QueryBus')
 
     return await bus.execute(command)
+  }
+
+  protected async getService(service: keyof ContainerBindings) {
+    return await app.container.make(service)
   }
 }
