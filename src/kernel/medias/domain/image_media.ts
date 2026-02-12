@@ -6,7 +6,7 @@ export class ImageMedia {
     private readonly title: string,
     private readonly url: string,
     private readonly altDescription: string,
-    private readonly metadata: Object,
+    private readonly metadata: any,
     private readonly createdAt: Date | null,
     private readonly updatedAt: Date | null,
     private readonly relativeKey?: string,
