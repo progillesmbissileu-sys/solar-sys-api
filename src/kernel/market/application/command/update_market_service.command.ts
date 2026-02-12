@@ -9,6 +9,7 @@ export class UpdateMarketServiceCommand implements Command {
     public serviceId: AppId,
     public designation: string,
     public thumbnail: string,
+    public thumbnailId: AppId,
     public shortDescription?: string,
     public features?: Array<MarketServiceFeature>
   ) {

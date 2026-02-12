@@ -1,5 +1,5 @@
 import { AppId } from '#shared/domain/app_id'
-import { RepositoryInterface } from '#shared/domain/repository_interface'
+import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
 import { MarketService } from '../entity/market_service'
 
 export interface MarketServiceRepository extends RepositoryInterface {

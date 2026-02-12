@@ -1,4 +1,4 @@
-import { RepositoryInterface } from '#shared/domain/repository_interface'
+import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
 import { Product } from '../entity/product'
 
 export interface ProductRepository extends RepositoryInterface {

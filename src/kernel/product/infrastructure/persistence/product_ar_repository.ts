@@ -36,7 +36,6 @@ export class ProductARRepository implements ProductRepository {
       slug: entity['slug'] as any,
       isAvailable: entity['isAvailable'],
       isDeleted: entity['isDeleted'],
-      createdAt: entity['createdAt'] as any,
     }
 
     entity.getId()

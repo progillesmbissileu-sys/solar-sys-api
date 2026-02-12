@@ -1,4 +1,4 @@
-import { RepositoryInterface } from '#shared/domain/repository_interface'
+import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
 import { ImageMedia } from './image_media'
 
 export interface ImageMediaRepository extends RepositoryInterface {

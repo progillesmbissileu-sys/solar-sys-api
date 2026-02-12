@@ -8,6 +8,10 @@ import { CreateProductCategoryHandler } from '#kernel/product/application/comman
 import { UpdateProductCategoryHandler } from '#kernel/product/application/command-handler/update_product_category_handler'
 import { StoreImageHandler } from '#kernel/medias/application/command_handler/store_image.handler'
 import { DeleteImageHandler } from '#kernel/medias/application/command_handler/delete_image_handler'
+import { CreateMarketServiceHandler } from '#kernel/market/application/command_handler/create_market_service_handler'
+import { UpdateMarketServiceHandler } from '#kernel/market/application/command_handler/update_market_service_handler'
+import { UpdateMarketServiceDescriptionHandler } from '#kernel/market/application/command_handler/update_market_service_description.handler'
+import { DeleteMarketServiceHandler } from '#kernel/market/application/command_handler/delete_market_service_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -26,6 +30,22 @@ export default class CqrsProvider {
       ])
       commandBus.register('UpdateProductCategoryCommand', UpdateProductCategoryHandler, [
         'ProductCategoryRepository',
+      ])
+
+      //MARKET SERVICES COMMAND
+      commandBus.register('CreateMarketServiceCommand', CreateMarketServiceHandler, [
+        'MarketServiceRepository',
+      ])
+      commandBus.register('UpdateMarketServiceCommand', UpdateMarketServiceHandler, [
+        'MarketServiceRepository',
+      ])
+      commandBus.register(
+        'UpdateMarketServiceDescriptionCommand',
+        UpdateMarketServiceDescriptionHandler,
+        ['MarketServiceRepository']
+      )
+      commandBus.register('DeleteMarketServiceCommand', DeleteMarketServiceHandler, [
+        'MarketServiceRepository',
       ])
 
       //MEDIA COMMANDS

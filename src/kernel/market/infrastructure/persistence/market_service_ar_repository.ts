@@ -1,20 +1,44 @@
 import { MarketService } from '#kernel/market/domain/entity/market_service'
 import { MarketServiceRepository } from '#kernel/market/domain/repository/market_service_repository'
 import { AppId } from '#shared/domain/app_id'
+import { default as EntityManager } from '#database/active-records/market_service'
 
 export class MarketServiceARRepository implements MarketServiceRepository {
-  save(entity: MarketService): Promise<void> {
-    console.log('Saving market service:', entity)
-    return Promise.resolve()
+  async save(entity: MarketService): Promise<void> {
+    const object = {
+      designation: entity['designation'],
+      thumbnailId: entity.getThumbnailId()?.value,
+      thumbnailUrl: entity['thumbnailUrl'],
+      shortDescription: entity['shortDescription'],
+      contentDescription: entity.getContent(),
+      features: JSON.stringify(entity.getFeatures()),
+    }
+
+    !entity.getId()
+      ? await EntityManager.create(object)
+      : await EntityManager.updateOrCreate({ id: entity.getId()?.value }, object)
   }
 
-  getById(id: AppId): Promise<MarketService> {
-    console.log('Getting market service by ID:', id)
-    throw new Error('Method not implemented.')
+  async getById(id: AppId): Promise<MarketService> {
+    const marketService = await EntityManager.findOrFail(id.value)
+
+    return new MarketService(
+      AppId.fromString(marketService?.id),
+      marketService?.designation,
+      marketService?.thumbnailUrl,
+      AppId.fromString(marketService?.thumbnailId),
+      marketService?.contentDescription,
+      marketService?.shortDescription,
+      marketService?.features,
+      [],
+      marketService?.createdAt,
+      marketService?.updatedAt
+    )
   }
 
-  delete(id: AppId): Promise<void> {
-    console.log('Deleting market service by ID:', id)
-    throw new Error('Method not implemented.')
+  async delete(id: AppId): Promise<void> {
+    const marketService = await EntityManager.findOrFail(id.value)
+
+    await marketService.delete()
   }
 }

@@ -7,9 +7,10 @@ export class MarketService {
   private slug: string
 
   constructor(
-    private id: AppId,
+    private id: AppId | null,
     private readonly designation: string,
-    private readonly thumbnail: string,
+    private readonly thumbnailUrl: string,
+    private readonly thumbnailId: AppId | null,
     private contentDescription: MarketServiceContentDescription,
     private readonly shortDescription?: string,
     private readonly features?: Array<MarketServiceFeature>,
@@ -36,8 +37,12 @@ export class MarketService {
     return this.slug
   }
 
-  getThumbnail(): string {
-    return this.thumbnail
+  getThumbnailUrl(): string {
+    return this.thumbnailUrl
+  }
+
+  getThumbnailId(): AppId | null {
+    return this.thumbnailId
   }
 
   getFeatures(): Array<MarketServiceFeature> {

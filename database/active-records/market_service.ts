@@ -1,8 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { afterFind, BaseModel, column } from '@adonisjs/lucid/orm'
 import crypto from 'node:crypto'
-import { MarketServiceFeature } from '#kernel/market/domain/type/market_service_feature_type'
-import type { MarketServiceContentDescription } from '#kernel/market/domain/type/market_service_content_description.type'
 
 export default class MarketService extends BaseModel {
   @column({ isPrimary: true })
@@ -17,14 +15,17 @@ export default class MarketService extends BaseModel {
   @column({ columnName: 'short_description' })
   declare shortDescription: string
 
+  @column({ columnName: 'thumbnail_id' })
+  declare thumbnailId: string
+
   @column({ columnName: 'thumbnail_url' })
-  declare thumbnail: string
+  declare thumbnailUrl: string
 
   @column({ columnName: 'content_description' })
-  declare contentDescription: MarketServiceContentDescription
+  declare contentDescription: any
 
   @column({ columnName: 'features_list' })
-  declare features: Array<MarketServiceFeature>
+  declare features: any
 
   // @ts-ignore
   @column.dateTime({ autoCreate: true })
@@ -33,4 +34,9 @@ export default class MarketService extends BaseModel {
   // @ts-ignore
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @afterFind()
+  static async parseData(marketService: MarketService) {
+    marketService.features = JSON.parse(marketService.features)
+  }
 }

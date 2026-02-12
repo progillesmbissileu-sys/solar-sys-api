@@ -9,11 +9,12 @@ export class UpdateMarketServiceHandler implements CommandHandler<UpdateMarketSe
   async handle(command: UpdateMarketServiceCommand): Promise<void> {
     const marketService = await this.repository.getById(command.serviceId)
 
-    this.repository.save(
+    await this.repository.save(
       new MarketService(
         marketService.getId(),
         command.designation,
         command.thumbnail,
+        command.thumbnailId,
         marketService.getContent(),
         command.shortDescription,
         command.features,

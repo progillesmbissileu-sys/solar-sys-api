@@ -6,8 +6,8 @@ export class AppId {
     return crypto.randomUUID()
   }
 
-  static fromString(value: crypto.UUID) {
-    return new AppId(value)
+  static fromString(value: string) {
+    return new AppId(value as crypto.UUID)
   }
 
   get value() {
