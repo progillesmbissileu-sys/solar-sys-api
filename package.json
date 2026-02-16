@@ -30,10 +30,10 @@
     "#start/*": "./start/*.js",
     "#tests/*": "./tests/*.js",
     "#config/*": "./config/*.js",
-    "#kernel/*": "./src/kernel/*.ts",
-    "#core/*": "./src/core/*.ts",
-    "#infra/*": "./src/infrastructure/*.ts",
-    "#shared/*": "./src/shared/*.ts"
+    "#kernel/*": "./src/kernel/*.js",
+    "#core/*": "./src/core/*.js",
+    "#infra/*": "./src/infrastructure/*.js",
+    "#shared/*": "./src/shared/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
@@ -67,8 +67,8 @@
   },
   "hotHook": {
     "boundaries": [
-      "./app/controllers/**/*.ts",
-      "./app/middleware/*.ts"
+      "./app/controllers/**/*.js",
+      "./app/middleware/*.js"
     ]
   },
   "prettier": "@adonisjs/prettier-config"

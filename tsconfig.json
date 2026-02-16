@@ -6,6 +6,12 @@
     "module": "preserve",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "paths": {
+      "#kernel/*": ["./src/kernel/*"],
+      "#core/*": ["./src/core/*"],
+      "#infra/*": ["./src/infrastructure/*"],
+      "#shared/*": ["./src/shared/*"]
+    }
   }
 }
