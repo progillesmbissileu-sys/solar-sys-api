@@ -19,7 +19,7 @@ export const registerSchema = vine.compile(
 
 export const loginSchema = vine.compile(
   vine.object({
-    email: vine.string().email().normalizeEmail({ all_lowercase: true }),
+    email: vine.string().email(),
     password: vine.string(),
   })
 )

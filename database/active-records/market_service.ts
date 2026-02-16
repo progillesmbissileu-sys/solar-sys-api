@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { afterFind, BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
 import crypto from 'node:crypto'
 
 export default class MarketService extends BaseModel {

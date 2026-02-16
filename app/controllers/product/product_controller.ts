@@ -13,7 +13,7 @@ export default class ProductController extends AppAbstractController {
   public async index({ response }: HttpContext) {
     const result = await ActiveRecord.all()
 
-    return response.accepted({ data: result })
+    return response.ok({ data: result })
   }
 
   public async show({ request, response }: HttpContext) {
@@ -21,7 +21,7 @@ export default class ProductController extends AppAbstractController {
 
     const product = await ActiveRecord.find(productId)
 
-    return response.accepted({
+    return response.ok({
       data: {
         product,
         pictureUrl: product?.picture?.url,
