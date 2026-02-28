@@ -45,4 +45,24 @@ export default await Env.create(new URL('../', import.meta.url), {
   STORAGE_BASE_PATH: Env.schema.string(),
   LOCAL_STORAGE_PATH: Env.schema.string(),
   LOCAL_STORAGE_URL: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring Railway object storage
+  | (S3-compatible; only required when STORAGE_PROVIDER=RAILWAY)
+  |----------------------------------------------------------
+  */
+  RAILWAY_STORAGE_ENDPOINT: Env.schema.string.optional(),
+  RAILWAY_STORAGE_ACCESS_KEY_ID: Env.schema.string.optional(),
+  RAILWAY_STORAGE_SECRET_ACCESS_KEY: Env.schema.string.optional(),
+  RAILWAY_STORAGE_BUCKET: Env.schema.string.optional(),
+  RAILWAY_STORAGE_REGION: Env.schema.string.optional(),
+
+  /*
+  |----------------------------------------------------------
+  | Optional sub-path overrides shared by all providers
+  |----------------------------------------------------------
+  */
+  IMAGE_STORAGE_BASE_PATH: Env.schema.string.optional(),
+  DOCUMENT_STORAGE_BASE_PATH: Env.schema.string.optional(),
 })
