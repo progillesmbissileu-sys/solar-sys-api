@@ -10,10 +10,14 @@ export default class ProductController extends AppAbstractController {
     super()
   }
 
-  public async index({ response }: HttpContext) {
-    const result = await ActiveRecord.all()
+  public async index({ response, request }: HttpContext) {
+    const query = request.qs()
+    console.log(query)
+    const result = await ActiveRecord.query()
+      .whereILike('designation', `%${query.q || ''}%`)
+      .paginate(query.page || 1, query.limit || 10)
 
-    return response.ok({ data: result })
+    return response.ok(result)
   }
 
   public async show({ request, response }: HttpContext) {

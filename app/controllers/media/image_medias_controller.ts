@@ -57,9 +57,11 @@ export default class ImageMediasController extends AppAbstractController {
   // /**
   //  * Delete record
   //  */
-  async destroy({ request }: HttpContext) {
+  async destroy({ request, response }: HttpContext) {
     const params = request.params()
 
-    await this.handleCommand(new DeleteImageCommand(AppId.fromString(params.id)))
+    await this.handleCommand<void>(new DeleteImageCommand(AppId.fromString(params.id)))
+
+    return response.noContent()
   }
 }

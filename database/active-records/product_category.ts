@@ -15,7 +15,7 @@ export default class ProductCategory extends BaseModel {
   @column({ columnName: 'category_type' })
   declare type: 'CATEGORY' | 'TAG'
 
-  @column()
+  @column({ columnName: 'parent_id' })
   declare parentId: crypto.UUID
 
   // @ts-ignore
