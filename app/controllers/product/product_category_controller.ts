@@ -18,6 +18,7 @@ export default class ProductCategoryController extends AppAbstractController {
     console.log(query)
     const result = await ActiveRecord.query()
       .whereILike('designation', `%${query.q || ''}%`)
+      .orderBy('created_at', 'desc')
       .paginate(query.page || 1, query.limit || 10)
 
     return response.ok(result)
