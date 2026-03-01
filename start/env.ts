@@ -34,7 +34,11 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring the drive package
   |----------------------------------------------------------
   */
-  DRIVE_DISK: Env.schema.enum(['fs'] as const),
+  /**
+   * 'fs'  → local filesystem (development)
+   * 's3'  → Railway S3-compatible object storage (production)
+   */
+  DRIVE_DISK: Env.schema.enum(['fs', 's3'] as const),
 
   /*
   |----------------------------------------------------------
@@ -49,7 +53,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   /*
   |----------------------------------------------------------
   | Variables for configuring Railway object storage
-  | (S3-compatible; only required when STORAGE_PROVIDER=RAILWAY)
+  | (S3-compatible; required when DRIVE_DISK=s3)
   |----------------------------------------------------------
   */
   RAILWAY_STORAGE_ENDPOINT: Env.schema.string.optional(),

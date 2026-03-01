@@ -44,6 +44,10 @@ export class StoreImageHandler implements CommandHandler<
       )
     )) as string
 
-    return { id, url: upload.url as string }
+    return {
+      id,
+      url: upload.url as string,
+      signedUrl: await this.uploadService.getSignedUrl(upload.key as string),
+    }
   }
 }

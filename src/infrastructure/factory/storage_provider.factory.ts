@@ -1,21 +1,23 @@
 import { LocalProviderConfig, LocalStorageProvider } from '#infra/local_storage_provider'
-import { RailwayProviderConfig, RailwayStorageProvider } from '#infra/railway_storage_provider'
+import { RailwayStorageProvider } from '#infra/railway_storage_provider'
 import { StorageProviderInterface } from '#shared/application/services/upload/storage_provider_interface'
 import env from '#start/env'
 
 export enum ProviderType {
-  VERCEL = 'VERCEL',
   LOCAL = 'LOCAL',
   RAILWAY = 'RAILWAY',
 }
 
 export type ProviderConfig =
   | { type: ProviderType.LOCAL; config: LocalProviderConfig }
-  | { type: ProviderType.RAILWAY; config: RailwayProviderConfig }
+  | { type: ProviderType.RAILWAY }
 
 export class StorageProviderFactory {
   /**
-   * Create a storage provider based on configuration
+   * Create a storage provider based on configuration.
+   *
+   * The RAILWAY provider no longer accepts raw S3 credentials — those are
+   * managed by the AdonisJS Drive `s3` disk configured in `config/drive.ts`.
    */
   static createProvider(providerConfig: ProviderConfig): StorageProviderInterface {
     switch (providerConfig.type) {
@@ -23,7 +25,11 @@ export class StorageProviderFactory {
         return new LocalStorageProvider(providerConfig.config)
 
       case ProviderType.RAILWAY:
-        return new RailwayStorageProvider(providerConfig.config)
+        return new RailwayStorageProvider({
+          basePath: env.get('STORAGE_BASE_PATH'),
+          imageBasePath: env.get('IMAGE_STORAGE_BASE_PATH'),
+          documentBasePath: env.get('DOCUMENT_STORAGE_BASE_PATH'),
+        })
 
       default:
         throw new Error(`Unknown provider type: ${(providerConfig as any).type}`)
@@ -31,10 +37,15 @@ export class StorageProviderFactory {
   }
 
   /**
-   * Create provider from environment variables
+   * Create provider from environment variables.
+   *
+   * - `STORAGE_PROVIDER=LOCAL`   → uses the AdonisJS Drive `fs` disk (dev)
+   * - `STORAGE_PROVIDER=RAILWAY` → uses the AdonisJS Drive `s3` disk (prod)
    */
   static createFromEnv(): StorageProviderInterface {
-    const providerType = process.env.STORAGE_PROVIDER as ProviderType
+    const providerType = env.get('STORAGE_PROVIDER') as ProviderType
+
+    console.log(providerType)
 
     if (!providerType) {
       throw new Error('STORAGE_PROVIDER environment variable is not set')
@@ -50,31 +61,12 @@ export class StorageProviderFactory {
           documentBasePath: env.get('DOCUMENT_STORAGE_BASE_PATH'),
         })
 
-      case ProviderType.RAILWAY: {
-        const endpoint = env.get('RAILWAY_STORAGE_ENDPOINT')
-        const accessKeyId = env.get('RAILWAY_STORAGE_ACCESS_KEY_ID')
-        const secretAccessKey = env.get('RAILWAY_STORAGE_SECRET_ACCESS_KEY')
-        const bucket = env.get('RAILWAY_STORAGE_BUCKET')
-
-        if (!endpoint || !accessKeyId || !secretAccessKey || !bucket) {
-          throw new Error(
-            'Missing required Railway storage environment variables: ' +
-              'RAILWAY_STORAGE_ENDPOINT, RAILWAY_STORAGE_ACCESS_KEY_ID, ' +
-              'RAILWAY_STORAGE_SECRET_ACCESS_KEY, RAILWAY_STORAGE_BUCKET'
-          )
-        }
-
+      case ProviderType.RAILWAY:
         return new RailwayStorageProvider({
-          endpoint,
-          accessKeyId,
-          secretAccessKey,
-          bucket,
-          region: env.get('RAILWAY_STORAGE_REGION') || 'us-east-1',
           basePath: env.get('STORAGE_BASE_PATH'),
           imageBasePath: env.get('IMAGE_STORAGE_BASE_PATH'),
           documentBasePath: env.get('DOCUMENT_STORAGE_BASE_PATH'),
         })
-      }
 
       default:
         throw new Error(`Unknown provider type: ${providerType}`)
