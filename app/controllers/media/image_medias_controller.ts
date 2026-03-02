@@ -27,15 +27,18 @@ export default class ImageMediasController extends AppAbstractController {
    */
   async store({ request, response }: HttpContext) {
     const file = request.file('image', {})
+
     const payload = await request.validateUsing(mediaSchema)
 
     if (!file) {
-      return response.badRequest({ errors: { image: 'Image is required' } })
+      return response.badRequest({ error: { message: 'Image is required' } })
     }
 
     const result = await this.handleCommand<StoreImageCommandReturnType>(
       new StoreImageCommand(new AppFile(file), payload.title, payload.alt)
     )
+
+    console.log('STORE FILE')
 
     return response.created(result)
   }
@@ -61,6 +64,8 @@ export default class ImageMediasController extends AppAbstractController {
     const params = request.params()
 
     await this.handleCommand<void>(new DeleteImageCommand(AppId.fromString(params.id)))
+
+    console.log('delete image', params.id)
 
     return response.noContent()
   }
