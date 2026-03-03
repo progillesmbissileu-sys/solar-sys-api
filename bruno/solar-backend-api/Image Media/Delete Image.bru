@@ -1,16 +1,13 @@
 meta {
   name: Delete Image
   type: http
-  seq: 2
+  seq: 1
 }
 
 delete {
-  url: {{base_url}}/api/image-media/{{image_id}}
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{access_token}}
+  url: {{base_url}}/api/image-media/00000-00000000000-0
+  body: none
+  auth: inherit
 }
 
 tests {

@@ -12,8 +12,8 @@ post {
 
 body:json {
   {
-    "email": "test@example.com",
-    "password": "password123"
+    "email": "admin-dev@admin.com",
+    "password": "admin-pwd"
   }
 }
 
@@ -21,7 +21,7 @@ tests {
   test("should return 200 on success", function() {
     expect(res.status).toBe(200);
   });
-
+  
   test("should return user and access token", function() {
     const body = res.body;
     expect(body.data.accessToken).toBeTruthy();

@@ -1,33 +1,17 @@
 meta {
   name: Upload Image
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
   url: {{base_url}}/api/image-media
-  auth: bearer
+  body: multipartForm
+  auth: inherit
 }
 
-auth:bearer {
-  token: {{access_token}}
-}
-
-body:formdata {
-  image@./path/to/image.jpg
-  {
-    "title": "Sample Image",
-    "alt": "Sample alt text"
-  }
-}
-
-tests {
-  test("should return 201 on success", function() {
-    expect(res.status).toBe(201);
-  });
-
-  test("should return image data", function() {
-    const body = res.body;
-    expect(body).toBeTruthy();
-  });
+body:multipart-form {
+  image: @file(C:\Users\Elkira01\Pictures\KBM\56c6f9bcdbf95-cover-books-design-illustrations.jpg)
+  title: qqqqqq
+  alt: sssss
 }
