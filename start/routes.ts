@@ -34,6 +34,9 @@ router
         .get('product/grouped-by-category', [ProductController, 'groupedByCategory'])
         .use(middleware.auth())
       router.resource('product', ProductController).use('*', middleware.auth())
+      router
+        .get('product-category/:id/products', [ProductCategoryController, 'products'])
+        .use(middleware.auth())
       router.resource('product-category', ProductCategoryController).use('*', middleware.auth())
       router.resource('image-media', ImageMediasController).use('*', middleware.auth())
     })

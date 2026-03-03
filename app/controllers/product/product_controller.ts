@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { HttpContext } from '@adonisjs/core/http'
 import { AppAbstractController } from '#shared/user_interface/controller/app_abstract_controller'
 import { CreateProductCommand } from '#kernel/product/application/command/create_product_command'
@@ -42,6 +43,8 @@ export default class ProductController extends AppAbstractController {
           categoryName: product.category?.designation,
           categoryId: product.category?.id,
           pictureUrl: signedUrl,
+          pictureAlt: product.picture?.altDescription,
+          pictureTitle: product.picture?.title,
           brand: product.brand,
           createdAt: product.createdAt,
           updatedAt: product.updatedAt,
@@ -73,9 +76,26 @@ export default class ProductController extends AppAbstractController {
 
     return response.ok({
       data: {
-        product: productJson,
-        signedUrl,
-        categoryName: product?.category?.designation,
+        id: product?.id,
+        slug: product?.id,
+        categoryId: product?.categoryId,
+        designation: product?.designation,
+        description: product?.description,
+        price: product?.price,
+        brand: product?.brand,
+        isAvailable: product?.isAvailable,
+        isDeleted: product?.isDeleted,
+        createdAt: product?.createdAt,
+        updatedAt: product?.updatedAt,
+        category: {
+          id: product?.category?.id,
+          designation: product?.category?.designation,
+        },
+        picture: {
+          id: product?.picture?.id,
+          url: signedUrl,
+          alt: product?.picture?.altDescription,
+        },
       },
     })
   }

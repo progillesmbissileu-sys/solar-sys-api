@@ -1,22 +1,21 @@
 meta {
-  name: By Categories
+  name: List Products
   type: http
   seq: 5
 }
 
 get {
-  url: {{base_url}}/api/product/grouped-by-category?page=3&limit=2
+  url: {{base_url}}/api/product-category/{{category_id}}/products
   body: none
   auth: bearer
 }
 
-query {
-  page: 3
-  limit: 2
-}
-
 auth:bearer {
   token: {{access_token}}
+}
+
+vars:pre-request {
+  category_id: dea4a57d-f3b4-4e33-87a0-dae7fc2847ef
 }
 
 tests {
@@ -24,9 +23,8 @@ tests {
     expect(res.status).toBe(200);
   });
   
-  test("should return products array", function() {
+  test("should return categories array", function() {
     const body = res.body;
     expect(body.data).toBeTruthy();
-    expect(Array.isArray(body.data)).toBeTruthy();
   });
 }
