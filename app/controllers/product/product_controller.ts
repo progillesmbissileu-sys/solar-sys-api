@@ -26,13 +26,13 @@ export default class ProductController extends AppAbstractController {
 
     paginatedResult.data = await Promise.all(
       paginatedResult.data.map(async (product: any) => {
-        let signedUrl = null
-        const relativeKey = product.picture?.relativeKey || product.picture?.relative_key
+        let mainImageSignedUrl = null
+        const relativeKey = product.mainImage?.relativeKey || product.mainImage?.relative_key
         if (relativeKey) {
-          signedUrl = await mediaUploadService.getSignedUrl(relativeKey)
+          mainImageSignedUrl = await mediaUploadService.getSignedUrl(relativeKey)
         }
-        if (product.picture) {
-          delete product.picture.url
+        if (product.mainImage) {
+          delete product.mainImage.url
         }
 
         return {
@@ -42,9 +42,9 @@ export default class ProductController extends AppAbstractController {
           price: product.price,
           categoryName: product.category?.designation,
           categoryId: product.category?.id,
-          pictureUrl: signedUrl,
-          pictureAlt: product.picture?.altDescription,
-          pictureTitle: product.picture?.title,
+          mainImageUrl: mainImageSignedUrl,
+          mainImageAlt: product.mainImage?.altDescription,
+          mainImageTitle: product.mainImage?.title,
           brand: product.brand,
           createdAt: product.createdAt,
           updatedAt: product.updatedAt,
@@ -63,21 +63,34 @@ export default class ProductController extends AppAbstractController {
       'MediaUploadService'
     )) as MediaManagerInterface
 
-    let signedUrl = null
-    const relativeKey = product?.picture?.relativeKey || (product?.picture as any)?.relative_key
-    if (relativeKey) {
-      signedUrl = await mediaUploadService.getSignedUrl(relativeKey)
+    // Get signed URL for main image
+    let mainImageSignedUrl = null
+    const mainImageRelativeKey = product?.mainImage?.relativeKey || (product?.mainImage as any)?.relative_key
+    if (mainImageRelativeKey) {
+      mainImageSignedUrl = await mediaUploadService.getSignedUrl(mainImageRelativeKey)
     }
 
-    const productJson = product?.toJSON()
-    if (productJson?.picture) {
-      delete productJson.picture.url
-    }
+    // Get signed URLs for additional images
+    const images = await Promise.all(
+      (product?.images || []).map(async (img: any) => {
+        let signedUrl = null
+        const relativeKey = img.relativeKey || img.relative_key
+        if (relativeKey) {
+          signedUrl = await mediaUploadService.getSignedUrl(relativeKey)
+        }
+        return {
+          id: img.id,
+          url: signedUrl,
+          alt: img.altDescription,
+          title: img.title,
+        }
+      })
+    )
 
     return response.ok({
       data: {
         id: product?.id,
-        slug: product?.id,
+        slug: product?.slug,
         categoryId: product?.categoryId,
         designation: product?.designation,
         description: product?.description,
@@ -91,11 +104,13 @@ export default class ProductController extends AppAbstractController {
           id: product?.category?.id,
           designation: product?.category?.designation,
         },
-        picture: {
-          id: product?.picture?.id,
-          url: signedUrl,
-          alt: product?.picture?.altDescription,
+        mainImage: {
+          id: product?.mainImage?.id,
+          url: mainImageSignedUrl,
+          alt: product?.mainImage?.altDescription,
+          title: product?.mainImage?.title,
         },
+        images: images,
       },
     })
   }
@@ -106,11 +121,12 @@ export default class ProductController extends AppAbstractController {
     await this.handleCommand(
       new CreateProductCommand(
         payload.designation,
-        payload.pictureId,
+        payload.mainImageId,
         payload.categoryId,
         payload.description,
         payload.price,
-        payload.brand
+        payload.brand,
+        payload.imageIds || []
       )
     )
     return response.created()
@@ -124,11 +140,14 @@ export default class ProductController extends AppAbstractController {
       new UpdateProductCommand(
         productId,
         payload.designation,
-        payload.pictureId,
+        payload.mainImageId,
         payload.categoryId,
         payload.description,
         payload.price,
-        payload.brand
+        payload.brand,
+        undefined, // isAvailable
+        undefined, // isDeleted
+        payload.imageIds || []
       )
     )
     return response.noContent()
@@ -152,13 +171,13 @@ export default class ProductController extends AppAbstractController {
 
     const formattedProducts = await Promise.all(
       paginatedResult.data.map(async (product: any) => {
-        let signedUrl = null
-        const relativeKey = product.picture?.relativeKey || product.picture?.relative_key
+        let mainImageSignedUrl = null
+        const relativeKey = product.mainImage?.relativeKey || product.mainImage?.relative_key
         if (relativeKey) {
-          signedUrl = await mediaUploadService.getSignedUrl(relativeKey)
+          mainImageSignedUrl = await mediaUploadService.getSignedUrl(relativeKey)
         }
-        if (product.picture) {
-          delete product.picture.url
+        if (product.mainImage) {
+          delete product.mainImage.url
         }
 
         return {
@@ -168,7 +187,7 @@ export default class ProductController extends AppAbstractController {
           price: product.price,
           categoryName: product.category?.designation,
           categoryId: product.category?.id,
-          pictureUrl: signedUrl,
+          mainImageUrl: mainImageSignedUrl,
           brand: product.brand,
           createdAt: product.createdAt,
           updatedAt: product.updatedAt,

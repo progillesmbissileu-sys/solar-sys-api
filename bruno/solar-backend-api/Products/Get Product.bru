@@ -18,13 +18,70 @@ vars:pre-request {
   product_id: 1ed8aa22-d39e-4a6e-b6c3-6cc0437f5ec9
 }
 
+docs {
+  # Get Product
+  
+  Retrieves a single product with full details including main image and all additional images.
+  
+  ## URL Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | product_id | uuid | Product ID to retrieve |
+  
+  ## Response Body
+  
+  ```json
+  {
+    "data": {
+      "id": "uuid",
+      "slug": "product-slug",
+      "categoryId": "uuid",
+      "designation": "Product Name",
+      "description": "Product description",
+      "price": 99.99,
+      "brand": "Brand Name",
+      "isAvailable": true,
+      "isDeleted": false,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "category": {
+        "id": "uuid",
+        "designation": "Category Name"
+      },
+      "mainImage": {
+        "id": "uuid",
+        "url": "signed-url",
+        "alt": "Alt description",
+        "title": "Image title"
+      },
+      "images": [
+        {
+          "id": "uuid",
+          "url": "signed-url",
+          "alt": "Alt description",
+          "title": "Image title"
+        }
+      ]
+    }
+  }
+  ```
+  
+  ## Response
+  
+  - **200 OK**: Product retrieved successfully
+  - **404 Not Found**: Product not found
+}
+
 tests {
   test("should return 200 on success", function() {
     expect(res.status).toBe(200);
   });
   
-  test("should return product data", function() {
+  test("should return product data with images", function() {
     const body = res.body;
-    expect(body.data.product).toBeTruthy();
+    expect(body.data).toBeTruthy();
+    expect(body.data.mainImage).toBeTruthy();
+    expect(Array.isArray(body.data.images)).toBeTruthy();
   });
 }

@@ -3,6 +3,7 @@ import { afterFind, afterFetch, BaseModel, beforeCreate, column } from '@adonisj
 import crypto from 'node:crypto'
 import ProductCategory from '#database/active-records/product_category'
 import ImageMedia from '#database/active-records/image_media'
+import ProductImage from '#database/active-records/product_image'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -20,8 +21,8 @@ export default class Product extends BaseModel {
   @column()
   declare description: string
 
-  @column({ columnName: 'picture_id' })
-  declare pictureId: crypto.UUID
+  @column({ columnName: 'main_image_id' })
+  declare mainImageId: crypto.UUID
 
   @column()
   declare price: number
@@ -43,7 +44,8 @@ export default class Product extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  declare picture: ImageMedia | null
+  declare mainImage: ImageMedia | null
+  declare images: ImageMedia[]
 
   declare category: ProductCategory | null
 
@@ -54,11 +56,22 @@ export default class Product extends BaseModel {
 
   @afterFind()
   static async afterFind(product: Product) {
-    if (product.pictureId) {
-      product.picture = await ImageMedia.find(product.pictureId)
+    if (product.mainImageId) {
+      product.mainImage = await ImageMedia.find(product.mainImageId)
     }
     if (product.categoryId) {
       product.category = await ProductCategory.find(product.categoryId)
+    }
+    // Load additional images from junction table
+    const productImages = await ProductImage.query()
+      .where('product_id', product.id)
+      .orderBy('sort_order', 'asc')
+
+    const imageIds = productImages.map((pi) => pi.imageId)
+    if (imageIds.length > 0) {
+      product.images = await ImageMedia.query().whereIn('id', imageIds)
+    } else {
+      product.images = []
     }
   }
 
@@ -66,11 +79,22 @@ export default class Product extends BaseModel {
   static async afterFetch(products: Product[]) {
     await Promise.all(
       products.map(async (product) => {
-        if (product.pictureId) {
-          product.picture = await ImageMedia.find(product.pictureId)
+        if (product.mainImageId) {
+          product.mainImage = await ImageMedia.find(product.mainImageId)
         }
         if (product.categoryId) {
           product.category = await ProductCategory.find(product.categoryId)
+        }
+        // Load additional images from junction table
+        const productImages = await ProductImage.query()
+          .where('product_id', product.id)
+          .orderBy('sort_order', 'asc')
+
+        const imageIds = productImages.map((pi) => pi.imageId)
+        if (imageIds.length > 0) {
+          product.images = await ImageMedia.query().whereIn('id', imageIds)
+        } else {
+          product.images = []
         }
       })
     )

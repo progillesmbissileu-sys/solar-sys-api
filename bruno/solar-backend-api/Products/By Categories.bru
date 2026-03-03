@@ -5,18 +5,70 @@ meta {
 }
 
 get {
-  url: {{base_url}}/api/product/grouped-by-category?page=3&limit=2
+  url: {{base_url}}/api/product/grouped-by-category
   body: none
   auth: bearer
 }
 
-query {
-  page: 3
-  limit: 2
+params:query {
+  ~q: search term
+  ~page: 1
+  ~limit: 10
 }
 
 auth:bearer {
   token: {{access_token}}
+}
+
+docs {
+  # Products Grouped By Category
+  
+  Retrieves products grouped by their categories with main image only (no additional images).
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Default | Description |
+  |-----------|------|---------|-------------|
+  | q | string | - | Search term to filter by designation |
+  | page | number | 1 | Page number |
+  | limit | number | 10 | Items per page |
+  
+  ## Response Body
+  
+  ```json
+  {
+    "meta": {
+      "total": 100,
+      "perPage": 10,
+      "currentPage": 1,
+      "lastPage": 10
+    },
+    "data": [
+      {
+        "categoryId": "uuid",
+        "categoryName": "Category Name",
+        "products": [
+          {
+            "id": "uuid",
+            "slug": "product-slug",
+            "designation": "Product Name",
+            "price": 99.99,
+            "categoryName": "Category Name",
+            "categoryId": "uuid",
+            "mainImageUrl": "signed-url",
+            "brand": "Brand Name",
+            "createdAt": "2024-01-01T00:00:00.000Z",
+            "updatedAt": "2024-01-01T00:00:00.000Z"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  
+  ## Response
+  
+  - **200 OK**: Products retrieved successfully
 }
 
 tests {
@@ -28,5 +80,14 @@ tests {
     const body = res.body;
     expect(body.data).toBeTruthy();
     expect(Array.isArray(body.data)).toBeTruthy();
+  });
+  
+  test("should return grouped products with category info", function() {
+    const body = res.body;
+    if (body.data.length > 0) {
+      expect(body.data[0].categoryId).toBeTruthy();
+      expect(body.data[0].categoryName).toBeTruthy();
+      expect(Array.isArray(body.data[0].products)).toBeTruthy();
+    }
   });
 }

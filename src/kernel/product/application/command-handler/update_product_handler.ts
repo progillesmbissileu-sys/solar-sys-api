@@ -6,22 +6,23 @@ import { Product } from '#kernel/product/domain/entity/product'
 export class UpdateProductHandler implements CommandHandler<UpdateProductCommand> {
   constructor(private repository: ProductRepository) {}
   async handle(command: UpdateProductCommand): Promise<void> {
-    const store = await this.repository.findById(command.productId)
+    const existingProduct = await this.repository.findById(command.productId)
 
-    return this.repository.save(
-      new Product(
-        store.getId(),
-        command.designation,
-        command.pictureId,
-        command.categoryId,
-        command.description,
-        command.price,
-        command.brand,
-        store.getSlug(),
-        command.isAvailable,
-        command.isDeleted,
-        store.getCreatedAt()
-      )
+    const updatedProduct = new Product(
+      existingProduct.getId(),
+      command.designation,
+      command.mainImageId,
+      command.categoryId,
+      command.description,
+      command.price,
+      command.brand,
+      existingProduct.getSlug(),
+      command.isAvailable,
+      command.isDeleted,
+      existingProduct.getCreatedAt()
     )
+
+    // Save product and update additional images
+    await this.repository.save(updatedProduct, command.imageIds)
   }
 }

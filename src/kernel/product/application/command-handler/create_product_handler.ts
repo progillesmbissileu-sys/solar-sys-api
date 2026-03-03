@@ -5,16 +5,18 @@ import { Product } from '#kernel/product/domain/entity/product'
 
 export class CreateProductHandler implements CommandHandler<CreateProductCommand> {
   constructor(private repository: ProductRepository) {}
-  handle(command: CreateProductCommand): Promise<void> {
-    const store = new Product(
+  async handle(command: CreateProductCommand): Promise<void> {
+    const product = new Product(
       null,
       command.designation,
-      command.pictureId,
+      command.mainImageId,
       command.categoryId,
       command.description,
       command.price,
       command.brand
     )
-    return this.repository.save(store)
+
+    // Save product and additional images
+    await this.repository.save(product, command.imageIds)
   }
 }

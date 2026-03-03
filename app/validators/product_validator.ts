@@ -5,9 +5,10 @@ export const createProductSchema = vine.compile(
     designation: vine.string().minLength(2),
     description: vine.string(),
     categoryId: vine.string().uuid(),
-    pictureId: vine.string().uuid(),
+    mainImageId: vine.string().uuid(),
     price: vine.number(),
     brand: vine.string().optional(),
+    imageIds: vine.array(vine.string().uuid()).maxLength(2).optional(),
   })
 )
 
@@ -16,9 +17,10 @@ export const updateProductSchema = vine.compile(
     designation: vine.string().minLength(2),
     description: vine.string(),
     categoryId: vine.string().uuid(),
-    pictureId: vine.string().uuid(),
+    mainImageId: vine.string().uuid(),
     price: vine.number(),
     brand: vine.string().optional(),
+    imageIds: vine.array(vine.string().uuid()).maxLength(2).optional(),
   })
 )
 
