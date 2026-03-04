@@ -22,8 +22,6 @@ export default class AuthController {
   }
 
   async login({ request, response }: HttpContext) {
-    const body = request.body()
-    console.log(body)
     const payload = await request.validateUsing(loginSchema)
 
     const user = await User.verifyCredentials(payload.email, payload.password)

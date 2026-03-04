@@ -17,6 +17,7 @@ export default class ProductController extends AppAbstractController {
     const query = request.qs()
     const result = await ActiveRecord.query()
       .whereILike('designation', `%${query.q || ''}%`)
+      .orderBy('created_at', query.sort || 'desc')
       .paginate(query.page || 1, query.limit || 10)
 
     const mediaUploadService = (await app.container.make(
