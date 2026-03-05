@@ -1,0 +1,57 @@
+meta {
+  name: List Customers
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/customers
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return list of customers", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(body.data).toBeTruthy();
+    expect(Array.isArray(body.data)).toBe(true);
+  });
+}
+
+docs {
+  # List Customers
+  
+  Retrieves a list of all customers.
+  
+  ## Response
+  
+  - **200 OK**: Returns array of customers
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": "uuid",
+        "firstName": "string",
+        "lastName": "string",
+        "phone": "string",
+        "email": "string | null",
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+      }
+    ]
+  }
+  ```
+}

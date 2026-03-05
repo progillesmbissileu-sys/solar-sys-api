@@ -16,14 +16,20 @@ auth:bearer {
 
 body:json {
   {
-    "designation": "Product Name",
-    "description": "Product description",
+    "designation": "Product with images",
+    "description": "Product with images description",
     "categoryId": "ba17729c-81b7-4946-beb7-02e635a3bb5a",
-    "mainImageId": "8969b646-9559-435f-aff5-3d0ec40e85e0",
+    "mainImageId": "35ccff86-accb-4bf6-854d-15200500f1ff",
     "price": 99.99,
     "brand": "Brand Name",
-    "imageIds": ["uuid-of-additional-image-1", "uuid-of-additional-image-2"]
+    "imageIds": ["59f8d827-37e8-453c-aadf-caa56616397f", "e7dfe16f-6f5f-47ae-a835-4ab2859f4110"]
   }
+}
+
+tests {
+  test("should return 201 on success", function() {
+    expect(res.status).toBe(201);
+  });
 }
 
 docs {
@@ -47,10 +53,4 @@ docs {
   
   - **201 Created**: Product created successfully
   - **422 Unprocessable Entity**: Validation error
-}
-
-tests {
-  test("should return 201 on success", function() {
-    expect(res.status).toBe(201);
-  });
 }

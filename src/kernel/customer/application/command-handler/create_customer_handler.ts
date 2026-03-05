@@ -3,10 +3,10 @@ import { CreateCustomerCommand } from '#kernel/customer/application/command/crea
 import { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
 import { Customer } from '#kernel/customer/domain/entity/customer'
 
-export class CreateCustomerHandler implements CommandHandler<CreateCustomerCommand> {
+export class CreateCustomerHandler implements CommandHandler<CreateCustomerCommand, string> {
   constructor(private customerRepository: CustomerRepository) {}
 
-  async handle(command: CreateCustomerCommand): Promise<void> {
+  async handle(command: CreateCustomerCommand): Promise<string> {
     const customer = new Customer(
       null,
       command.userId || null,
@@ -17,5 +17,7 @@ export class CreateCustomerHandler implements CommandHandler<CreateCustomerComma
     )
 
     await this.customerRepository.save(customer)
+
+    return customer.getId() as string
   }
 }

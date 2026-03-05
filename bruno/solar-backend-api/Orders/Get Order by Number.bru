@@ -1,0 +1,93 @@
+meta {
+  name: Get Order by Number
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{base_url}}/api/orders/number/:orderNumber
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  orderNumber: ORD-2024-000001
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return order data", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(body.data.orderNumber).toBeTruthy();
+  });
+}
+
+docs {
+  # Get Order by Number
+  
+  Retrieves a single order by its order number.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | orderNumber | string | Order number (e.g., ORD-2024-000001) |
+  
+  ## Response
+  
+  - **200 OK**: Returns order data
+  - **404 Not Found**: Order not found
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "id": "uuid",
+      "orderNumber": "string",
+      "customerId": "uuid",
+      "status": "string",
+      "customerFirstName": "string",
+      "customerLastName": "string",
+      "customerPhone": "string",
+      "shippingAddressLine1": "string",
+      "shippingAddressLine2": "string | null",
+      "shippingCity": "string",
+      "shippingState": "string",
+      "shippingPostalCode": "string",
+      "shippingCountry": "string",
+      "subtotal": "number",
+      "shippingFee": "number",
+      "total": "number",
+      "customerNotes": "string | null",
+      "adminNotes": "string | null",
+      "confirmedAt": "datetime | null",
+      "shippedAt": "datetime | null",
+      "deliveredAt": "datetime | null",
+      "cancelledAt": "datetime | null",
+      "createdAt": "datetime",
+      "updatedAt": "datetime",
+      "items": [
+        {
+          "id": "uuid",
+          "productId": "uuid",
+          "productName": "string",
+          "productSlug": "string",
+          "quantity": "number",
+          "unitPrice": "number",
+          "totalPrice": "number"
+        }
+      ]
+    }
+  }
+  ```
+}

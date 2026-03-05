@@ -1,0 +1,87 @@
+meta {
+  name: Add Customer Address
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{base_url}}/api/customers/:id/addresses
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  id: 550e8400-e29b-41d4-a716-446655440000
+}
+
+body:json {
+  {
+    "addressLine1": "123 Main Street",
+    "addressLine2": "Apt 4B",
+    "city": "Lagos",
+    "state": "Lagos",
+    "postalCode": "100001",
+    "country": "Nigeria",
+    "type": "SHIPPING",
+    "isDefault": true
+  }
+}
+
+tests {
+  test("should return 201 on success", function() {
+    expect(res.status).toBe(201);
+  });
+  
+  test("should return address id", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(body.data.id).toBeTruthy();
+  });
+}
+
+docs {
+  # Add Customer Address
+  
+  Adds a new address to a customer.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | uuid | Customer ID |
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | addressLine1 | string | Yes | Primary address line (max 255 characters) |
+  | addressLine2 | string | No | Secondary address line (max 255 characters, nullable) |
+  | city | string | Yes | City name (max 100 characters) |
+  | state | string | Yes | State/Province (max 100 characters) |
+  | postalCode | string | Yes | Postal/ZIP code (max 20 characters) |
+  | country | string | Yes | Country name (max 100 characters) |
+  | type | string | Yes | Address type: "SHIPPING" or "BILLING" |
+  | isDefault | boolean | No | Set as default address |
+  
+  ## Response
+  
+  - **201 Created**: Address added successfully
+  - **404 Not Found**: Customer not found
+  - **422 Unprocessable Entity**: Validation error
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "message": "Address added successfully",
+    "data": {
+      "id": "uuid"
+    }
+  }
+  ```
+}

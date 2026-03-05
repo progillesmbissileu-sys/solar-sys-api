@@ -1,0 +1,77 @@
+meta {
+  name: Get Low Stock Products
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/api/products/low-stock
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:query {
+  page: 1
+  limit: 10
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return paginated low stock products", function() {
+    const body = res.body;
+    expect(body.data).toBeTruthy();
+    expect(body.meta).toBeTruthy();
+    expect(Array.isArray(body.data)).toBe(true);
+  });
+}
+
+docs {
+  # Get Low Stock Products
+  
+  Retrieves a paginated list of products that are running low on stock (stock quantity is below or equal to the low stock threshold but greater than 0).
+  
+  ## Query Parameters
+  
+  | Parameter | Type | Required | Description |
+  |-----------|------|----------|-------------|
+  | page | number | No | Page number (default: 1) |
+  | limit | number | No | Items per page (default: 10) |
+  
+  ## Response
+  
+  - **200 OK**: Returns paginated list of low stock products
+  
+  ### Response Body
+  
+  ```json
+  {
+    "meta": {
+      "total": "number",
+      "perPage": "number",
+      "currentPage": "number",
+      "lastPage": "number",
+      "firstPage": "number",
+      "firstPageUrl": "string",
+      "lastPageUrl": "string",
+      "nextPageUrl": "string | null",
+      "previousPageUrl": "string | null"
+    },
+    "data": [
+      {
+        "id": "uuid",
+        "designation": "string",
+        "stockQuantity": "number",
+        "lowStockThreshold": "number",
+        "slug": "string"
+      }
+    ]
+  }
+  ```
+}

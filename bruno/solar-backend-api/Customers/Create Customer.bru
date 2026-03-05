@@ -1,0 +1,68 @@
+meta {
+  name: Create Customer
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/api/customers
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "phone": "08012345678",
+    "email": "john.doe@example.com"
+  }
+}
+
+tests {
+  test("should return 201 on success", function() {
+    expect(res.status).toBe(201);
+  });
+  
+  test("should return customer id", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(body.data.id).toBeTruthy();
+  });
+}
+
+docs {
+  # Create Customer
+  
+  Creates a new customer.
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | firstName | string | Yes | Customer first name (2-100 characters) |
+  | lastName | string | Yes | Customer last name (2-100 characters) |
+  | phone | string | Yes | Phone number (10-20 characters) |
+  | email | string | No | Email address (valid email format, nullable) |
+  
+  ## Response
+  
+  - **201 Created**: Customer created successfully
+  - **422 Unprocessable Entity**: Validation error
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "message": "Customer created successfully",
+    "data": {
+      "id": "uuid"
+    }
+  }
+  ```
+}

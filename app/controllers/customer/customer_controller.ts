@@ -50,8 +50,8 @@ export default class CustomerController {
     const payload = await request.validateUsing(createCustomerSchema)
 
     const command = new CreateCustomerCommand(
-      payload.first_name,
-      payload.last_name,
+      payload.firstName,
+      payload.lastName,
       payload.phone,
       payload.email ?? undefined
     )
@@ -73,8 +73,8 @@ export default class CustomerController {
 
     const customer = await this.customerRepository.findById(params.id)
 
-    if (payload.first_name) customer.setFirstName(payload.first_name)
-    if (payload.last_name) customer.setLastName(payload.last_name)
+    if (payload.firstName) customer.setFirstName(payload.firstName)
+    if (payload.lastName) customer.setLastName(payload.lastName)
     if (payload.phone) customer.setPhone(payload.phone)
     if (payload.email !== undefined) {
       customer.setEmail(payload.email)
@@ -108,14 +108,14 @@ export default class CustomerController {
 
     const command = new CreateAddressCommand(
       params.id,
-      payload.address_line1,
-      payload.address_line2 || null,
+      payload.addressLine1,
+      payload.addressLine2 || null,
       payload.city,
       payload.state,
-      payload.postal_code,
+      payload.postalCode,
       payload.country,
       payload.type as AddressType,
-      payload.is_default || false
+      payload.isDefault || false
     )
 
     const addressId = await this.commandBus.execute(command)
@@ -135,14 +135,14 @@ export default class CustomerController {
 
     const address = await this.addressRepository.findById(params.addressId)
 
-    if (payload.address_line1) address.setAddressLine1(payload.address_line1)
-    if (payload.address_line2 !== undefined) address.setAddressLine2(payload.address_line2)
+    if (payload.addressLine1) address.setAddressLine1(payload.addressLine1)
+    if (payload.addressLine2 !== undefined) address.setAddressLine2(payload.addressLine2)
     if (payload.city) address.setCity(payload.city)
     if (payload.state) address.setState(payload.state)
-    if (payload.postal_code) address.setPostalCode(payload.postal_code)
+    if (payload.postalCode) address.setPostalCode(payload.postalCode)
     if (payload.country) address.setCountry(payload.country)
     if (payload.type) address.setType(payload.type as AddressType)
-    if (payload.is_default !== undefined) address.setDefault(payload.is_default)
+    if (payload.isDefault !== undefined) address.setDefault(payload.isDefault)
 
     await this.addressRepository.save(address)
 
@@ -167,29 +167,29 @@ export default class CustomerController {
   private serializeCustomer(customer: any) {
     return {
       id: customer.getId(),
-      first_name: customer.getFirstName(),
-      last_name: customer.getLastName(),
+      firstName: customer.getFirstName(),
+      lastName: customer.getLastName(),
       phone: customer.getPhone(),
       email: customer.getEmail(),
-      created_at: customer.getCreatedAt(),
-      updated_at: customer.getUpdatedAt(),
+      createdAt: customer.getCreatedAt(),
+      updatedAt: customer.getUpdatedAt(),
     }
   }
 
   private serializeAddress(address: any) {
     return {
       id: address.getId(),
-      customer_id: address.getCustomerId(),
-      address_line1: address.getAddressLine1(),
-      address_line2: address.getAddressLine2(),
+      customerId: address.getCustomerId(),
+      addressLine1: address.getAddressLine1(),
+      addressLine2: address.getAddressLine2(),
       city: address.getCity(),
       state: address.getState(),
-      postal_code: address.getPostalCode(),
+      postalCode: address.getPostalCode(),
       country: address.getCountry(),
       type: address.getType(),
-      is_default: address.getIsDefault(),
-      created_at: address.getCreatedAt(),
-      updated_at: address.getUpdatedAt(),
+      isDefault: address.getIsDefault(),
+      createdAt: address.getCreatedAt(),
+      updatedAt: address.getUpdatedAt(),
     }
   }
 }

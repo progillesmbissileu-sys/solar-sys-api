@@ -1,0 +1,72 @@
+meta {
+  name: List Customer Addresses
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/api/customers/:id/addresses
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  id: 550e8400-e29b-41d4-a716-446655440000
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return list of addresses", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(Array.isArray(body.data)).toBe(true);
+  });
+}
+
+docs {
+  # List Customer Addresses
+  
+  Retrieves all addresses for a specific customer.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | uuid | Customer ID |
+  
+  ## Response
+  
+  - **200 OK**: Returns array of addresses
+  - **404 Not Found**: Customer not found
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": "uuid",
+        "customerId": "uuid",
+        "addressLine1": "string",
+        "addressLine2": "string | null",
+        "city": "string",
+        "state": "string",
+        "postalCode": "string",
+        "country": "string",
+        "type": "SHIPPING | BILLING",
+        "isDefault": "boolean",
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+      }
+    ]
+  }
+  ```
+}

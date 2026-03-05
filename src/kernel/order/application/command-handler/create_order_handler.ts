@@ -85,7 +85,7 @@ export class CreateOrderHandler implements CommandHandler<CreateOrderCommand, st
   private async generateOrderNumber(): Promise<string> {
     const now = DateTime.now()
     const dateStr = now.toFormat('yyyyMMdd')
-    const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase()
+    const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase()
     return `ORD-${dateStr}-${randomStr}`
   }
 }

@@ -1,0 +1,57 @@
+meta {
+  name: Remove Stock
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/api/product/:id/stock/remove
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  id: 550e8400-e29b-41d4-a716-446655440000
+}
+
+body:json {
+  {
+    "quantity": 10,
+    "reason": "Damaged goods removed"
+  }
+}
+
+tests {
+  test("should return 204 on success", function() {
+    expect(res.status).toBe(204);
+  });
+}
+
+docs {
+  # Remove Stock
+  
+  Removes stock quantity from a product.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | uuid | Product ID |
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | quantity | number | Yes | Quantity to remove (must be positive) |
+  | reason | string | No | Reason for removing stock (max 255 characters) |
+  
+  ## Response
+  
+  - **204 No Content**: Stock removed successfully
+  - **404 Not Found**: Product not found
+  - **422 Unprocessable Entity**: Validation error or insufficient stock
+}

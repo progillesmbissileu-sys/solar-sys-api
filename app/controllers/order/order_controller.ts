@@ -71,13 +71,13 @@ export default class OrderController {
     const payload = await request.validateUsing(createOrderSchema)
 
     const command = new CreateOrderCommand(
-      payload.customer_id,
-      payload.items.map((item: { product_id: string; quantity: number }) => ({
-        productId: item.product_id,
+      payload.customerId,
+      payload.items.map((item: { productId: string; quantity: number }) => ({
+        productId: item.productId,
         quantity: item.quantity,
       })),
-      payload.shipping_address_id,
-      payload.customer_notes || undefined
+      payload.shippingAddressId,
+      payload.customerNotes || undefined
     )
 
     const orderNumber = await this.commandBus.execute(command)
@@ -85,7 +85,7 @@ export default class OrderController {
     return response.created({
       status: 'success',
       message: 'Order created successfully',
-      data: { order_number: orderNumber },
+      data: { orderNumber: orderNumber },
     })
   }
 
@@ -98,7 +98,7 @@ export default class OrderController {
     const command = new UpdateOrderStatusCommand(
       params.id,
       payload.status as OrderStatus,
-      payload.admin_notes || undefined
+      payload.adminNotes || undefined
     )
 
     await this.commandBus.execute(command)
@@ -140,37 +140,37 @@ export default class OrderController {
   private serializeOrder(order: any) {
     return {
       id: order.getId(),
-      order_number: order.getOrderNumber(),
-      customer_id: order.getCustomerId(),
+      orderNumber: order.getOrderNumber(),
+      customerId: order.getCustomerId(),
       status: order.getStatus(),
-      customer_first_name: order.getCustomerFirstName(),
-      customer_last_name: order.getCustomerLastName(),
-      customer_phone: order.getCustomerPhone(),
-      shipping_address_line1: order.getShippingAddressLine1(),
-      shipping_address_line2: order.getShippingAddressLine2(),
-      shipping_city: order.getShippingCity(),
-      shipping_state: order.getShippingState(),
-      shipping_postal_code: order.getShippingPostalCode(),
-      shipping_country: order.getShippingCountry(),
+      customerFirstName: order.getShippingFirstName(),
+      customerLastName: order.getShippingLastName(),
+      customerPhone: order.getShippingPhone(),
+      shippingAddressLine1: order.getShippingAddressLine1(),
+      shippingAddressLine2: order.getShippingAddressLine2(),
+      shippingCity: order.getShippingCity(),
+      shippingState: order.getShippingState(),
+      shippingPostalCode: order.getShippingPostalCode(),
+      shippingCountry: order.getShippingCountry(),
       subtotal: order.getSubtotal(),
-      shipping_fee: order.getShippingFee(),
+      shippingFee: order.getShippingFee(),
       total: order.getTotal(),
-      customer_notes: order.getCustomerNotes(),
-      admin_notes: order.getAdminNotes(),
-      confirmed_at: order.getConfirmedAt(),
-      shipped_at: order.getShippedAt(),
-      delivered_at: order.getDeliveredAt(),
-      cancelled_at: order.getCancelledAt(),
-      created_at: order.getCreatedAt(),
-      updated_at: order.getUpdatedAt(),
+      customerNotes: order.getCustomerNotes(),
+      adminNotes: order.getAdminNotes(),
+      confirmedAt: order.getConfirmedAt(),
+      shippedAt: order.getShippedAt(),
+      deliveredAt: order.getDeliveredAt(),
+      cancelledAt: order.getCancelledAt(),
+      createdAt: order.getCreatedAt(),
+      updatedAt: order.getUpdatedAt(),
       items: order.getItems()?.map((item: any) => ({
         id: item.getId(),
-        product_id: item.getProductId(),
-        product_name: item.getProductName(),
-        product_slug: item.getProductSlug(),
+        productId: item.getProductId(),
+        productName: item.getProductName(),
+        productSlug: item.getProductSlug(),
         quantity: item.getQuantity(),
-        unit_price: item.getUnitPrice(),
-        total_price: item.getTotalPrice(),
+        unitPrice: item.getUnitPrice(),
+        totalPrice: item.getTotalPrice(),
       })),
     }
   }

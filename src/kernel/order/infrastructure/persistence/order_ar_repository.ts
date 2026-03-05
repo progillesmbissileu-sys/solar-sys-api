@@ -4,6 +4,7 @@ import OrderItemActiveRecord from '#database/active-records/order_item'
 import { Order } from '#kernel/order/domain/entity/order'
 import { OrderItem } from '#kernel/order/domain/entity/order_item'
 import { OrderStatus } from '#kernel/order/domain/type/order_status'
+import db from '@adonisjs/lucid/services/db'
 
 export class OrderARRepository implements OrderRepository {
   async findById(id: string): Promise<Order> {
@@ -88,32 +89,50 @@ export class OrderARRepository implements OrderRepository {
       cancelledAt: entity['cancelledAt'] as any,
     }
 
-    let orderRecord: EntityActiveRecord
+    const trx = await db.transaction()
 
-    if (entity.getId()) {
-      orderRecord = await EntityActiveRecord.updateOrCreate({ id: entity.getId() as any }, object)
-    } else {
-      orderRecord = await EntityActiveRecord.create(object)
-    }
+    try {
+      let orderRecord: EntityActiveRecord
 
-    // Save order items
-    const items = entity.getItems()
-    if (items.length > 0) {
-      // Delete existing items
-      await OrderItemActiveRecord.query().where('order_id', orderRecord.id).delete()
-
-      // Insert new items
-      for (const item of items) {
-        await OrderItemActiveRecord.create({
-          orderId: orderRecord.id,
-          productId: item.getProductId() as any,
-          productName: item.getProductName(),
-          productSlug: item.getProductSlug(),
-          quantity: item.getQuantity(),
-          unitPrice: item.getUnitPrice(),
-          totalPrice: item.getTotalPrice(),
-        })
+      if (entity.getId()) {
+        orderRecord = await EntityActiveRecord.updateOrCreate(
+          { id: entity.getId() as any },
+          object,
+          { client: trx }
+        )
+      } else {
+        orderRecord = await EntityActiveRecord.create(object, { client: trx })
       }
+
+      // Save order items
+      const items = entity.getItems()
+      if (items.length > 0) {
+        // Delete existing items
+        await OrderItemActiveRecord.query({ client: trx })
+          .where('order_id', orderRecord.id)
+          .delete()
+
+        // Insert new items
+        for (const item of items) {
+          await OrderItemActiveRecord.create(
+            {
+              orderId: orderRecord.id,
+              productId: item.getProductId() as any,
+              productName: item.getProductName(),
+              productSlug: item.getProductSlug(),
+              quantity: item.getQuantity(),
+              unitPrice: item.getUnitPrice(),
+              totalPrice: item.getTotalPrice(),
+            },
+            { client: trx }
+          )
+        }
+      }
+
+      await trx.commit()
+    } catch (error) {
+      await trx.rollback()
+      throw error
     }
   }
 

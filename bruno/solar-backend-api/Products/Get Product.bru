@@ -7,15 +7,24 @@ meta {
 get {
   url: {{base_url}}/api/product/{{product_id}}
   body: none
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{access_token}}
+  auth: inherit
 }
 
 vars:pre-request {
-  product_id: 1ed8aa22-d39e-4a6e-b6c3-6cc0437f5ec9
+  product_id: 209b46c5-af0c-4e89-836e-f2e25e8954b7
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return product data with images", function() {
+    const body = res.body;
+    expect(body.data).toBeTruthy();
+    expect(body.data.mainImage).toBeTruthy();
+    expect(Array.isArray(body.data.images)).toBeTruthy();
+  });
 }
 
 docs {
@@ -71,17 +80,4 @@ docs {
   
   - **200 OK**: Product retrieved successfully
   - **404 Not Found**: Product not found
-}
-
-tests {
-  test("should return 200 on success", function() {
-    expect(res.status).toBe(200);
-  });
-  
-  test("should return product data with images", function() {
-    const body = res.body;
-    expect(body.data).toBeTruthy();
-    expect(body.data.mainImage).toBeTruthy();
-    expect(Array.isArray(body.data.images)).toBeTruthy();
-  });
 }
