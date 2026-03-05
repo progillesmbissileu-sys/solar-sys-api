@@ -1,0 +1,21 @@
+import { CommandHandler } from '#shared/application/use-cases/command_handler'
+import { CreateCustomerCommand } from '#kernel/customer/application/command/create_customer_command'
+import { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
+import { Customer } from '#kernel/customer/domain/entity/customer'
+
+export class CreateCustomerHandler implements CommandHandler<CreateCustomerCommand> {
+  constructor(private customerRepository: CustomerRepository) {}
+
+  async handle(command: CreateCustomerCommand): Promise<void> {
+    const customer = new Customer(
+      null,
+      command.userId || null,
+      command.firstName,
+      command.lastName,
+      command.email,
+      command.phone || null
+    )
+
+    await this.customerRepository.save(customer)
+  }
+}
