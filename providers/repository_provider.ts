@@ -5,6 +5,9 @@ import { ProductCategoryARRepository } from '#kernel/product/infrastructure/pers
 import { MarketServiceARRepository } from '#kernel/market/infrastructure/persistence/market_service_ar_repository'
 import { ImageMediaARRepository } from '#kernel/medias/infrastructure/persistence/image_media_ar_repository'
 import { StockMovementARRepository } from '#kernel/product/infrastructure/persistence/stock_movement_ar_repository'
+import { CustomerARRepository } from '#kernel/customer/infrastructure/persistence/customer_ar_repository'
+import { AddressARRepository } from '#kernel/customer/infrastructure/persistence/address_ar_repository'
+import { OrderARRepository } from '#kernel/order/infrastructure/persistence/order_ar_repository'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -28,6 +31,15 @@ export default class RepositoryProvider {
       })
       this.app.container.bind('StockMovementRepository', () => {
         return new StockMovementARRepository()
+      })
+      this.app.container.bind('CustomerRepository', () => {
+        return new CustomerARRepository()
+      })
+      this.app.container.bind('AddressRepository', () => {
+        return new AddressARRepository()
+      })
+      this.app.container.bind('OrderRepository', () => {
+        return new OrderARRepository()
       })
     }
   }

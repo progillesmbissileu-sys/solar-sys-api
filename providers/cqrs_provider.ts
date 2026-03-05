@@ -15,6 +15,11 @@ import { DeleteMarketServiceHandler } from '#kernel/market/application/command_h
 import { AddStockHandler } from '#kernel/product/application/command-handler/add_stock_handler'
 import { RemoveStockHandler } from '#kernel/product/application/command-handler/remove_stock_handler'
 import { SetStockHandler } from '#kernel/product/application/command-handler/set_stock_handler'
+import { CreateCustomerHandler } from '#kernel/customer/application/command-handler/create_customer_handler'
+import { CreateAddressHandler } from '#kernel/customer/application/command-handler/create_address_handler'
+import { CreateOrderHandler } from '#kernel/order/application/command-handler/create_order_handler'
+import { UpdateOrderStatusHandler } from '#kernel/order/application/command-handler/update_order_status_handler'
+import { CancelOrderHandler } from '#kernel/order/application/command-handler/cancel_order_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -74,6 +79,23 @@ export default class CqrsProvider {
         'ProductRepository',
         'StockMovementRepository',
       ])
+
+      //CUSTOMER COMMANDS
+      commandBus.register('CreateCustomerCommand', CreateCustomerHandler, ['CustomerRepository'])
+      commandBus.register('CreateAddressCommand', CreateAddressHandler, [
+        'CustomerRepository',
+        'AddressRepository',
+      ])
+
+      //ORDER COMMANDS
+      commandBus.register('CreateOrderCommand', CreateOrderHandler, [
+        'OrderRepository',
+        'CustomerRepository',
+        'AddressRepository',
+        'ProductRepository',
+      ])
+      commandBus.register('UpdateOrderStatusCommand', UpdateOrderStatusHandler, ['OrderRepository'])
+      commandBus.register('CancelOrderCommand', CancelOrderHandler, ['OrderRepository'])
 
       return commandBus
     })

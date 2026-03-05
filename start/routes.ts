@@ -17,6 +17,8 @@ const MarketServiceController = () => import('#controllers/market/market_service
 const StoreController = () => import('#controllers/store/store_controller')
 const AuthController = () => import('#controllers/authentication/auth_controller')
 const StockController = () => import('#controllers/product/stock_controller')
+const CustomerController = () => import('#controllers/customer/customer_controller')
+const OrderController = () => import('#controllers/order/order_controller')
 
 router
   .group(() => {
@@ -61,5 +63,34 @@ router
         router.resource('services', MarketServiceController).use('*', middleware.auth())
       })
       .prefix('/market')
+
+    // Customer routes
+    router
+      .group(() => {
+        router.get('/', [CustomerController, 'index'])
+        router.post('/', [CustomerController, 'store'])
+        router.get('/:id', [CustomerController, 'show'])
+        router.put('/:id', [CustomerController, 'update'])
+        router.get('/:id/addresses', [CustomerController, 'addresses'])
+        router.post('/:id/addresses', [CustomerController, 'addAddress'])
+        router.put('/:id/addresses/:addressId', [CustomerController, 'updateAddress'])
+        router.delete('/:id/addresses/:addressId', [CustomerController, 'deleteAddress'])
+      })
+      .prefix('customers')
+      .use(middleware.auth())
+
+    // Order routes
+    router
+      .group(() => {
+        router.get('/', [OrderController, 'index'])
+        router.post('/', [OrderController, 'store'])
+        router.get('/number/:orderNumber', [OrderController, 'findByOrderNumber'])
+        router.get('/customer/:customerId', [OrderController, 'byCustomer'])
+        router.get('/:id', [OrderController, 'show'])
+        router.put('/:id/status', [OrderController, 'updateStatus'])
+        router.post('/:id/cancel', [OrderController, 'cancel'])
+      })
+      .prefix('orders')
+      .use(middleware.auth())
   })
   .prefix('/api')

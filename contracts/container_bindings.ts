@@ -15,6 +15,9 @@ declare module '@adonisjs/core/types' {
     'MarketServiceRepository': RepositoryInterface
     'ImageMediaRepository': RepositoryInterface
     'StockMovementRepository': RepositoryInterface
+    'CustomerRepository': RepositoryInterface
+    'AddressRepository': RepositoryInterface
+    'OrderRepository': RepositoryInterface
 
     //SERVICE
     'MediaUploadService': MediaManagerInterface
