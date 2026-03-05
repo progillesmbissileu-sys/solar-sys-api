@@ -1,10 +1,7 @@
-import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
-import { CommandBus } from '#shared/infrastructure/bus/command_bus'
+import { AppAbstractController } from '#shared/user_interface/controller/app_abstract_controller'
 import { CreateCustomerCommand } from '#kernel/customer/application/command/create_customer_command'
 import { CreateAddressCommand } from '#kernel/customer/application/command/create_address_command'
-import type { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
-import type { AddressRepository } from '#kernel/customer/domain/repository/address_repository'
 import { AddressType } from '#kernel/customer/domain/type/address_type'
 import {
   createCustomerSchema,
@@ -12,23 +9,26 @@ import {
   createAddressSchema,
   updateAddressSchema,
 } from '#validators/customer_validator'
+import { ListCustomersQuery } from '#kernel/customer/application/query/list_customers_query'
+import { GetCustomerQuery } from '#kernel/customer/application/query/get_customer_query'
+import { ListCustomerAddressesQuery } from '#kernel/customer/application/query/list_customer_addresses_query'
+import type { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
+import type { AddressRepository } from '#kernel/customer/domain/repository/address_repository'
 
-@inject()
-export default class CustomerController {
-  constructor(
-    private commandBus: CommandBus,
-    private customerRepository: CustomerRepository,
-    private addressRepository: AddressRepository
-  ) {}
+export default class CustomerController extends AppAbstractController {
+  constructor() {
+    super()
+  }
 
   /**
    * List all customers
    */
   async index({ response }: HttpContext) {
-    const customers = await this.customerRepository.findAll()
+    const customers = await this.handleQuery(new ListCustomersQuery())
+
     return response.ok({
       status: 'success',
-      data: customers.map((c) => this.serializeCustomer(c)),
+      data: customers,
     })
   }
 
@@ -36,10 +36,11 @@ export default class CustomerController {
    * Get a single customer by ID
    */
   async show({ params, response }: HttpContext) {
-    const customer = await this.customerRepository.findById(params.id)
+    const customer = await this.handleQuery(new GetCustomerQuery(params.id))
+
     return response.ok({
       status: 'success',
-      data: this.serializeCustomer(customer),
+      data: customer,
     })
   }
 
@@ -49,19 +50,18 @@ export default class CustomerController {
   async store({ request, response }: HttpContext) {
     const payload = await request.validateUsing(createCustomerSchema)
 
-    const command = new CreateCustomerCommand(
-      payload.firstName,
-      payload.lastName,
-      payload.phone,
-      payload.email ?? undefined
+    await this.handleCommand(
+      new CreateCustomerCommand(
+        payload.firstName,
+        payload.lastName,
+        payload.phone,
+        payload.email ?? undefined
+      )
     )
-
-    const customerId = await this.commandBus.execute(command)
 
     return response.created({
       status: 'success',
       message: 'Customer created successfully',
-      data: { id: customerId },
     })
   }
 
@@ -71,7 +71,8 @@ export default class CustomerController {
   async update({ params, request, response }: HttpContext) {
     const payload = await request.validateUsing(updateCustomerSchema)
 
-    const customer = await this.customerRepository.findById(params.id)
+    const customerRepository = (await this.getService('CustomerRepository')) as CustomerRepository
+    const customer = await customerRepository.findById(params.id)
 
     if (payload.firstName) customer.setFirstName(payload.firstName)
     if (payload.lastName) customer.setLastName(payload.lastName)
@@ -80,12 +81,20 @@ export default class CustomerController {
       customer.setEmail(payload.email)
     }
 
-    await this.customerRepository.save(customer)
+    await customerRepository.save(customer)
 
     return response.ok({
       status: 'success',
       message: 'Customer updated successfully',
-      data: this.serializeCustomer(customer),
+      data: {
+        id: customer.getId(),
+        firstName: customer.getFirstName(),
+        lastName: customer.getLastName(),
+        phone: customer.getPhone(),
+        email: customer.getEmail(),
+        createdAt: customer.getCreatedAt(),
+        updatedAt: customer.getUpdatedAt(),
+      },
     })
   }
 
@@ -93,10 +102,11 @@ export default class CustomerController {
    * Get customer addresses
    */
   async addresses({ params, response }: HttpContext) {
-    const addresses = await this.addressRepository.findByCustomerId(params.id)
+    const addresses = await this.handleQuery(new ListCustomerAddressesQuery(params.id))
+
     return response.ok({
       status: 'success',
-      data: addresses.map((a) => this.serializeAddress(a)),
+      data: addresses,
     })
   }
 
@@ -106,24 +116,23 @@ export default class CustomerController {
   async addAddress({ params, request, response }: HttpContext) {
     const payload = await request.validateUsing(createAddressSchema)
 
-    const command = new CreateAddressCommand(
-      params.id,
-      payload.addressLine1,
-      payload.addressLine2 || null,
-      payload.city,
-      payload.state,
-      payload.postalCode,
-      payload.country,
-      payload.type as AddressType,
-      payload.isDefault || false
+    await this.handleCommand(
+      new CreateAddressCommand(
+        params.id,
+        payload.addressLine1,
+        payload.addressLine2 || null,
+        payload.city,
+        payload.state,
+        payload.postalCode,
+        payload.country,
+        payload.type as AddressType,
+        payload.isDefault || false
+      )
     )
-
-    const addressId = await this.commandBus.execute(command)
 
     return response.created({
       status: 'success',
       message: 'Address added successfully',
-      data: { id: addressId },
     })
   }
 
@@ -133,7 +142,8 @@ export default class CustomerController {
   async updateAddress({ params, request, response }: HttpContext) {
     const payload = await request.validateUsing(updateAddressSchema)
 
-    const address = await this.addressRepository.findById(params.addressId)
+    const addressRepository = (await this.getService('AddressRepository')) as AddressRepository
+    const address = await addressRepository.findById(params.addressId)
 
     if (payload.addressLine1) address.setAddressLine1(payload.addressLine1)
     if (payload.addressLine2 !== undefined) address.setAddressLine2(payload.addressLine2)
@@ -144,12 +154,25 @@ export default class CustomerController {
     if (payload.type) address.setType(payload.type as AddressType)
     if (payload.isDefault !== undefined) address.setDefault(payload.isDefault)
 
-    await this.addressRepository.save(address)
+    await addressRepository.save(address)
 
     return response.ok({
       status: 'success',
       message: 'Address updated successfully',
-      data: this.serializeAddress(address),
+      data: {
+        id: address.getId(),
+        customerId: address.getCustomerId(),
+        addressLine1: address.getAddressLine1(),
+        addressLine2: address.getAddressLine2(),
+        city: address.getCity(),
+        state: address.getState(),
+        postalCode: address.getPostalCode(),
+        country: address.getCountry(),
+        type: address.getType(),
+        isDefault: address.getIsDefault(),
+        createdAt: address.getCreatedAt(),
+        updatedAt: address.getUpdatedAt(),
+      },
     })
   }
 
@@ -157,39 +180,12 @@ export default class CustomerController {
    * Delete an address
    */
   async deleteAddress({ params, response }: HttpContext) {
-    await this.addressRepository.delete(params.addressId)
+    const addressRepository = (await this.getService('AddressRepository')) as AddressRepository
+    await addressRepository.delete(params.addressId)
+
     return response.ok({
       status: 'success',
       message: 'Address deleted successfully',
     })
-  }
-
-  private serializeCustomer(customer: any) {
-    return {
-      id: customer.getId(),
-      firstName: customer.getFirstName(),
-      lastName: customer.getLastName(),
-      phone: customer.getPhone(),
-      email: customer.getEmail(),
-      createdAt: customer.getCreatedAt(),
-      updatedAt: customer.getUpdatedAt(),
-    }
-  }
-
-  private serializeAddress(address: any) {
-    return {
-      id: address.getId(),
-      customerId: address.getCustomerId(),
-      addressLine1: address.getAddressLine1(),
-      addressLine2: address.getAddressLine2(),
-      city: address.getCity(),
-      state: address.getState(),
-      postalCode: address.getPostalCode(),
-      country: address.getCountry(),
-      type: address.getType(),
-      isDefault: address.getIsDefault(),
-      createdAt: address.getCreatedAt(),
-      updatedAt: address.getUpdatedAt(),
-    }
   }
 }

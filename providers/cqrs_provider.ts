@@ -1,4 +1,5 @@
 import { CommandBus } from '#shared/infrastructure/bus/command_bus'
+import { QueryBus } from '#shared/infrastructure/bus/query_bus'
 import { ApplicationService } from '@adonisjs/core/types'
 import { UpdateStoreHandler } from '#kernel/store/application/command_handler/update_store_handler'
 import { CreateStoreHandler } from '#kernel/store/application/command_handler/create_store_handler'
@@ -20,6 +21,9 @@ import { CreateAddressHandler } from '#kernel/customer/application/command-handl
 import { CreateOrderHandler } from '#kernel/order/application/command-handler/create_order_handler'
 import { UpdateOrderStatusHandler } from '#kernel/order/application/command-handler/update_order_status_handler'
 import { CancelOrderHandler } from '#kernel/order/application/command-handler/cancel_order_handler'
+import { ListCustomersHandler } from '#kernel/customer/application/query-handler/list_customers_handler'
+import { GetCustomerHandler } from '#kernel/customer/application/query-handler/get_customer_handler'
+import { ListCustomerAddressesHandler } from '#kernel/customer/application/query-handler/list_customer_addresses_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -100,15 +104,22 @@ export default class CqrsProvider {
       return commandBus
     })
 
-    // this.app.container.singleton('CQRS/QueryBus', () => {
-    //   const queryBus = new QueryBus()
-    //
-    //   // Register query handlers
-    //   // queryBus.register('GetUserByIdQuery', new GetUserByIdQueryHandler())
-    //   // queryBus.register('GetAllUsersQuery', new GetAllUsersQueryHandler())
-    //
-    //   return queryBus
-    // })
+    this.app.container.singleton('CQRS/QueryBus', async () => {
+      const queryBus = new QueryBus()
+
+      //CUSTOMER QUERIES
+      const customerRepository = await this.app.container.make('CustomerRepository')
+      const addressRepository = await this.app.container.make('AddressRepository')
+
+      queryBus.register('ListCustomersQuery', new ListCustomersHandler(customerRepository))
+      queryBus.register('GetCustomerQuery', new GetCustomerHandler(customerRepository))
+      queryBus.register(
+        'ListCustomerAddressesQuery',
+        new ListCustomerAddressesHandler(addressRepository)
+      )
+
+      return queryBus
+    })
   }
 
   public async boot() {}
