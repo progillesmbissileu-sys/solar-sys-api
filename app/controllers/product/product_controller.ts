@@ -20,6 +20,8 @@ export default class ProductController extends AppAbstractController {
       .orderBy('created_at', query.sort || 'desc')
       .paginate(query.page || 1, query.limit || 10)
 
+      console.log('CALLED', query.q)
+
     const mediaUploadService = (await app.container.make(
       'MediaUploadService'
     )) as MediaManagerInterface
