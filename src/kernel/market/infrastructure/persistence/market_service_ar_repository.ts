@@ -6,10 +6,10 @@ import EntityManager from '#database/active-records/market_service'
 export class MarketServiceARRepository implements MarketServiceRepository {
   async save(entity: MarketService): Promise<void> {
     const object = {
-      designation: entity['designation'],
+      designation: entity.getDesignation(),
       thumbnailId: entity.getThumbnailId()?.value,
-      thumbnailUrl: entity['thumbnailUrl'],
-      shortDescription: entity['shortDescription'],
+      thumbnailUrl: entity.getThumbnailUrl(),
+      shortDescription: entity.getShortDescription(),
       contentDescription: entity.getContent(),
       features: JSON.stringify(entity.getFeatures()),
       slug: entity.getSlug(),

@@ -67,6 +67,26 @@ export class Product {
     return this.lowStockThreshold
   }
 
+  getDesignation(): string {
+    return this.designation
+  }
+
+  getCategory(): ProductCategory {
+    return this.category
+  }
+
+  getDescription(): string {
+    return this.description
+  }
+
+  getPrice(): number {
+    return this.price
+  }
+
+  getBrand(): string | undefined {
+    return this.brand
+  }
+
   setStockQuantity(quantity: number): void {
     this.stockQuantity = quantity
   }

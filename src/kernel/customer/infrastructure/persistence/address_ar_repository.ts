@@ -46,15 +46,15 @@ export class AddressARRepository implements AddressRepository {
 
   async save(entity: Address): Promise<void> {
     const object = {
-      customerId: entity['customerId'] as any,
-      type: entity['type'],
-      addressLine1: entity['addressLine1'],
-      addressLine2: entity['addressLine2'],
-      city: entity['city'],
-      state: entity['state'],
-      postalCode: entity['postalCode'],
-      country: entity['country'],
-      isDefault: entity['isDefault'],
+      customerId: entity.getCustomerId() as any,
+      type: entity.getType(),
+      addressLine1: entity.getAddressLine1(),
+      addressLine2: entity.getAddressLine2(),
+      city: entity.getCity(),
+      state: entity.getState(),
+      postalCode: entity.getPostalCode(),
+      country: entity.getCountry(),
+      isDefault: entity.getIsDefault(),
     }
 
     if (entity.getId()) {

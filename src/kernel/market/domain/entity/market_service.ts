@@ -45,6 +45,10 @@ export class MarketService {
     return this.thumbnailId
   }
 
+  getShortDescription(): string | undefined {
+    return this.shortDescription
+  }
+
   getFeatures(): Array<MarketServiceFeature> {
     return this.features ?? []
   }
@@ -59,9 +63,5 @@ export class MarketService {
 
   getImages(): any {
     return this.images
-  }
-
-  getShortDescription() {
-    return this.shortDescription
   }
 }

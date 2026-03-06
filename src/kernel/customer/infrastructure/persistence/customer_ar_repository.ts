@@ -76,11 +76,11 @@ export class CustomerARRepository implements CustomerRepository {
 
   async save(entity: Customer): Promise<void> {
     const object = {
-      userId: entity['userId'] as any,
-      firstName: entity['firstName'],
-      lastName: entity['lastName'],
-      email: entity['email'],
-      phone: entity['phone'],
+      userId: entity.getUserId() as any,
+      firstName: entity.getFirstName(),
+      lastName: entity.getLastName(),
+      email: entity.getEmail(),
+      phone: entity.getPhone(),
     }
 
     if (entity.getId()) {

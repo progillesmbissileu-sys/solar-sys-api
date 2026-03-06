@@ -5,13 +5,13 @@ import { AppId } from '#shared/domain/app_id'
 export class ImageMediaARRepository implements ImageMediaRepository {
   async save(entity: ImageMedia): Promise<string | void> {
     const object = {
-      url: entity['url'],
-      title: entity['title'],
-      altDescription: entity['altDescription'],
-      metadata: entity['metadata'],
-      createdAt: entity['createdAt'] as any,
-      updatedAt: entity['updatedAt'] as any,
-      relativeKey: entity['relativeKey'],
+      url: entity.getUrl(),
+      title: entity.getTitle(),
+      altDescription: entity.getAltDescription(),
+      metadata: entity.getMetadata(),
+      createdAt: entity.getCreatedAt() as any,
+      updatedAt: entity.getUpdatedAt() as any,
+      relativeKey: entity.getRelativeKey(),
     }
 
     if (entity.getId()) {

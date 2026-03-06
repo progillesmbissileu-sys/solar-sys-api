@@ -22,11 +22,11 @@ export class ProductCategoryARRepository implements ProductCategoryRepository {
 
   async save(entity: ProductCategory): Promise<void> {
     const object = {
-      id: entity['id'],
-      designation: entity['designation'],
-      type: entity['type'],
-      parentId: entity['parentId'],
-      slug: entity['slug'] as any,
+      id: entity.getId(),
+      designation: entity.getDesignation(),
+      type: entity.getType(),
+      parentId: entity.getParentId(),
+      slug: entity.getSlug() as any,
     }
 
     if (entity.getId()) await ActiveRecord.updateOrCreate({ id: entity.getId() }, object)

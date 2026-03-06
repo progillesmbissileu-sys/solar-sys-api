@@ -27,6 +27,14 @@ export class ProductCategory {
     return this.slug
   }
 
+  getDesignation(): string {
+    return this.designation
+  }
+
+  getType(): 'CATEGORY' | 'TAG' {
+    return this.type
+  }
+
   getCreatedAt(): any {
     return this.createdAt
   }

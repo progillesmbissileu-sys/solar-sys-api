@@ -48,18 +48,18 @@ export class ProductARRepository implements ProductRepository {
 
   async save(entity: Product): Promise<void> {
     const object = {
-      id: entity['id'] as crypto.UUID,
-      designation: entity['designation'],
-      mainImageId: entity['mainImage'].id as crypto.UUID,
-      categoryId: entity['category'].getId() as crypto.UUID,
-      description: entity['description'],
-      price: entity['price'],
-      brand: entity['brand'],
-      slug: entity['slug'] as any,
-      isAvailable: entity['isAvailable'],
-      isDeleted: entity['isDeleted'],
-      stockQuantity: entity['stockQuantity'],
-      lowStockThreshold: entity['lowStockThreshold'],
+      id: entity.getId() as crypto.UUID,
+      designation: entity.getDesignation(),
+      mainImageId: entity.getMainImage().id as crypto.UUID,
+      categoryId: entity.getCategory().getId() as crypto.UUID,
+      description: entity.getDescription(),
+      price: entity.getPrice(),
+      brand: entity.getBrand(),
+      slug: entity.getSlug() as any,
+      isAvailable: entity.getIsAvailable(),
+      isDeleted: entity.getIsDeleted(),
+      stockQuantity: entity.getStockQuantity(),
+      lowStockThreshold: entity.getLowStockThreshold(),
     }
 
     let productRecord: EntityActiveRecord
@@ -70,7 +70,7 @@ export class ProductARRepository implements ProductRepository {
       productRecord = await EntityActiveRecord.create(object)
     }
 
-    const imageIds = entity['images'].map((item) => item.id)
+    const imageIds = entity.getImages().map((item) => item.id)
 
     // Handle additional images (max 2)
     if (imageIds.length > 0) {
