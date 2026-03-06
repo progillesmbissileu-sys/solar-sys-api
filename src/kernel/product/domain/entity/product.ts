@@ -1,31 +1,24 @@
 import string from '@adonisjs/core/helpers/string'
-
-export interface ProductImage {
-  id: string
-  url: string | null
-  alt: string | null
-  title: string | null
-}
+import { ProductCategory } from './product_category'
+import { ProductImage } from './product_image'
 
 export class Product {
   constructor(
     private id: any,
     private designation: string,
-    private mainImageId: any,
-    private categoryId: any,
+    private category: ProductCategory,
     private description: string,
     private price: number,
-    private brand?: string,
+    private mainImage: ProductImage,
+    private images: ProductImage[] = [],
     private readonly slug?: string,
+    private brand?: string,
+    private stockQuantity: number = 0,
+    private lowStockThreshold: number = 10,
     private readonly isAvailable?: boolean,
     private readonly isDeleted?: boolean,
     private createdAt?: Date,
-    private updatedAt?: Date,
-    private mainImageUrl: string | null = null,
-    private categoryName: string | null = null,
-    private images: ProductImage[] = [],
-    private stockQuantity: number = 0,
-    private lowStockThreshold: number = 10
+    private updatedAt?: Date
   ) {
     this.slug = slug ?? string.slug(this.designation + '-' + string.generateRandom(8)).toLowerCase()
     this.isAvailable = isAvailable ?? false
@@ -58,12 +51,8 @@ export class Product {
     return this.updatedAt
   }
 
-  getMainImageId(): any {
-    return this.mainImageId
-  }
-
-  getMainImageUrl(): string | null {
-    return this.mainImageUrl
+  getMainImage(): ProductImage {
+    return this.mainImage
   }
 
   getImages(): ProductImage[] {

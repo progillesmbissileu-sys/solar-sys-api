@@ -2,6 +2,7 @@ import { ProductRepository } from '#kernel/product/domain/repository/product_rep
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
 import { UpdateProductCommand } from '../command/update_product_command'
 import { Product } from '#kernel/product/domain/entity/product'
+import { ProductCategory } from '#kernel/product/domain/entity/product_category'
 
 export class UpdateProductHandler implements CommandHandler<UpdateProductCommand> {
   constructor(private repository: ProductRepository) {}
@@ -11,18 +12,20 @@ export class UpdateProductHandler implements CommandHandler<UpdateProductCommand
     const updatedProduct = new Product(
       existingProduct.getId(),
       command.designation,
-      command.mainImageId,
-      command.categoryId,
+      new ProductCategory(command.categoryId, ''),
       command.description,
       command.price,
-      command.brand,
+      existingProduct.getMainImage(),
+      existingProduct.getImages(),
       existingProduct.getSlug(),
-      command.isAvailable,
-      command.isDeleted,
-      existingProduct.getCreatedAt()
+      command.brand,
+      existingProduct.getStockQuantity(),
+      existingProduct.getLowStockThreshold(),
+      existingProduct.getIsAvailable(),
+      existingProduct.getIsDeleted()
     )
 
-    // Save product and update additional images
-    await this.repository.save(updatedProduct, command.imageIds)
+    // Save product
+    await this.repository.save(updatedProduct)
   }
 }

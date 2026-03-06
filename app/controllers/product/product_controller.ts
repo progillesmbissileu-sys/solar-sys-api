@@ -1,9 +1,15 @@
-/* eslint-disable prettier/prettier */
 import { HttpContext } from '@adonisjs/core/http'
 import { AppAbstractController } from '#shared/user_interface/controller/app_abstract_controller'
 import { CreateProductCommand } from '#kernel/product/application/command/create_product_command'
-import { createProductSchema, updateProductSchema } from '#validators/product_validator'
+import {
+  createProductSchema,
+  updateProductSchema,
+  addProductImageSchema,
+  removeProductImageSchema,
+} from '#validators/product_validator'
 import { UpdateProductCommand } from '#kernel/product/application/command/update_product_command'
+import { AddProductImageCommand } from '#kernel/product/application/command/add_product_image_command'
+import { RemoveProductImageCommand } from '#kernel/product/application/command/remove_product_image_command'
 import ActiveRecord from '#database/active-records/product'
 import app from '@adonisjs/core/services/app'
 import { MediaManagerInterface } from '#shared/application/services/upload/media_manager_interface'
@@ -20,7 +26,7 @@ export default class ProductController extends AppAbstractController {
       .orderBy('created_at', query.sort || 'desc')
       .paginate(query.page || 1, query.limit || 10)
 
-      console.log('CALLED', query.q)
+    console.log('CALLED', query.q)
 
     const mediaUploadService = (await app.container.make(
       'MediaUploadService'
@@ -68,7 +74,7 @@ export default class ProductController extends AppAbstractController {
 
     const product = await ActiveRecord.find(productId)
 
-    if(!product){
+    if (!product) {
       return response.notFound({ message: 'Product not found' })
     }
 
@@ -78,7 +84,8 @@ export default class ProductController extends AppAbstractController {
 
     // Get signed URL for main image
     let mainImageSignedUrl = null
-    const mainImageRelativeKey = product?.mainImage?.relativeKey || (product?.mainImage as any)?.relative_key
+    const mainImageRelativeKey =
+      product?.mainImage?.relativeKey || (product?.mainImage as any)?.relative_key
     if (mainImageRelativeKey) {
       mainImageSignedUrl = await mediaUploadService.getSignedUrl(mainImageRelativeKey)
     }
@@ -147,20 +154,17 @@ export default class ProductController extends AppAbstractController {
 
   public async update({ request, response }: HttpContext) {
     const payload = await request.validateUsing(updateProductSchema)
+
     const productId = await request.param('id')
 
     await this.handleCommand(
       new UpdateProductCommand(
         productId,
         payload.designation,
-        payload.mainImageId,
         payload.categoryId,
         payload.description,
         payload.price,
-        payload.brand,
-        undefined, // isAvailable
-        undefined, // isDeleted
-        payload.imageIds || []
+        payload.brand
       )
     )
     return response.noContent()

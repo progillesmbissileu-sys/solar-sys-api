@@ -20,6 +20,7 @@ declare module '@adonisjs/core/types' {
     'CustomerRepository': CustomerRepository
     'AddressRepository': AddressRepository
     'OrderRepository': RepositoryInterface
+    'ProductImageRepository': RepositoryInterface
 
     //SERVICE
     'MediaUploadService': MediaManagerInterface

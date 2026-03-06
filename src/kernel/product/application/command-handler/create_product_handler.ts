@@ -2,6 +2,7 @@ import { CommandHandler } from '#shared/application/use-cases/command_handler'
 import { CreateProductCommand } from '#kernel/product/application/command/create_product_command'
 import { ProductRepository } from '#kernel/product/domain/repository/product_repository'
 import { Product } from '#kernel/product/domain/entity/product'
+import { ProductCategory } from '#kernel/product/domain/entity/product_category'
 
 export class CreateProductHandler implements CommandHandler<CreateProductCommand> {
   constructor(private repository: ProductRepository) {}
@@ -9,14 +10,14 @@ export class CreateProductHandler implements CommandHandler<CreateProductCommand
     const product = new Product(
       null,
       command.designation,
-      command.mainImageId,
-      command.categoryId,
+      new ProductCategory(command.categoryId, ''),
       command.description,
       command.price,
-      command.brand
+      { id: command.mainImageId },
+      command.imageIds.map((id) => ({ id }))
     )
 
     // Save product and additional images
-    await this.repository.save(product, command.imageIds)
+    await this.repository.save(product)
   }
 }

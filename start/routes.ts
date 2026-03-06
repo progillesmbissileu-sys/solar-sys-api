@@ -13,6 +13,7 @@ import { middleware } from '#start/kernel'
 const ImageMediasController = () => import('#controllers/media/image_medias_controller')
 const ProductCategoryController = () => import('#controllers/product/product_category_controller')
 const ProductController = () => import('#controllers/product/product_controller')
+const ProductMediaController = () => import('#controllers/product/product_media_controller')
 const MarketServiceController = () => import('#controllers/market/market_services_controller')
 const StoreController = () => import('#controllers/store/store_controller')
 const AuthController = () => import('#controllers/authentication/auth_controller')
@@ -51,6 +52,15 @@ router
           router.post('/:id/stock/remove', [StockController, 'remove'])
           router.put('/:id/stock', [StockController, 'set'])
           router.get('/:id/stock/history', [StockController, 'history'])
+        })
+        .prefix('product')
+        .use(middleware.auth())
+
+      // Product image routes
+      router
+        .group(() => {
+          router.post('/media/:id/images', [ProductMediaController, 'addImage'])
+          router.delete('/media/:id/images', [ProductMediaController, 'removeImage'])
         })
         .prefix('product')
         .use(middleware.auth())

@@ -16,6 +16,8 @@ import { DeleteMarketServiceHandler } from '#kernel/market/application/command_h
 import { AddStockHandler } from '#kernel/product/application/command-handler/add_stock_handler'
 import { RemoveStockHandler } from '#kernel/product/application/command-handler/remove_stock_handler'
 import { SetStockHandler } from '#kernel/product/application/command-handler/set_stock_handler'
+import { AddProductImageHandler } from '#kernel/product/application/command-handler/add_product_image_handler'
+import { RemoveProductImageHandler } from '#kernel/product/application/command-handler/remove_product_image_handler'
 import { CreateCustomerHandler } from '#kernel/customer/application/command-handler/create_customer_handler'
 import { CreateAddressHandler } from '#kernel/customer/application/command-handler/create_address_handler'
 import { CreateOrderHandler } from '#kernel/order/application/command-handler/create_order_handler'
@@ -84,6 +86,8 @@ export default class CqrsProvider {
         'ProductRepository',
         'StockMovementRepository',
       ])
+      commandBus.register('AddProductImageCommand', AddProductImageHandler, ['ProductImageRepository'])
+      commandBus.register('RemoveProductImageCommand', RemoveProductImageHandler, ['ProductImageRepository'])
 
       //CUSTOMER COMMANDS
       commandBus.register('CreateCustomerCommand', CreateCustomerHandler, ['CustomerRepository'])

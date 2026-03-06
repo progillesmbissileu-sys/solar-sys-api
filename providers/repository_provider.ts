@@ -8,6 +8,7 @@ import { StockMovementARRepository } from '#kernel/product/infrastructure/persis
 import { CustomerARRepository } from '#kernel/customer/infrastructure/persistence/customer_ar_repository'
 import { AddressARRepository } from '#kernel/customer/infrastructure/persistence/address_ar_repository'
 import { OrderARRepository } from '#kernel/order/infrastructure/persistence/order_ar_repository'
+import { ProductImageARRepository } from '#kernel/product/infrastructure/persistence/product_image_ar_repository'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -40,6 +41,9 @@ export default class RepositoryProvider {
       })
       this.app.container.bind('OrderRepository', () => {
         return new OrderARRepository()
+      })
+      this.app.container.bind('ProductImageRepository', () => {
+        return new ProductImageARRepository()
       })
     }
   }
