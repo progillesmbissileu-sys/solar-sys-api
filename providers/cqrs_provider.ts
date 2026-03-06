@@ -27,6 +27,15 @@ import { ListCustomersHandler } from '#kernel/customer/application/query-handler
 import { GetCustomerHandler } from '#kernel/customer/application/query-handler/get_customer_handler'
 import { ListCustomerAddressesHandler } from '#kernel/customer/application/query-handler/list_customer_addresses_handler'
 import { UpdateCustomerHandler } from '#kernel/customer/application/command-handler/update_customer_handler'
+import { ListProductsHandler } from '#kernel/product/application/query-handler/list_products_handler'
+import { GetProductHandler } from '#kernel/product/application/query-handler/get_product_handler'
+import { ListProductCategoriesHandler } from '#kernel/product/application/query-handler/list_product_categories_handler'
+import { GetProductCategoryHandler } from '#kernel/product/application/query-handler/get_product_category_handler'
+import { ListProductsByCategoryHandler } from '#kernel/product/application/query-handler/list_products_by_category_handler'
+import { GetProductStockHandler } from '#kernel/product/application/query-handler/get_product_stock_handler'
+import { GetStockHistoryHandler } from '#kernel/product/application/query-handler/get_stock_history_handler'
+import { ListLowStockProductsHandler } from '#kernel/product/application/query-handler/list_low_stock_products_handler'
+import { ListProductsGroupedByCategoryHandler } from '#kernel/product/application/query-handler/list_products_grouped_by_category_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -86,8 +95,12 @@ export default class CqrsProvider {
         'ProductRepository',
         'StockMovementRepository',
       ])
-      commandBus.register('AddProductImageCommand', AddProductImageHandler, ['ProductImageRepository'])
-      commandBus.register('RemoveProductImageCommand', RemoveProductImageHandler, ['ProductImageRepository'])
+      commandBus.register('AddProductImageCommand', AddProductImageHandler, [
+        'ProductImageRepository',
+      ])
+      commandBus.register('RemoveProductImageCommand', RemoveProductImageHandler, [
+        'ProductImageRepository',
+      ])
 
       //CUSTOMER COMMANDS
       commandBus.register('CreateCustomerCommand', CreateCustomerHandler, ['CustomerRepository'])
@@ -116,12 +129,41 @@ export default class CqrsProvider {
       //CUSTOMER QUERIES
       const customerRepository = await this.app.container.make('CustomerRepository')
       const addressRepository = await this.app.container.make('AddressRepository')
+      const productReadRepository = await this.app.container.make('ProductReadRepository')
+      const productCategoryReadRepository = await this.app.container.make(
+        'ProductCategoryReadRepository'
+      )
+      const stockReadRepository = await this.app.container.make('StockReadRepository')
 
       queryBus.register('ListCustomersQuery', new ListCustomersHandler(customerRepository))
       queryBus.register('GetCustomerQuery', new GetCustomerHandler(customerRepository))
       queryBus.register(
         'ListCustomerAddressesQuery',
         new ListCustomerAddressesHandler(addressRepository)
+      )
+      queryBus.register('ListProductsQuery', new ListProductsHandler(productReadRepository))
+      queryBus.register('GetProductQuery', new GetProductHandler(productReadRepository))
+      queryBus.register(
+        'ListProductsGroupedByCategoryQuery',
+        new ListProductsGroupedByCategoryHandler(productReadRepository)
+      )
+      queryBus.register(
+        'ListProductCategoriesQuery',
+        new ListProductCategoriesHandler(productCategoryReadRepository)
+      )
+      queryBus.register(
+        'GetProductCategoryQuery',
+        new GetProductCategoryHandler(productCategoryReadRepository)
+      )
+      queryBus.register(
+        'ListProductsByCategoryQuery',
+        new ListProductsByCategoryHandler(productCategoryReadRepository)
+      )
+      queryBus.register('GetProductStockQuery', new GetProductStockHandler(stockReadRepository))
+      queryBus.register('GetStockHistoryQuery', new GetStockHistoryHandler(stockReadRepository))
+      queryBus.register(
+        'ListLowStockProductsQuery',
+        new ListLowStockProductsHandler(stockReadRepository)
       )
 
       return queryBus

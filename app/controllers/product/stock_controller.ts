@@ -9,8 +9,9 @@ import {
   setStockSchema,
   stockHistorySchema,
 } from '#validators/stock_validator'
-import ProductActiveRecord from '#database/active-records/product'
-import StockMovementActiveRecord from '#database/active-records/stock_movement'
+import { GetProductStockQuery } from '#kernel/product/application/queries/get_product_stock_query'
+import { GetStockHistoryQuery } from '#kernel/product/application/queries/get_stock_history_query'
+import { ListLowStockProductsQuery } from '#kernel/product/application/queries/list_low_stock_products_query'
 
 export default class StockController extends AppAbstractController {
   constructor() {
@@ -19,20 +20,10 @@ export default class StockController extends AppAbstractController {
 
   public async show({ request, response }: HttpContext) {
     const productId = request.param('id')
-    const product = await ProductActiveRecord.find(productId)
-
-    if (!product) {
-      return response.notFound({ message: 'Product not found' })
-    }
+    const product = await this.handleQuery(new GetProductStockQuery(productId))
 
     return response.ok({
-      data: {
-        productId: product.id,
-        quantity: product.stockQuantity,
-        lowStockThreshold: product.lowStockThreshold,
-        isLowStock: product.stockQuantity > 0 && product.stockQuantity <= product.lowStockThreshold,
-        isOutOfStock: product.stockQuantity <= 0,
-      },
+      data: product,
     })
   }
 
@@ -66,52 +57,25 @@ export default class StockController extends AppAbstractController {
   public async history({ request, response }: HttpContext) {
     const productId = request.param('id')
     const query = await request.validateUsing(stockHistorySchema)
-    const page = query.page || 1
-    const limit = query.limit || 20
-
-    const result = await StockMovementActiveRecord.query()
-      .where('product_id', productId)
-      .orderBy('created_at', 'desc')
-      .paginate(page, limit)
-
-    const paginatedResult = result.toJSON()
+    const result = (await this.handleQuery(
+      new GetStockHistoryQuery(productId, query.page || 1, query.limit || 20)
+    )) as any
 
     return response.ok({
-      meta: paginatedResult.meta,
-      data: paginatedResult.data.map((movement) => ({
-        id: movement.id,
-        operationType: movement.operationType,
-        quantity: movement.quantity,
-        previousQuantity: movement.previousQuantity,
-        newQuantity: movement.newQuantity,
-        reason: movement.reason,
-        createdAt: movement.createdAt,
-      })),
+      meta: result.meta,
+      data: result.data,
     })
   }
 
   public async lowStock({ request, response }: HttpContext) {
     const query = request.qs()
-    const page = Number(query.page) || 1
-    const limit = Number(query.limit) || 10
-
-    const result = await ProductActiveRecord.query()
-      .where('stock_quantity', '>', 0)
-      .whereRaw('stock_quantity <= low_stock_threshold')
-      .orderBy('stock_quantity', 'asc')
-      .paginate(page, limit)
-
-    const paginatedResult = result.toJSON()
+    const result = (await this.handleQuery(
+      new ListLowStockProductsQuery(Number(query.page) || 1, Number(query.limit) || 10)
+    )) as any
 
     return response.ok({
-      meta: paginatedResult.meta,
-      data: paginatedResult.data.map((product) => ({
-        id: product.id,
-        designation: product.designation,
-        stockQuantity: product.stockQuantity,
-        lowStockThreshold: product.lowStockThreshold,
-        slug: product.slug,
-      })),
+      meta: result.meta,
+      data: result.data,
     })
   }
 }

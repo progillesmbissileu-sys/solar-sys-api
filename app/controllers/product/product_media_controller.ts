@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { HttpContext } from '@adonisjs/core/http'
 import { AppAbstractController } from '#shared/user_interface/controller/app_abstract_controller'
 import { addProductImageSchema, removeProductImageSchema } from '#validators/product_validator'

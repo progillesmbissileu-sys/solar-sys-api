@@ -9,6 +9,9 @@ import { CustomerARRepository } from '#kernel/customer/infrastructure/persistenc
 import { AddressARRepository } from '#kernel/customer/infrastructure/persistence/address_ar_repository'
 import { OrderARRepository } from '#kernel/order/infrastructure/persistence/order_ar_repository'
 import { ProductImageARRepository } from '#kernel/product/infrastructure/persistence/product_image_ar_repository'
+import { ProductReadARRepository } from '#kernel/product/infrastructure/persistence/product_read_ar_repository'
+import { ProductCategoryReadARRepository } from '#kernel/product/infrastructure/persistence/product_category_read_ar_repository'
+import { StockReadARRepository } from '#kernel/product/infrastructure/persistence/stock_read_ar_repository'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -44,6 +47,19 @@ export default class RepositoryProvider {
       })
       this.app.container.bind('ProductImageRepository', () => {
         return new ProductImageARRepository()
+      })
+      this.app.container.bind('ProductReadRepository', async () => {
+        const mediaUploadService = await this.app.container.make('MediaUploadService')
+
+        return new ProductReadARRepository(mediaUploadService)
+      })
+      this.app.container.bind('ProductCategoryReadRepository', async () => {
+        const mediaUploadService = await this.app.container.make('MediaUploadService')
+
+        return new ProductCategoryReadARRepository(mediaUploadService)
+      })
+      this.app.container.bind('StockReadRepository', () => {
+        return new StockReadARRepository()
       })
     }
   }

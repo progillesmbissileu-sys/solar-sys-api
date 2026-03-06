@@ -1,5 +1,7 @@
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
+import { DomainError } from '#shared/domain/errors/domain_error'
+import { ApplicationError } from '#shared/application/errors/application_error'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -13,7 +15,31 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    if (error instanceof DomainError || error instanceof ApplicationError) {
+      const status = this.resolveStatus(error)
+
+      return ctx.response.status(status).send({
+        status: 'error',
+        error: {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+        },
+      })
+    }
+
     return super.handle(error, ctx)
+  }
+
+  private resolveStatus(error: DomainError | ApplicationError): number {
+    switch (error.code) {
+      case 'PRODUCT_IMAGE_LIMIT_REACHED':
+        return 409
+      case 'RESOURCE_NOT_FOUND':
+        return 404
+      default:
+        return 422
+    }
   }
 
   /**

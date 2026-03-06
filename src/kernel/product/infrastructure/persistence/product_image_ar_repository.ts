@@ -16,7 +16,7 @@ export class ProductImageARRepository implements ProductImageRepository {
       const nextSortOrder = (maxSortResult?.$extras?.maxSort || 0) + 1
 
       await ProductImage.create({
-        productId: productId,
+        productId: productId as any,
         imageId: imageId as any,
         sortOrder: nextSortOrder,
       })

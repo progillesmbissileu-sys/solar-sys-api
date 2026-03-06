@@ -5,12 +5,24 @@ import { Product } from '#kernel/product/domain/entity/product'
 import { ProductImage } from '#kernel/product/domain/entity/product_image'
 import { ProductCategory } from '#kernel/product/domain/entity/product_category'
 import crypto from 'node:crypto'
+import { E_ROW_NOT_FOUND } from '@adonisjs/lucid/errors'
+import { ProductNotFoundError } from '#kernel/product/application/errors/product_not_found_error'
 
 const MAX_ADDITIONAL_IMAGES = 2
 
 export class ProductARRepository implements ProductRepository {
   async findById(id: any): Promise<Product> {
-    const product = await EntityActiveRecord.findOrFail(id)
+    let product: EntityActiveRecord
+
+    try {
+      product = await EntityActiveRecord.findOrFail(id)
+    } catch (error) {
+      if (error instanceof E_ROW_NOT_FOUND) {
+        throw new ProductNotFoundError(String(id), error)
+      }
+
+      throw error
+    }
 
     // Map additional images to ProductImage type
     const images = (product.images || []).map((img) => new ProductImage(img.id))
