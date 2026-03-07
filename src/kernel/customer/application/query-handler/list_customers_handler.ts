@@ -1,5 +1,5 @@
 import { QueryHandler } from '#shared/application/use-cases/query_handler'
-import { ListCustomersQuery } from '../query/list_customers_query'
+import { ListCustomersQuery } from '#kernel/customer/application/query/list_customers_query'
 import { Customer } from '#kernel/customer/domain/entity/customer'
 import type { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
 

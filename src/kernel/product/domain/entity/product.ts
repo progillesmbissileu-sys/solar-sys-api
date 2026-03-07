@@ -1,6 +1,6 @@
 import string from '@adonisjs/core/helpers/string'
-import { ProductCategory } from './product_category'
-import { ProductImage } from './product_image'
+import { ProductCategory } from '#kernel/product/domain/entity/product_category'
+import { ProductImage } from '#kernel/product/domain/entity/product_image'
 
 export class Product {
   constructor(

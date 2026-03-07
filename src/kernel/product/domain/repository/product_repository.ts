@@ -1,5 +1,5 @@
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
-import { Product } from '../entity/product'
+import { Product } from '#kernel/product/domain/entity/product'
 
 export interface ProductRepository extends RepositoryInterface {
   save(entity: Product): Promise<void>

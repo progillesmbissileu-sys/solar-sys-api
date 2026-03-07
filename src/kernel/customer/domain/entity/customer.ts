@@ -1,4 +1,4 @@
-import { Address } from './address'
+import { Address } from '#kernel/customer/domain/entity/address'
 
 export class Customer {
   constructor(

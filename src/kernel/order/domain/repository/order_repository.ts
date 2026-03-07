@@ -1,5 +1,5 @@
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
-import { Order } from '../entity/order'
+import { Order } from '#kernel/order/domain/entity/order'
 
 export interface OrderRepository extends RepositoryInterface {
   save(entity: Order): Promise<void>

@@ -1,5 +1,5 @@
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
-import { AddProductImageCommand } from '../command/add_product_image_command'
+import { AddProductImageCommand } from '#kernel/product/application/command/add_product_image_command'
 import { ProductImageRepository } from '#kernel/product/domain/repository/product_image_repository'
 import { ProductImageLimitReachedError } from '#kernel/product/domain/errors/product_image_limit_reached_error'
 

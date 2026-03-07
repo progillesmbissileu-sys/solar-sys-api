@@ -1,5 +1,5 @@
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
-import { Address } from '../entity/address'
+import { Address } from '#kernel/customer/domain/entity/address'
 
 export interface AddressRepository extends RepositoryInterface {
   save(entity: Address): Promise<void>

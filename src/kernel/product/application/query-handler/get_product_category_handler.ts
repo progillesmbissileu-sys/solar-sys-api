@@ -1,7 +1,7 @@
 import { QueryHandler } from '#shared/application/use-cases/query_handler'
-import { ProductCategoryDetailsDto } from '../dto/product_category_read_dto'
-import { GetProductCategoryQuery } from '../query/get_product_category_query'
-import { ProductCategoryReadModel } from '../read-model/product_category_read_model'
+import { ProductCategoryDetailsDto } from '#kernel/product/application/dto/product_category_read_dto'
+import { GetProductCategoryQuery } from '#kernel/product/application/query/get_product_category_query'
+import { ProductCategoryReadModel } from '#kernel/product/application/read-model/product_category_read_model'
 import { ProductCategoryNotFoundError } from '#kernel/product/application/errors/product_category_not_found_error'
 
 export class GetProductCategoryHandler implements QueryHandler<

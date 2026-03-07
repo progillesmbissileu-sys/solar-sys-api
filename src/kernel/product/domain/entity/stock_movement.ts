@@ -1,4 +1,4 @@
-import { StockOperationType } from '../type/stock_operation_type'
+import { StockOperationType } from '#kernel/product/domain/type/stock_operation_type'
 
 export class StockMovement {
   constructor(

@@ -1,8 +1,8 @@
 import { QueryHandler } from '#shared/application/use-cases/query_handler'
-import { GetCustomerQuery } from '../query/get_customer_query'
+import { GetCustomerQuery } from '#kernel/customer/application/query/get_customer_query'
 import { Customer } from '#kernel/customer/domain/entity/customer'
 import type { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
-import { CustomerDTO } from './list_customers_handler'
+import { CustomerDTO } from '#kernel/customer/application/query-handler/list_customers_handler'
 
 export class GetCustomerHandler implements QueryHandler<GetCustomerQuery, CustomerDTO> {
   constructor(private customerRepository: CustomerRepository) {}

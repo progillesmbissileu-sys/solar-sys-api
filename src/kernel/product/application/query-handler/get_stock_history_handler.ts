@@ -1,6 +1,6 @@
 import { QueryHandler } from '#shared/application/use-cases/query_handler'
-import { StockMovementDto } from '../dto/stock_read_dto'
-import { GetStockHistoryQuery } from '../query/get_stock_history_query'
+import { StockMovementDto } from '#kernel/product/application/dto/stock_read_dto'
+import { GetStockHistoryQuery } from '#kernel/product/application/query/get_stock_history_query'
 import { StockCollection } from '#kernel/product/application/collection/stock_collection'
 import { PaginatedResultDto } from '#shared/application/collection/paginated_result'
 

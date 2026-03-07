@@ -1,5 +1,5 @@
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
-import { RemoveProductImageCommand } from '../command/remove_product_image_command'
+import { RemoveProductImageCommand } from '#kernel/product/application/command/remove_product_image_command'
 import { ProductImageRepository } from '#kernel/product/domain/repository/product_image_repository'
 
 export class RemoveProductImageHandler implements CommandHandler<RemoveProductImageCommand> {

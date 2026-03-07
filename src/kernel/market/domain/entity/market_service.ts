@@ -1,7 +1,7 @@
 import { AppId } from '#shared/domain/app_id'
 import string from '@adonisjs/core/helpers/string'
-import { MarketServiceFeature } from '../type/market_service_feature_type'
-import { MarketServiceContentDescription } from '../type/market_service_content_description.type'
+import { MarketServiceFeature } from '#kernel/market/domain/type/market_service_feature_type'
+import { MarketServiceContentDescription } from '#kernel/market/domain/type/market_service_content_description.type'
 
 export class MarketService {
   private slug: string

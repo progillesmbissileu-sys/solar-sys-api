@@ -1,5 +1,5 @@
 import { QueryHandler } from '#shared/application/use-cases/query_handler'
-import { ListCustomerAddressesQuery } from '../query/list_customer_addresses_query'
+import { ListCustomerAddressesQuery } from '#kernel/customer/application/query/list_customer_addresses_query'
 import { Address } from '#kernel/customer/domain/entity/address'
 import type { AddressRepository } from '#kernel/customer/domain/repository/address_repository'
 

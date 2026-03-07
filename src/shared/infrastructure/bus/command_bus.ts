@@ -1,6 +1,6 @@
 import { Command } from '#shared/application/use-cases/command'
 import { ApplicationService, ContainerBindings } from '@adonisjs/core/types'
-import { CommandConstructor, Handler } from './types'
+import { CommandConstructor, Handler } from '#shared/infrastructure/bus/types'
 
 export class CommandBus {
   private handlers: Map<string, Handler<any, any>> = new Map()

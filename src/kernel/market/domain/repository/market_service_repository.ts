@@ -1,6 +1,6 @@
 import { AppId } from '#shared/domain/app_id'
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
-import { MarketService } from '../entity/market_service'
+import { MarketService } from '#kernel/market/domain/entity/market_service'
 
 export interface MarketServiceRepository extends RepositoryInterface {
   save(entity: MarketService): Promise<void>

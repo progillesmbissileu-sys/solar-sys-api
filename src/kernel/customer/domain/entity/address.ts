@@ -1,4 +1,4 @@
-import { AddressType } from '../type/address_type'
+import { AddressType } from '#kernel/customer/domain/type/address_type'
 
 export class Address {
   constructor(

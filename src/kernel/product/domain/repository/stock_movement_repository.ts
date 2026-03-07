@@ -1,5 +1,5 @@
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
-import { StockMovement } from '../entity/stock_movement'
+import { StockMovement } from '#kernel/product/domain/entity/stock_movement'
 
 export interface StockMovementRepository extends RepositoryInterface {
   save(entity: StockMovement): Promise<void>

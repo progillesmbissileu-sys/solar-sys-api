@@ -1,6 +1,6 @@
 import { ProductRepository } from '#kernel/product/domain/repository/product_repository'
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
-import { UpdateProductCommand } from '../command/update_product_command'
+import { UpdateProductCommand } from '#kernel/product/application/command/update_product_command'
 import { Product } from '#kernel/product/domain/entity/product'
 import { ProductCategory } from '#kernel/product/domain/entity/product_category'
 

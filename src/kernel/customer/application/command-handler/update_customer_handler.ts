@@ -1,6 +1,6 @@
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
 import { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
-import { UpdateCustomerCommand } from '../command/update_customer_command'
+import { UpdateCustomerCommand } from '#kernel/customer/application/command/update_customer_command'
 
 export class UpdateCustomerHandler implements CommandHandler<UpdateCustomerCommand, string> {
   constructor(private customerRepository: CustomerRepository) {}

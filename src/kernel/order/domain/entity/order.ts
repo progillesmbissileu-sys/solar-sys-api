@@ -1,5 +1,5 @@
-import { OrderStatus } from '../type/order_status'
-import { OrderItem } from './order_item'
+import { OrderStatus } from '#kernel/order/domain/type/order_status'
+import { OrderItem } from '#kernel/order/domain/entity/order_item'
 
 export class Order {
   constructor(
