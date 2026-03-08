@@ -72,7 +72,8 @@ export default class ProductController extends AppAbstractController {
     const result = await this.handleQuery(
       new ListProductsGroupedByCategoryQuery(
         this.parseQueryPagination(query),
-        this.parseQuerySearch(query)
+        this.parseQuerySearch(query),
+        this.parseQuerySort(query)
       )
     )
 

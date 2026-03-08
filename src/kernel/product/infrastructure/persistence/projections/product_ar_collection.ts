@@ -6,9 +6,10 @@ import {
 } from '#kernel/product/application/dto/product_read_dto'
 import { PaginatedResultDto } from '#shared/application/collection/paginated_result'
 import { MediaManagerInterface } from '#shared/application/services/upload/media_manager_interface'
-import { mapPaginatedResult } from '#shared/infrastructure/query/paginated_result'
 import { ListProductsQuery } from '#kernel/product/application/query/list_products_query'
 import { ListProductsGroupedByCategoryQuery } from '#kernel/product/application/query/list_products_grouped_by_category_query'
+import { ModelQueryBuilderHelper } from '#shared/infrastructure/persistence/model_query_builder'
+import { mapPaginatedResult } from '#shared/infrastructure/collection/paginated_result'
 
 type ProductActiveRecordWithRelations = Product & {
   mainImage?: {
@@ -31,16 +32,19 @@ type ProductActiveRecordWithRelations = Product & {
   } | null
 }
 
-export class ProductARCollection implements ProductCollection {
-  constructor(private readonly mediaManager: MediaManagerInterface) {}
+export class ProductARCollection extends ModelQueryBuilderHelper implements ProductCollection {
+  constructor(private readonly mediaManager: MediaManagerInterface) {
+    super()
+  }
 
   async list(query: ListProductsQuery): Promise<PaginatedResultDto<ProductListItemDto>> {
-    const result = await Product.query()
-      .preload('category')
-      .preload('mainImage')
-      .whereILike('designation', `%${query.searchQuery.search}%`)
-      .orderBy(query.order.field, query.order.direction)
-      .paginate(query.pagination.page, query.pagination.limit)
+    let queryBuilder = Product.query()
+
+    this.withRelation(['category', 'mainImage'], queryBuilder)
+    queryBuilder.whereILike('designation', `%${query.searchQuery.search}%`)
+    this.applySort(query.order, ['created_at', 'price'], queryBuilder)
+
+    const result = await this.applyPaginate(query.pagination, queryBuilder)
 
     return mapPaginatedResult<ProductActiveRecordWithRelations, ProductListItemDto>(
       result as any,
@@ -73,27 +77,24 @@ export class ProductARCollection implements ProductCollection {
   }
 
   async listGroupedByCategory(
-    params: ListProductsGroupedByCategoryQuery
+    query: ListProductsGroupedByCategoryQuery
   ): Promise<PaginatedResultDto<GroupedProductsByCategoryDto>> {
-    const paginatedCategories = await Product.query()
-      .whereILike('designation', `%${params.searchQuery.search}%`)
-      .whereNotNull('category_id')
-      .groupBy('category_id')
-      .orderBy('category_id', 'asc')
-      .paginate(params.pagination.page, params.pagination.limit)
+    // Step 1: Build the base query with search filter
+    let queryBuilder = Product.query()
+    this.withRelation(['category', 'mainImage'], queryBuilder)
+    queryBuilder.whereILike('designation', `%${query.searchQuery.search}%`)
+    this.applySort(query.order, ['created_at', 'price'], queryBuilder)
 
-    const categoryPage = paginatedCategories.toJSON()
-    const categoryIds = categoryPage.data
-      .map((item: any) => item.categoryId || item.category_id)
-      .filter((categoryId): categoryId is string => Boolean(categoryId))
+    // Step 2: Paginate the filtered products
+    const paginatedProducts = await queryBuilder.paginate(
+      query.pagination.page,
+      query.pagination.limit
+    )
 
-    const products = (await Product.query()
-      .whereIn('category_id', categoryIds)
-      .preload('category')
-      .preload('mainImage')
-      .orderBy('category_id', 'asc')
-      .orderBy('designation', 'asc')) as ProductActiveRecordWithRelations[]
+    const productsPage = paginatedProducts.toJSON()
+    const products = productsPage.data as ProductActiveRecordWithRelations[]
 
+    // Step 3: Map products to DTOs with signed URLs
     const mappedProducts = await Promise.all(
       products.map(async (product) => ({
         id: product.id,
@@ -111,6 +112,7 @@ export class ProductARCollection implements ProductCollection {
       }))
     )
 
+    // Step 4: Group the paginated products by category
     const grouped = mappedProducts.reduce(
       (acc, product) => {
         const categoryId = product.categoryId || 'uncategorized'
@@ -130,8 +132,9 @@ export class ProductARCollection implements ProductCollection {
       {} as Record<string, GroupedProductsByCategoryDto>
     )
 
+    // Step 5: Return with product-based pagination metadata
     return {
-      meta: categoryPage.meta,
+      meta: productsPage.meta,
       data: Object.values(grouped),
     }
   }

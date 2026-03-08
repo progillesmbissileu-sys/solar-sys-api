@@ -3,16 +3,15 @@ import Product from '#database/active-records/product'
 
 import {
   CategoryProductListItemDto,
-  ProductCategoryDetailsDto,
   ProductCategoryListItemDto,
 } from '#kernel/product/application/dto/product_category_read_dto'
 import { MediaManagerInterface } from '#shared/application/services/upload/media_manager_interface'
-import { QuerySort } from '#shared/infrastructure/query/query_sort'
-import { mapPaginatedResult } from '#shared/infrastructure/query/paginated_result'
 import { PaginatedResultDto } from '#shared/application/collection/paginated_result'
 import { ProductCategoryCollection } from '#kernel/product/application/collection/product_category_collection'
 import { ListProductCategoriesQuery } from '#kernel/product/application/query/list_product_categories_query'
 import { ListProductsByCategoryQuery } from '#kernel/product/application/query/list_products_by_category_query'
+import { mapPaginatedResult } from '#shared/infrastructure/collection/paginated_result'
+import { QuerySort } from '#shared/infrastructure/collection/query_sort'
 
 type CategoryProductRecord = Product & {
   mainImage?: {

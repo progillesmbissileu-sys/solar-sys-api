@@ -1,3 +1,3 @@
 export class QuerySearch {
-  constructor(public search: string | null = null) {}
+  constructor(public search: string = '') {}
 }

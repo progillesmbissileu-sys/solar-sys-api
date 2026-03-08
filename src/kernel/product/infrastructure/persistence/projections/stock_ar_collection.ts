@@ -5,9 +5,9 @@ import {
   LowStockProductDto,
   StockMovementDto,
 } from '#kernel/product/application/dto/stock_read_dto'
-import { mapPaginatedResult } from '#shared/infrastructure/query/paginated_result'
 import { PaginatedResultDto } from '#shared/application/collection/paginated_result'
 import { StockCollection } from '#kernel/product/application/collection/stock_collection'
+import { mapPaginatedResult } from '#shared/infrastructure/collection/paginated_result'
 
 export class StockARCollection implements StockCollection {
   async getStockHistory(params: any): Promise<PaginatedResultDto<StockMovementDto>> {
