@@ -15,7 +15,9 @@ export class CreateProductHandler implements CommandHandler<CreateProductCommand
       command.description,
       command.price,
       new ProductImage(command.mainImageId),
-      command.imageIds.map((id) => new ProductImage(id))
+      command.imageIds.map((id) => new ProductImage(id)),
+      undefined,
+      command.brand
     )
 
     // Save product and additional images
