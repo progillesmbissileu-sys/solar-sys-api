@@ -20,6 +20,7 @@ const AuthController = () => import('#controllers/authentication/auth_controller
 const StockController = () => import('#controllers/product/stock_controller')
 const CustomerController = () => import('#controllers/customer/customer_controller')
 const OrderController = () => import('#controllers/order/order_controller')
+const ProductPackController = () => import('#controllers/product/product_pack_controller')
 
 router
   .group(() => {
@@ -101,6 +102,20 @@ router
         router.post('/:id/cancel', [OrderController, 'cancel'])
       })
       .prefix('orders')
+      .use(middleware.auth())
+
+    // Product pack routes
+    router
+      .group(() => {
+        router.get('/', [ProductPackController, 'index'])
+        router.post('/', [ProductPackController, 'store'])
+        router.get('/:id', [ProductPackController, 'show'])
+        router.put('/:id', [ProductPackController, 'update'])
+        router.delete('/:id', [ProductPackController, 'destroy'])
+        router.get('/:id/stock', [ProductPackController, 'stock'])
+        router.put('/:id/stock', [ProductPackController, 'setStock'])
+      })
+      .prefix('product-packs')
       .use(middleware.auth())
   })
   .prefix('/api')

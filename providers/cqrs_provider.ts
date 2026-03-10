@@ -36,6 +36,13 @@ import { GetProductCategoryHandler } from '#kernel/product/application/query-han
 import { GetProductStockHandler } from '#kernel/product/application/query-handler/get_product_stock_handler'
 import { GetStockHistoryHandler } from '#kernel/product/application/query-handler/get_stock_history_handler'
 import { ListLowStockProductsHandler } from '#kernel/product/application/query-handler/list_low_stock_products_handler'
+import { CreateProductPackHandler } from '#kernel/product/application/command-handler/create_product_pack_handler'
+import { UpdateProductPackHandler } from '#kernel/product/application/command-handler/update_product_pack_handler'
+import { DeleteProductPackHandler } from '#kernel/product/application/command-handler/delete_product_pack_handler'
+import { SetProductPackStockHandler } from '#kernel/product/application/command-handler/set_product_pack_stock_handler'
+import { GetProductPackHandler } from '#kernel/product/application/query-handler/get_product_pack_handler'
+import { ListProductPacksHandler } from '#kernel/product/application/query-handler/list_product_packs_handler'
+import { GetProductPackStockHandler } from '#kernel/product/application/query-handler/get_product_pack_stock_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -120,6 +127,20 @@ export default class CqrsProvider {
       commandBus.register('UpdateOrderStatusCommand', UpdateOrderStatusHandler, ['OrderRepository'])
       commandBus.register('CancelOrderCommand', CancelOrderHandler, ['OrderRepository'])
 
+      //PRODUCT PACK COMMANDS
+      commandBus.register('CreateProductPackCommand', CreateProductPackHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('UpdateProductPackCommand', UpdateProductPackHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('DeleteProductPackCommand', DeleteProductPackHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('SetProductPackStockCommand', SetProductPackStockHandler, [
+        'ProductPackRepository',
+      ])
+
       return commandBus
     })
 
@@ -135,6 +156,9 @@ export default class CqrsProvider {
       const productCategoryReadModel = await this.app.container.make('ProductCategoryReadModel')
       const stockCollection = await this.app.container.make('StockCollection')
       const stockReadModel = await this.app.container.make('StockReadModel')
+      const productPackCollection = await this.app.container.make('ProductPackCollection')
+      const productPackReadModel = await this.app.container.make('ProductPackReadModel')
+      const productPackRepository = await this.app.container.make('ProductPackRepository')
 
       queryBus.register('ListCustomersQuery', new ListCustomersHandler(customerRepository))
       queryBus.register('GetCustomerQuery', new GetCustomerHandler(customerRepository))
@@ -165,6 +189,14 @@ export default class CqrsProvider {
       queryBus.register(
         'ListLowStockProductsQuery',
         new ListLowStockProductsHandler(stockCollection)
+      )
+
+      //PRODUCT PACK QUERIES
+      queryBus.register('GetProductPackQuery', new GetProductPackHandler(productPackReadModel))
+      queryBus.register('ListProductPacksQuery', new ListProductPacksHandler(productPackCollection))
+      queryBus.register(
+        'GetProductPackStockQuery',
+        new GetProductPackStockHandler(productPackRepository)
       )
 
       return queryBus

@@ -15,6 +15,9 @@ import { ProductCategoryARCollection } from '#kernel/product/infrastructure/pers
 import { ProductCategoryARReadModel } from '#kernel/product/infrastructure/persistence/projections/product_category_ar_read_model'
 import { StockARCollection } from '#kernel/product/infrastructure/persistence/projections/stock_ar_collection'
 import { StockARReadModel } from '#kernel/product/infrastructure/persistence/projections/stock_ar_read_model'
+import { ProductPackARRepository } from '#kernel/product/infrastructure/persistence/aggregates/product_pack_ar_repository'
+import { ProductPackARCollection } from '#kernel/product/infrastructure/persistence/projections/product_pack_ar_collection'
+import { ProductPackARReadModel } from '#kernel/product/infrastructure/persistence/projections/product_pack_ar_read_model'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -74,6 +77,15 @@ export default class RepositoryProvider {
       })
       this.app.container.bind('StockReadModel', () => {
         return new StockARReadModel()
+      })
+      this.app.container.bind('ProductPackRepository', () => {
+        return new ProductPackARRepository()
+      })
+      this.app.container.bind('ProductPackCollection', () => {
+        return new ProductPackARCollection()
+      })
+      this.app.container.bind('ProductPackReadModel', () => {
+        return new ProductPackARReadModel()
       })
     }
   }

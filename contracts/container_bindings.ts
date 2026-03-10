@@ -10,6 +10,9 @@ import { ProductCategoryCollection } from '#kernel/product/application/collectio
 import { ProductCategoryReadModel } from '#kernel/product/application/read-model/product_category_read_model'
 import { StockCollection } from '#kernel/product/application/collection/stock_collection'
 import { StockReadModel } from '#kernel/product/application/read-model/stock_read_model'
+import { ProductPackCollection } from '#kernel/product/application/collection/product_pack_collection'
+import { ProductPackReadModel } from '#kernel/product/application/read-model/product_pack_read_model'
+import type { ProductPackRepository } from '#kernel/product/domain/repository/product_pack_repository'
 
 declare module '@adonisjs/core/types' {
   interface ContainerBindings {
@@ -27,6 +30,7 @@ declare module '@adonisjs/core/types' {
     'AddressRepository': AddressRepository
     'OrderRepository': RepositoryInterface
     'ProductImageRepository': RepositoryInterface
+    'ProductPackRepository': ProductPackRepository
 
     // READ MODELS
     'ProductCollection': ProductCollection
@@ -35,6 +39,8 @@ declare module '@adonisjs/core/types' {
     'ProductCategoryReadModel': ProductCategoryReadModel
     'StockCollection': StockCollection
     'StockReadModel': StockReadModel
+    'ProductPackCollection': ProductPackCollection
+    'ProductPackReadModel': ProductPackReadModel
 
     //SERVICE
     'MediaUploadService': MediaManagerInterface
