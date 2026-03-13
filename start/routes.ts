@@ -34,16 +34,32 @@ router
     })
 
     router.group(() => {
-      router.resource('store', StoreController)
+      router
+        .resource('store', StoreController)
+        .apiOnly()
+        .only(['store'])
+        .use('*', middleware.auth())
       router
         .get('product/grouped-by-category', [ProductController, 'groupedByCategory'])
         .use(middleware.auth())
-      router.resource('product', ProductController).use('*', middleware.auth())
+      router
+        .resource('product', ProductController)
+        .apiOnly()
+        .only(['index', 'show', 'store', 'update'])
+        .use('*', middleware.auth())
       router
         .get('product-category/:id/products', [ProductCategoryController, 'products'])
         .use(middleware.auth())
-      router.resource('product-category', ProductCategoryController).use('*', middleware.auth())
-      router.resource('image-media', ImageMediasController).use('*', middleware.auth())
+      router
+        .resource('product-category', ProductCategoryController)
+        .apiOnly()
+        .only(['index', 'show', 'store', 'update'])
+        .use('*', middleware.auth())
+      router
+        .resource('image-media', ImageMediasController)
+        .apiOnly()
+        .only(['store', 'destroy'])
+        .use('*', middleware.auth())
 
       // Stock routes
       router
@@ -71,7 +87,11 @@ router
 
     router
       .group(() => {
-        router.resource('services', MarketServiceController).use('*', middleware.auth())
+        router
+          .resource('services', MarketServiceController)
+          .apiOnly()
+          .only(['index', 'store', 'show', 'update', 'destroy'])
+          .use('*', middleware.auth())
       })
       .prefix('/market')
 

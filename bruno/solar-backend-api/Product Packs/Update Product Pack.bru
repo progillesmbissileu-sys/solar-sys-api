@@ -1,0 +1,43 @@
+meta {
+  name: Update Product Pack
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{base_url}}/api/product-packs/{{pack_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "designation": "Updated Pack",
+    "description": "Optional description",
+    "price": 199.99,
+    "mainImageId": "00000000-0000-0000-0000-000000000000",
+    "lowStockThreshold": 2,
+    "items": [
+      {
+        "productId": "00000000-0000-0000-0000-000000000000",
+        "quantity": 1
+      }
+    ]
+  }
+}
+
+tests {
+  test("should return 204 on success", function() {
+    expect(res.status).toBe(204);
+  });
+}
+
+docs {
+  # Update Product Pack
+
+  Updates an existing product pack.
+}

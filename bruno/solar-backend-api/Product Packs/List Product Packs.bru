@@ -1,0 +1,22 @@
+meta {
+  name: List Product Packs
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/api/product-packs?page=1&perPage=20
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+query {
+  page: 1
+  perPage: 20
+  ~q: 
+  ~sort[created_at]: desc
+}

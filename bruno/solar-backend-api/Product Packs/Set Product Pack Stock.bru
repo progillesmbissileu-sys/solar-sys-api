@@ -1,0 +1,35 @@
+meta {
+  name: Set Product Pack Stock
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{base_url}}/api/product-packs/{{pack_id}}/stock
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "quantity": 10
+  }
+}
+
+tests {
+  test("should return 204 on success", function() {
+    expect(res.status).toBe(204);
+  });
+}
+
+docs {
+  # Set Product Pack Stock
+
+  Sets stock quantity for a product pack.
+
+  Use null to make it unlimited (if supported by domain rules).
+}
