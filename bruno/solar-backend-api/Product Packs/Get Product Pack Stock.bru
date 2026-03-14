@@ -1,0 +1,21 @@
+meta {
+  name: Get Product Pack Stock
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/api/product-packs/{{pack_id}}/stock
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  # Get Product Pack Stock
+
+  Retrieves stock information for a product pack.
+}

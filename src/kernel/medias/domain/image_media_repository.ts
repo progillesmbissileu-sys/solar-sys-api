@@ -1,5 +1,5 @@
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
-import { ImageMedia } from './image_media'
+import { ImageMedia } from '#kernel/medias/domain/image_media'
 
 export interface ImageMediaRepository extends RepositoryInterface {
   save(imageMedia: ImageMedia): Promise<string | void>

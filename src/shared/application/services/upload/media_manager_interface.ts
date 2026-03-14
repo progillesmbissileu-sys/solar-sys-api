@@ -1,5 +1,10 @@
 import { StorageProviderInterface } from '#shared/application/services/upload/storage_provider_interface'
-import { FileInfo, MediaType, UploadOptions, UploadResult } from './types'
+import {
+  FileInfo,
+  MediaType,
+  UploadOptions,
+  UploadResult,
+} from '#shared/application/services/upload/types'
 import { MultipartFile } from '@adonisjs/core/bodyparser'
 
 export interface MediaManagerInterface {

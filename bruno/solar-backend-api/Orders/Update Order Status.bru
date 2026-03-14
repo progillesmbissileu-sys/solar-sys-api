@@ -1,0 +1,72 @@
+meta {
+  name: Update Order Status
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{base_url}}/api/orders/:id/status
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  id: 550e8400-e29b-41d4-a716-446655440000
+}
+
+body:json {
+  {
+    "status": "CONFIRMED",
+    "adminNotes": "Payment verified, order confirmed"
+  }
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return success message", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(body.message).toBe("Order status updated successfully");
+  });
+}
+
+docs {
+  # Update Order Status
+  
+  Updates the status of an order (admin only).
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | uuid | Order ID |
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | status | string | Yes | New status: PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED |
+  | adminNotes | string | No | Admin notes (max 1000 characters, nullable) |
+  
+  ## Response
+  
+  - **200 OK**: Order status updated successfully
+  - **404 Not Found**: Order not found
+  - **422 Unprocessable Entity**: Validation error
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "message": "Order status updated successfully"
+  }
+  ```
+}

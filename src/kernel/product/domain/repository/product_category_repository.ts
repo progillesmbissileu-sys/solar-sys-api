@@ -1,7 +1,8 @@
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
-import { ProductCategory } from '../entity/product_category'
+import { ProductCategory } from '#kernel/product/domain/entity/product_category'
+import { AppId } from '#shared/domain/app_id'
 
 export interface ProductCategoryRepository extends RepositoryInterface {
   save(entity: ProductCategory): Promise<void>
-  findById(id: any): Promise<ProductCategory>
+  find(id: AppId): Promise<ProductCategory>
 }

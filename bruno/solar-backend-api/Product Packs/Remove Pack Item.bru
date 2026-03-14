@@ -1,0 +1,31 @@
+meta {
+  name: Remove Pack Item
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{base_url}}/api/product-packs/item/{{item_id}}/remove
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+vars:pre-request {
+  item_id: a8433ed7-bf7f-4ea3-9dc9-2ae18c498a3c
+}
+
+tests {
+  test("should return 204 on success", function() {
+    expect(res.status).toBe(204);
+  });
+}
+
+docs {
+  # Delete Product Pack
+  
+  Deletes a product pack.
+}

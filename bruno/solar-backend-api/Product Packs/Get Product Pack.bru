@@ -1,0 +1,25 @@
+meta {
+  name: Get Product Pack
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/api/product-packs/{{pack_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+vars:pre-request {
+  pack_id: 937e5612-0b0e-4329-a03e-f0b55397f70f
+}
+
+docs {
+  # Get Product Pack
+  
+  Retrieves a product pack by id.
+}

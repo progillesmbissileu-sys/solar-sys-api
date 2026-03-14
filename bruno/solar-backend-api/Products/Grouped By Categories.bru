@@ -1,0 +1,18 @@
+meta {
+  name: Grouped By Categories
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{base_url}}/api/product/grouped-by-category?sort[price]=desc
+  body: none
+  auth: inherit
+}
+
+query {
+  sort[price]: desc
+  ~sort[created_at]: descr
+  ~q: BIS
+  ~sort[designation]: desc
+}

@@ -20,4 +20,32 @@ export class ImageMedia {
   getKey() {
     return this.relativeKey
   }
+
+  getUrl(): string {
+    return this.url
+  }
+
+  getTitle(): string {
+    return this.title
+  }
+
+  getAltDescription(): string {
+    return this.altDescription
+  }
+
+  getMetadata(): any {
+    return this.metadata
+  }
+
+  getRelativeKey(): string | undefined {
+    return this.relativeKey
+  }
+
+  getCreatedAt(): Date | null {
+    return this.createdAt
+  }
+
+  getUpdatedAt(): Date | null {
+    return this.updatedAt
+  }
 }

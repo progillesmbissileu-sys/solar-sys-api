@@ -1,4 +1,5 @@
 import { CommandBus } from '#shared/infrastructure/bus/command_bus'
+import { QueryBus } from '#shared/infrastructure/bus/query_bus'
 import { ApplicationService } from '@adonisjs/core/types'
 import { UpdateStoreHandler } from '#kernel/store/application/command_handler/update_store_handler'
 import { CreateStoreHandler } from '#kernel/store/application/command_handler/create_store_handler'
@@ -12,12 +13,47 @@ import { CreateMarketServiceHandler } from '#kernel/market/application/command_h
 import { UpdateMarketServiceHandler } from '#kernel/market/application/command_handler/update_market_service_handler'
 import { UpdateMarketServiceDescriptionHandler } from '#kernel/market/application/command_handler/update_market_service_description.handler'
 import { DeleteMarketServiceHandler } from '#kernel/market/application/command_handler/delete_market_service_handler'
+import { AddStockHandler } from '#kernel/product/application/command-handler/add_stock_handler'
+import { RemoveStockHandler } from '#kernel/product/application/command-handler/remove_stock_handler'
+import { SetStockHandler } from '#kernel/product/application/command-handler/set_stock_handler'
+import { AddProductImageHandler } from '#kernel/product/application/command-handler/add_product_image_handler'
+import { RemoveProductImageHandler } from '#kernel/product/application/command-handler/remove_product_image_handler'
+import { CreateCustomerHandler } from '#kernel/customer/application/command-handler/create_customer_handler'
+import { CreateAddressHandler } from '#kernel/customer/application/command-handler/create_address_handler'
+import { CreateOrderHandler } from '#kernel/order/application/command-handler/create_order_handler'
+import { UpdateOrderStatusHandler } from '#kernel/order/application/command-handler/update_order_status_handler'
+import { CancelOrderHandler } from '#kernel/order/application/command-handler/cancel_order_handler'
+import { ListCustomersHandler } from '#kernel/customer/application/query-handler/list_customers_handler'
+import { GetCustomerHandler } from '#kernel/customer/application/query-handler/get_customer_handler'
+import { ListCustomerAddressesHandler } from '#kernel/customer/application/query-handler/list_customer_addresses_handler'
+import { UpdateCustomerHandler } from '#kernel/customer/application/command-handler/update_customer_handler'
+import { GetProductHandler } from '#kernel/product/application/query-handler/get_product_handler'
+import { ListProductsHandler } from '#kernel/product/application/query-handler/list_products_handler'
+import { ListProductsGroupedByCategoryHandler } from '#kernel/product/application/query-handler/list_products_grouped_by_category_handler'
+import { ListProductCategoriesHandler } from '#kernel/product/application/query-handler/list_product_categories_handler'
+import { ListProductsByCategoryHandler } from '#kernel/product/application/query-handler/list_products_by_category_handler'
+import { GetProductCategoryHandler } from '#kernel/product/application/query-handler/get_product_category_handler'
+import { GetProductStockHandler } from '#kernel/product/application/query-handler/get_product_stock_handler'
+import { GetStockHistoryHandler } from '#kernel/product/application/query-handler/get_stock_history_handler'
+import { ListLowStockProductsHandler } from '#kernel/product/application/query-handler/list_low_stock_products_handler'
+import { CreateProductPackHandler } from '#kernel/product/application/command-handler/create_product_pack_handler'
+import { UpdateProductPackHandler } from '#kernel/product/application/command-handler/update_product_pack_handler'
+import { DeleteProductPackHandler } from '#kernel/product/application/command-handler/delete_product_pack_handler'
+import { SetProductPackStockHandler } from '#kernel/product/application/command-handler/set_product_pack_stock_handler'
+import { GetProductPackHandler } from '#kernel/product/application/query-handler/get_product_pack_handler'
+import { ListProductPacksHandler } from '#kernel/product/application/query-handler/list_product_packs_handler'
+import { GetProductPackStockHandler } from '#kernel/product/application/query-handler/get_product_pack_stock_handler'
+import { ListOrdersHandler } from '#kernel/order/application/query-handler/list_orders_handler'
+import { GetOrderHandler } from '#kernel/order/application/query-handler/get_order_handler'
+import { GetOrderByNumberHandler } from '#kernel/order/application/query-handler/get_order_by_number_handler'
+import { ListCustomerOrdersHandler } from '#kernel/order/application/query-handler/list_customer_orders_handler'
+import { RemoveProductPackItemHandler } from '#kernel/product/application/command-handler/remove_product_pack_item_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
 
   public register() {
-    this.app.container.singleton('CQRS/CommandBus', async () => {
+    this.app.container.singleton('CQRS/CommandBus', () => {
       const commandBus = new CommandBus(this.app)
 
       //PRODUCT COMMANDS
@@ -58,18 +94,113 @@ export default class CqrsProvider {
         'MediaUploadService',
       ])
 
+      //STOCK COMMANDS
+      commandBus.register('AddStockCommand', AddStockHandler, [
+        'ProductRepository',
+        'StockMovementRepository',
+      ])
+      commandBus.register('RemoveStockCommand', RemoveStockHandler, [
+        'ProductRepository',
+        'StockMovementRepository',
+      ])
+      commandBus.register('SetStockCommand', SetStockHandler, [
+        'ProductRepository',
+        'StockMovementRepository',
+      ])
+      commandBus.register('AddProductImageCommand', AddProductImageHandler, [
+        'ProductImageRepository',
+      ])
+      commandBus.register('RemoveProductImageCommand', RemoveProductImageHandler, [
+        'ProductImageRepository',
+      ])
+
+      //CUSTOMER COMMANDS
+      commandBus.register('CreateCustomerCommand', CreateCustomerHandler, ['CustomerRepository'])
+      commandBus.register('UpdateCustomerCommand', UpdateCustomerHandler, ['CustomerRepository'])
+      commandBus.register('CreateAddressCommand', CreateAddressHandler, [
+        'CustomerRepository',
+        'AddressRepository',
+      ])
+
+      //ORDER COMMANDS
+      commandBus.register('CreateOrderCommand', CreateOrderHandler, [
+        'OrderRepository',
+        'CustomerRepository',
+        'AddressRepository',
+        'ProductRepository',
+      ])
+      commandBus.register('UpdateOrderStatusCommand', UpdateOrderStatusHandler, ['OrderRepository'])
+      commandBus.register('CancelOrderCommand', CancelOrderHandler, ['OrderRepository'])
+
+      //PRODUCT PACK COMMANDS
+      commandBus.register('CreateProductPackCommand', CreateProductPackHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('UpdateProductPackCommand', UpdateProductPackHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('DeleteProductPackCommand', DeleteProductPackHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('SetProductPackStockCommand', SetProductPackStockHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('RemoveProductPackItemCommand', RemoveProductPackItemHandler, [
+        'ProductPackItemRepository',
+        'ProductPackRepository',
+      ])
+
       return commandBus
     })
 
-    // this.app.container.singleton('CQRS/QueryBus', () => {
-    //   const queryBus = new QueryBus()
-    //
-    //   // Register query handlers
-    //   // queryBus.register('GetUserByIdQuery', new GetUserByIdQueryHandler())
-    //   // queryBus.register('GetAllUsersQuery', new GetAllUsersQueryHandler())
-    //
-    //   return queryBus
-    // })
+    this.app.container.singleton('CQRS/QueryBus', () => {
+      const queryBus = new QueryBus(this.app)
+
+      //CUSTOMER QUERIES
+      queryBus.register('ListCustomersQuery', ListCustomersHandler, ['CustomerRepository'])
+      queryBus.register('GetCustomerQuery', GetCustomerHandler, ['CustomerRepository'])
+      queryBus.register('ListCustomerAddressesQuery', ListCustomerAddressesHandler, [
+        'AddressRepository',
+      ])
+
+      //PRODUCT QUERIES
+      queryBus.register('ListProductsQuery', ListProductsHandler, ['ProductCollection'])
+      queryBus.register('GetProductQuery', GetProductHandler, ['ProductReadModel'])
+      queryBus.register(
+        'ListProductsGroupedByCategoryQuery',
+        ListProductsGroupedByCategoryHandler,
+        ['ProductCollection']
+      )
+      queryBus.register('ListProductCategoriesQuery', ListProductCategoriesHandler, [
+        'ProductCategoryCollection',
+      ])
+      queryBus.register('GetProductCategoryQuery', GetProductCategoryHandler, [
+        'ProductCategoryReadModel',
+      ])
+      queryBus.register('ListProductsByCategoryQuery', ListProductsByCategoryHandler, [
+        'ProductCategoryCollection',
+      ])
+      queryBus.register('GetProductStockQuery', GetProductStockHandler, ['StockReadModel'])
+      queryBus.register('GetStockHistoryQuery', GetStockHistoryHandler, ['StockCollection'])
+      queryBus.register('ListLowStockProductsQuery', ListLowStockProductsHandler, [
+        'StockCollection',
+      ])
+
+      //PRODUCT PACK QUERIES
+      queryBus.register('GetProductPackQuery', GetProductPackHandler, ['ProductPackReadModel'])
+      queryBus.register('ListProductPacksQuery', ListProductPacksHandler, ['ProductPackCollection'])
+      queryBus.register('GetProductPackStockQuery', GetProductPackStockHandler, [
+        'ProductPackRepository',
+      ])
+
+      //ORDER QUERIES
+      queryBus.register('ListOrdersQuery', ListOrdersHandler, ['OrderRepository'])
+      queryBus.register('GetOrderQuery', GetOrderHandler, ['OrderRepository'])
+      queryBus.register('GetOrderByNumberQuery', GetOrderByNumberHandler, ['OrderRepository'])
+      queryBus.register('ListCustomerOrdersQuery', ListCustomerOrdersHandler, ['OrderRepository'])
+
+      return queryBus
+    })
   }
 
   public async boot() {}

@@ -1,4 +1,4 @@
-import { FileInfo, UploadResult, UploadOptions } from './types'
+import { FileInfo, UploadResult, UploadOptions } from '#shared/application/services/upload/types'
 import { MultipartFile } from '@adonisjs/core/bodyparser'
 
 /**

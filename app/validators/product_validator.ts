@@ -17,10 +17,8 @@ export const updateProductSchema = vine.compile(
     designation: vine.string().minLength(2),
     description: vine.string(),
     categoryId: vine.string().uuid(),
-    mainImageId: vine.string().uuid(),
     price: vine.number(),
     brand: vine.string().optional(),
-    imageIds: vine.array(vine.string().uuid()).maxLength(2).optional(),
   })
 )
 
@@ -37,5 +35,18 @@ export const updateProductCategorySchema = vine.compile(
     designation: vine.string().minLength(2),
     type: vine.enum(['CATEGORY', 'TAG']),
     parentId: vine.string().uuid().optional(),
+  })
+)
+
+export const addProductImageSchema = vine.compile(
+  vine.object({
+    imageId: vine.string().uuid(),
+    isMainImage: vine.boolean(),
+  })
+)
+
+export const removeProductImageSchema = vine.compile(
+  vine.object({
+    imageId: vine.string().uuid(),
   })
 )

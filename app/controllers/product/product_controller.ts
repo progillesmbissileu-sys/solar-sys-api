@@ -1,12 +1,11 @@
-/* eslint-disable prettier/prettier */
 import { HttpContext } from '@adonisjs/core/http'
 import { AppAbstractController } from '#shared/user_interface/controller/app_abstract_controller'
 import { CreateProductCommand } from '#kernel/product/application/command/create_product_command'
 import { createProductSchema, updateProductSchema } from '#validators/product_validator'
 import { UpdateProductCommand } from '#kernel/product/application/command/update_product_command'
-import ActiveRecord from '#database/active-records/product'
-import app from '@adonisjs/core/services/app'
-import { MediaManagerInterface } from '#shared/application/services/upload/media_manager_interface'
+import { ListProductsGroupedByCategoryQuery } from '#kernel/product/application/query/list_products_grouped_by_category_query'
+import { GetProductQuery } from '#kernel/product/application/query/get_product_query'
+import { ListProductsQuery } from '#kernel/product/application/query/list_products_query'
 
 export default class ProductController extends AppAbstractController {
   constructor() {
@@ -15,105 +14,22 @@ export default class ProductController extends AppAbstractController {
 
   public async index({ response, request }: HttpContext) {
     const query = request.qs()
-    const result = await ActiveRecord.query()
-      .whereILike('designation', `%${query.q || ''}%`)
-      .orderBy('created_at', query.sort || 'desc')
-      .paginate(query.page || 1, query.limit || 10)
-
-    const mediaUploadService = (await app.container.make(
-      'MediaUploadService'
-    )) as MediaManagerInterface
-    const paginatedResult = result.toJSON()
-
-    paginatedResult.data = await Promise.all(
-      paginatedResult.data.map(async (product: any) => {
-        let mainImageSignedUrl = null
-        const relativeKey = product.mainImage?.relativeKey || product.mainImage?.relative_key
-        if (relativeKey) {
-          mainImageSignedUrl = await mediaUploadService.getSignedUrl(relativeKey)
-        }
-        if (product.mainImage) {
-          delete product.mainImage.url
-        }
-
-        return {
-          id: product.id,
-          slug: product.slug,
-          designation: product.designation,
-          price: product.price,
-          categoryName: product.category?.designation,
-          categoryId: product.category?.id,
-          mainImageUrl: mainImageSignedUrl,
-          mainImageAlt: product.mainImage?.altDescription,
-          mainImageTitle: product.mainImage?.title,
-          brand: product.brand,
-          createdAt: product.createdAt,
-          updatedAt: product.updatedAt,
-        }
-      })
+    const result = await this.handleQuery(
+      new ListProductsQuery(
+        this.parseQueryPagination(query),
+        this.parseQuerySearch(query),
+        this.parseQuerySort(query)
+      )
     )
 
-    return response.ok(paginatedResult)
+    return response.ok(result)
   }
 
   public async show({ request, response }: HttpContext) {
     const productId = await request.param('id')
+    const product = await this.handleQuery(new GetProductQuery(productId))
 
-    const product = await ActiveRecord.find(productId)
-    const mediaUploadService = (await app.container.make(
-      'MediaUploadService'
-    )) as MediaManagerInterface
-
-    // Get signed URL for main image
-    let mainImageSignedUrl = null
-    const mainImageRelativeKey = product?.mainImage?.relativeKey || (product?.mainImage as any)?.relative_key
-    if (mainImageRelativeKey) {
-      mainImageSignedUrl = await mediaUploadService.getSignedUrl(mainImageRelativeKey)
-    }
-
-    // Get signed URLs for additional images
-    const images = await Promise.all(
-      (product?.images || []).map(async (img: any) => {
-        let signedUrl = null
-        const relativeKey = img.relativeKey || img.relative_key
-        if (relativeKey) {
-          signedUrl = await mediaUploadService.getSignedUrl(relativeKey)
-        }
-        return {
-          id: img.id,
-          url: signedUrl,
-          alt: img.altDescription,
-          title: img.title,
-        }
-      })
-    )
-
-    return response.ok({
-      data: {
-        id: product?.id,
-        slug: product?.slug,
-        categoryId: product?.categoryId,
-        designation: product?.designation,
-        description: product?.description,
-        price: product?.price,
-        brand: product?.brand,
-        isAvailable: product?.isAvailable,
-        isDeleted: product?.isDeleted,
-        createdAt: product?.createdAt,
-        updatedAt: product?.updatedAt,
-        category: {
-          id: product?.category?.id,
-          designation: product?.category?.designation,
-        },
-        mainImage: {
-          id: product?.mainImage?.id,
-          url: mainImageSignedUrl,
-          alt: product?.mainImage?.altDescription,
-          title: product?.mainImage?.title,
-        },
-        images: images,
-      },
-    })
+    return response.ok({ data: product })
   }
 
   public async store({ request, response }: HttpContext) {
@@ -135,20 +51,17 @@ export default class ProductController extends AppAbstractController {
 
   public async update({ request, response }: HttpContext) {
     const payload = await request.validateUsing(updateProductSchema)
+
     const productId = await request.param('id')
 
     await this.handleCommand(
       new UpdateProductCommand(
         productId,
         payload.designation,
-        payload.mainImageId,
         payload.categoryId,
         payload.description,
         payload.price,
-        payload.brand,
-        undefined, // isAvailable
-        undefined, // isDeleted
-        payload.imageIds || []
+        payload.brand
       )
     )
     return response.noContent()
@@ -156,71 +69,14 @@ export default class ProductController extends AppAbstractController {
 
   public async groupedByCategory({ response, request }: HttpContext) {
     const query = request.qs()
-    const page = Number(query.page) || 1
-    const limit = Number(query.limit) || 10
-
-    const result = await ActiveRecord.query()
-      .whereILike('designation', `%${query.q || ''}%`)
-      .orderBy('category_id')
-      .paginate(page, limit)
-
-    const mediaUploadService = (await app.container.make(
-      'MediaUploadService'
-    )) as MediaManagerInterface
-
-    const paginatedResult = result.toJSON()
-
-    const formattedProducts = await Promise.all(
-      paginatedResult.data.map(async (product: any) => {
-        let mainImageSignedUrl = null
-        const relativeKey = product.mainImage?.relativeKey || product.mainImage?.relative_key
-        if (relativeKey) {
-          mainImageSignedUrl = await mediaUploadService.getSignedUrl(relativeKey)
-        }
-        if (product.mainImage) {
-          delete product.mainImage.url
-        }
-
-        return {
-          id: product.id,
-          slug: product.slug,
-          designation: product.designation,
-          price: product.price,
-          categoryName: product.category?.designation,
-          categoryId: product.category?.id,
-          mainImageUrl: mainImageSignedUrl,
-          brand: product.brand,
-          createdAt: product.createdAt,
-          updatedAt: product.updatedAt,
-        }
-      })
+    const result = await this.handleQuery(
+      new ListProductsGroupedByCategoryQuery(
+        this.parseQueryPagination(query),
+        this.parseQuerySearch(query),
+        this.parseQuerySort(query)
+      )
     )
 
-    // Group products by category
-    const groupedProducts = formattedProducts.reduce(
-      (
-        acc: Record<string, { categoryId: string; categoryName: string; products: any[] }>,
-        product
-      ) => {
-        const categoryId = product.categoryId || 'uncategorized'
-        const categoryName = product.categoryName || 'Uncategorized'
-
-        if (!acc[categoryId]) {
-          acc[categoryId] = {
-            categoryId,
-            categoryName,
-            products: [],
-          }
-        }
-        acc[categoryId].products.push(product)
-        return acc
-      },
-      {}
-    )
-
-    return response.ok({
-      meta: paginatedResult.meta,
-      data: Object.values(groupedProducts),
-    })
+    return response.ok(result)
   }
 }

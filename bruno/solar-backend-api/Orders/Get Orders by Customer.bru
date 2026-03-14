@@ -1,0 +1,105 @@
+meta {
+  name: Get Orders by Customer
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/api/orders/customer/:customerId
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  customerId: 550e8400-e29b-41d4-a716-446655440000
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return list of orders for customer", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(Array.isArray(body.data)).toBe(true);
+  });
+}
+
+docs {
+  # Get Orders by Customer
+  
+  Retrieves all orders for a specific customer.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | customerId | uuid | Customer ID |
+  
+  ## Response
+  
+  - **200 OK**: Returns array of orders with pagination metadata
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": "uuid",
+        "orderNumber": "string",
+        "customerId": "uuid",
+        "status": "string",
+        "customerFirstName": "string",
+        "customerLastName": "string",
+        "customerPhone": "string",
+        "shippingAddressLine1": "string",
+        "shippingAddressLine2": "string | null",
+        "shippingCity": "string",
+        "shippingState": "string",
+        "shippingPostalCode": "string",
+        "shippingCountry": "string",
+        "subtotal": "number",
+        "shippingFee": "number",
+        "total": "number",
+        "customerNotes": "string | null",
+        "adminNotes": "string | null",
+        "confirmedAt": "datetime | null",
+        "shippedAt": "datetime | null",
+        "deliveredAt": "datetime | null",
+        "cancelledAt": "datetime | null",
+        "createdAt": "datetime",
+        "updatedAt": "datetime",
+        "items": [
+          {
+            "id": "uuid",
+            "productId": "uuid",
+            "productName": "string",
+            "productSlug": "string",
+            "quantity": "number",
+            "unitPrice": "number",
+            "totalPrice": "number"
+          }
+        ]
+      }
+    ],
+    "meta": {
+      "total": "number",
+      "perPage": "number",
+      "currentPage": "number",
+      "lastPage": "number",
+      "firstPage": "number",
+      "firstPageUrl": "string",
+      "lastPageUrl": "string",
+      "nextPageUrl": "string | null",
+      "previousPageUrl": "string | null"
+    }
+  }
+  ```
+}

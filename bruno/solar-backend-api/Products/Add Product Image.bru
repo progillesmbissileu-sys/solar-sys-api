@@ -1,0 +1,18 @@
+meta {
+  name: Add Product Image
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{base_url}}/api/product/media/{{productId}}/images
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "imageId": "{{imageId}}",
+    "isMainImage": false
+  }
+}

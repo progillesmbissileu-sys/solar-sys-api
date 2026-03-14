@@ -5,7 +5,14 @@ meta {
 }
 
 get {
-  url: {{base_url}}/api/product
+  url: {{base_url}}/api/product?sort[created_at]=desc
   body: none
-  auth: none
+  auth: inherit
+}
+
+query {
+  sort[created_at]: desc
+  ~sort[price]: desc
+  ~q: BIS
+  ~sort[designation]: desc
 }

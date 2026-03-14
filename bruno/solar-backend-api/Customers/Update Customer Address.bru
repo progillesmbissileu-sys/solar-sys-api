@@ -1,0 +1,99 @@
+meta {
+  name: Update Customer Address
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{base_url}}/api/customers/:id/addresses/:addressId
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  id: 550e8400-e29b-41d4-a716-446655440000
+  addressId: 660e8400-e29b-41d4-a716-446655440001
+}
+
+body:json {
+  {
+    "addressLine1": "456 Updated Avenue",
+    "city": "Abuja",
+    "state": "FCT",
+    "postalCode": "900001",
+    "country": "Nigeria",
+    "type": "BILLING",
+    "isDefault": false
+  }
+}
+
+tests {
+  test("should return 200 on success", function() {
+    expect(res.status).toBe(200);
+  });
+  
+  test("should return updated address data", function() {
+    const body = res.body;
+    expect(body.status).toBe("success");
+    expect(body.message).toBe("Address updated successfully");
+  });
+}
+
+docs {
+  # Update Customer Address
+  
+  Updates an existing customer address.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | uuid | Customer ID |
+  | addressId | uuid | Address ID |
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | addressLine1 | string | No | Primary address line (max 255 characters) |
+  | addressLine2 | string | No | Secondary address line (max 255 characters, nullable) |
+  | city | string | No | City name (max 100 characters) |
+  | state | string | No | State/Province (max 100 characters) |
+  | postalCode | string | No | Postal/ZIP code (max 20 characters) |
+  | country | string | No | Country name (max 100 characters) |
+  | type | string | No | Address type: "SHIPPING" or "BILLING" |
+  | isDefault | boolean | No | Set as default address |
+  
+  ## Response
+  
+  - **200 OK**: Address updated successfully
+  - **404 Not Found**: Customer or address not found
+  - **422 Unprocessable Entity**: Validation error
+  
+  ### Response Body
+  
+  ```json
+  {
+    "status": "success",
+    "message": "Address updated successfully",
+    "data": {
+      "id": "uuid",
+      "customerId": "uuid",
+      "addressLine1": "string",
+      "addressLine2": "string | null",
+      "city": "string",
+      "state": "string",
+      "postalCode": "string",
+      "country": "string",
+      "type": "SHIPPING | BILLING",
+      "isDefault": "boolean",
+      "createdAt": "datetime",
+      "updatedAt": "datetime"
+    }
+  }
+  ```
+}

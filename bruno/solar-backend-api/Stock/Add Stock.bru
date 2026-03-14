@@ -1,0 +1,57 @@
+meta {
+  name: Add Stock
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/api/product/:id/stock/add
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+params:path {
+  id: 550e8400-e29b-41d4-a716-446655440000
+}
+
+body:json {
+  {
+    "quantity": 50,
+    "reason": "New inventory received from supplier"
+  }
+}
+
+tests {
+  test("should return 204 on success", function() {
+    expect(res.status).toBe(204);
+  });
+}
+
+docs {
+  # Add Stock
+  
+  Adds stock quantity to a product.
+  
+  ## Path Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | uuid | Product ID |
+  
+  ## Request Body
+  
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | quantity | number | Yes | Quantity to add (must be positive) |
+  | reason | string | No | Reason for adding stock (max 255 characters) |
+  
+  ## Response
+  
+  - **204 No Content**: Stock added successfully
+  - **404 Not Found**: Product not found
+  - **422 Unprocessable Entity**: Validation error
+}

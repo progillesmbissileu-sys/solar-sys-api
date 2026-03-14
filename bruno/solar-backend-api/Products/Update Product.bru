@@ -16,14 +16,22 @@ auth:bearer {
 
 body:json {
   {
-    "designation": "Updated Product Name",
-    "description": "Updated description",
-    "categoryId": "ba17729c-81b7-4946-beb7-02e635a3bb5a",
-    "mainImageId": "8969b646-9559-435f-aff5-3d0ec40e85e0",
-    "price": 149.99,
-    "brand": "Updated Brand",
-    "imageIds": ["uuid-of-additional-image-1"]
+      "categoryId": "2bfa2a84-0f81-4c3e-88a2-0cde8b8c82b4",
+      "designation": "WITH BRANDING XXXXXX",
+      "description": "PANNEAU",
+      "price": 99.99,
+      "brand": "OLLE OLE"
   }
+}
+
+vars:pre-request {
+  product_id: 1fb0e4ae-418e-4bf0-8106-6459276ebade
+}
+
+tests {
+  test("should return 204 on success", function() {
+    expect(res.status).toBe(204);
+  });
 }
 
 docs {
@@ -54,10 +62,4 @@ docs {
   - **204 No Content**: Product updated successfully
   - **404 Not Found**: Product not found
   - **422 Unprocessable Entity**: Validation error
-}
-
-tests {
-  test("should return 204 on success", function() {
-    expect(res.status).toBe(204);
-  });
 }

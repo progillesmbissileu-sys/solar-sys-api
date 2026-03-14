@@ -1,37 +1,39 @@
 import string from '@adonisjs/core/helpers/string'
-
-export interface ProductImage {
-  id: string
-  url: string | null
-  alt: string | null
-  title: string | null
-}
+import { ProductCategory } from '#kernel/product/domain/entity/product_category'
+import { ProductImage } from '#kernel/product/domain/entity/product_image'
+import { AppId } from '#shared/domain/app_id'
 
 export class Product {
   constructor(
-    private id: any,
+    private id: AppId | null,
     private designation: string,
-    private mainImageId: any,
-    private categoryId: any,
+    private category: ProductCategory,
     private description: string,
     private price: number,
-    private brand?: string,
+    private mainImage: ProductImage,
+    private images: ProductImage[] = [],
     private readonly slug?: string,
+    private brand?: string,
+    private stockQuantity: number = 0,
+    private lowStockThreshold: number = 10,
     private readonly isAvailable?: boolean,
     private readonly isDeleted?: boolean,
     private createdAt?: Date,
-    private updatedAt?: Date,
-    private mainImageUrl: string | null = null,
-    private categoryName: string | null = null,
-    private images: ProductImage[] = []
+    private updatedAt?: Date
   ) {
     this.slug = slug ?? string.slug(this.designation + '-' + string.generateRandom(8)).toLowerCase()
     this.isAvailable = isAvailable ?? false
     this.isDeleted = isDeleted ?? false
+    this.stockQuantity = stockQuantity ?? 0
+    this.lowStockThreshold = lowStockThreshold ?? 10
   }
 
-  getId(): any {
+  getId(): AppId | null {
     return this.id
+  }
+
+  setId(id: AppId): void {
+    this.id = id
   }
 
   getSlug(): string | undefined {
@@ -46,23 +48,63 @@ export class Product {
     return this.isDeleted
   }
 
-  getCreatedAt(): any {
+  getCreatedAt(): Date | undefined {
     return this.createdAt
   }
 
-  getUpdatedAt(): any {
+  getUpdatedAt(): Date | undefined {
     return this.updatedAt
   }
 
-  getMainImageId(): any {
-    return this.mainImageId
-  }
-
-  getMainImageUrl(): string | null {
-    return this.mainImageUrl
+  getMainImage(): ProductImage {
+    return this.mainImage
   }
 
   getImages(): ProductImage[] {
     return this.images
+  }
+
+  getStockQuantity(): number {
+    return this.stockQuantity
+  }
+
+  getLowStockThreshold(): number {
+    return this.lowStockThreshold
+  }
+
+  getDesignation(): string {
+    return this.designation
+  }
+
+  getCategory(): ProductCategory {
+    return this.category
+  }
+
+  getDescription(): string {
+    return this.description
+  }
+
+  getPrice(): number {
+    return this.price
+  }
+
+  getBrand(): string | undefined {
+    return this.brand
+  }
+
+  setStockQuantity(quantity: number): void {
+    this.stockQuantity = quantity
+  }
+
+  setLowStockThreshold(threshold: number): void {
+    this.lowStockThreshold = threshold
+  }
+
+  isLowStock(): boolean {
+    return this.stockQuantity > 0 && this.stockQuantity <= this.lowStockThreshold
+  }
+
+  isOutOfStock(): boolean {
+    return this.stockQuantity <= 0
   }
 }

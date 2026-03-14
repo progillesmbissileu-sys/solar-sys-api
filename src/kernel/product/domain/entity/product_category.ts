@@ -1,11 +1,12 @@
 import string from '@adonisjs/core/helpers/string'
+import { AppId } from '#shared/domain/app_id'
 
 export class ProductCategory {
   constructor(
-    private id: any,
+    private id: AppId | null,
     private designation: string,
     private type: 'CATEGORY' | 'TAG' = 'CATEGORY',
-    private parentId: any | null = null,
+    private parentId: AppId | null = null,
     private slug: string | null = null,
     private createdAt?: Date,
     private updatedAt?: Date
@@ -15,11 +16,15 @@ export class ProductCategory {
     }
   }
 
-  getId(): any {
+  getId(): AppId | null {
     return this.id
   }
 
-  getParentId(): any | null {
+  setId(id: AppId): void {
+    this.id = id
+  }
+
+  getParentId(): AppId | null {
     return this.parentId
   }
 
@@ -27,10 +32,18 @@ export class ProductCategory {
     return this.slug
   }
 
-  getCreatedAt(): any {
+  getDesignation(): string {
+    return this.designation
+  }
+
+  getType(): 'CATEGORY' | 'TAG' {
+    return this.type
+  }
+
+  getCreatedAt(): Date | undefined {
     return this.createdAt
   }
-  getUpdatedAt(): any {
+  getUpdatedAt(): Date | undefined {
     return this.updatedAt
   }
 }
