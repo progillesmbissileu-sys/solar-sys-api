@@ -12,6 +12,8 @@ import {
   updateProductPackSchema,
   setProductPackStockSchema,
 } from '#validators/product_pack_validator'
+import { RemoveProductPackItemCommand } from '#kernel/product/application/command/remove_product_pack_item'
+import { AppId } from '#shared/domain/app_id'
 
 export default class ProductPackController extends AppAbstractController {
   constructor() {
@@ -62,7 +64,7 @@ export default class ProductPackController extends AppAbstractController {
 
     await this.handleCommand(
       new UpdateProductPackCommand(
-        packId,
+        AppId.fromString(packId),
         payload.designation,
         payload.price,
         payload.items,
@@ -78,6 +80,13 @@ export default class ProductPackController extends AppAbstractController {
   public async destroy({ request, response }: HttpContext) {
     const packId = await request.param('id')
     await this.handleCommand(new DeleteProductPackCommand(packId))
+
+    return response.noContent()
+  }
+
+  public async removeItem({ request, response }: HttpContext) {
+    const itemId = await request.param('id')
+    await this.handleCommand(new RemoveProductPackItemCommand(AppId.fromString(itemId)))
 
     return response.noContent()
   }

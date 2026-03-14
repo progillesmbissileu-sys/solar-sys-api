@@ -19,15 +19,26 @@ body:json {
     "designation": "Updated Pack",
     "description": "Optional description",
     "price": 199.99,
-    "mainImageId": "00000000-0000-0000-0000-000000000000",
     "lowStockThreshold": 2,
     "items": [
       {
-        "productId": "00000000-0000-0000-0000-000000000000",
+        "productId": "ed4e1c7c-f511-4c9d-8f06-54932e3fd548",
+        "quantity": 12
+      },
+      {
+        "productId": "c9a890d9-9d95-40a4-acdf-5c94c84449fd",
+        "quantity": 10
+      },
+      {
+        "productId": "40bcb45c-1d8b-41ec-baea-d6d9de7d18fd",
         "quantity": 1
       }
     ]
   }
+}
+
+vars:pre-request {
+  pack_id: 937e5612-0b0e-4329-a03e-f0b55397f70f
 }
 
 tests {
@@ -38,6 +49,6 @@ tests {
 
 docs {
   # Update Product Pack
-
+  
   Updates an existing product pack.
 }

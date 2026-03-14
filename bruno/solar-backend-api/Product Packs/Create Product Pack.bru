@@ -16,15 +16,18 @@ auth:bearer {
 
 body:json {
   {
-    "designation": "Starter Pack",
+    "designation": "Pro Pack",
     "description": "Optional description",
     "price": 199.99,
-    "mainImageId": "00000000-0000-0000-0000-000000000000",
     "stockQuantity": 10,
     "lowStockThreshold": 2,
     "items": [
       {
-        "productId": "00000000-0000-0000-0000-000000000000",
+        "productId": "c9a890d9-9d95-40a4-acdf-5c94c84449fd",
+        "quantity": 1
+      },
+      {
+        "productId": "ed4e1c7c-f511-4c9d-8f06-54932e3fd548",
         "quantity": 1
       }
     ]
@@ -39,11 +42,11 @@ tests {
 
 docs {
   # Create Product Pack
-
+  
   Creates a new product pack.
-
+  
   ## Request Body
-
+  
   - designation: string (min 2)
   - description: string (optional)
   - price: number (positive)

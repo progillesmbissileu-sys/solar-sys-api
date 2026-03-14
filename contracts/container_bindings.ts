@@ -13,6 +13,7 @@ import { StockReadModel } from '#kernel/product/application/read-model/stock_rea
 import { ProductPackCollection } from '#kernel/product/application/collection/product_pack_collection'
 import { ProductPackReadModel } from '#kernel/product/application/read-model/product_pack_read_model'
 import type { ProductPackRepository } from '#kernel/product/domain/repository/product_pack_repository'
+import { ProductPackItemRepository } from '#kernel/product/domain/repository/product_pack_item_repository'
 
 declare module '@adonisjs/core/types' {
   interface ContainerBindings {
@@ -31,6 +32,7 @@ declare module '@adonisjs/core/types' {
     'OrderRepository': RepositoryInterface
     'ProductImageRepository': RepositoryInterface
     'ProductPackRepository': ProductPackRepository
+    'ProductPackItemRepository': ProductPackItemRepository
 
     // READ MODELS
     'ProductCollection': ProductCollection

@@ -11,7 +11,7 @@ export class CreateProductPackCommand implements Command {
   constructor(
     public designation: string,
     public price: number,
-    public items: ProductPackItemInput[],
+    public newItems: Array<{ productId: string; quantity: number }>,
     public readonly description?: string,
     public readonly mainImageId?: string,
     public readonly stockQuantity?: number | null,

@@ -32,6 +32,7 @@ export class ProductPackARCollection implements ProductPackListReadModel {
 
     const data: ProductPackDetailsDto[] = result.all().map((pack) => {
       const items: ProductPackItemDto[] = pack.packItems.map((item) => ({
+        id: item.id,
         productId: item.productId,
         productName: item.product?.designation || '',
         productSlug: item.product?.slug || '',

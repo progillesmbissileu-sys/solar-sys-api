@@ -4,9 +4,6 @@ import ProductPackItemActiveRecord from '#database/active-records/product_pack_i
 import { ProductPack } from '#kernel/product/domain/entity/product_pack'
 import { ProductPackItem } from '#kernel/product/domain/entity/product_pack_item'
 import { ProductImage } from '#kernel/product/domain/entity/product_image'
-import { Product } from '#kernel/product/domain/entity/product'
-import { ProductCategory } from '#kernel/product/domain/entity/product_category'
-import crypto from 'node:crypto'
 import { ProductPackNotFoundError } from '#kernel/product/domain/errors/product_pack_not_found_error'
 import { errors } from '@adonisjs/lucid'
 import { AppId } from '#shared/domain/app_id'
@@ -20,7 +17,7 @@ export class ProductPackARRepository implements ProductPackRepository {
       pack = await EntityActiveRecord.query()
         .where('id', id.value)
         .where('is_deleted', false)
-        .preload('packItems', (query) => query.orderBy('sort_order', 'asc').preload('product'))
+        .preload('packItems', (query) => query.orderBy('sort_order', 'asc'))
         .preload('mainImage')
         .firstOrFail()
     } catch (error) {
@@ -31,37 +28,11 @@ export class ProductPackARRepository implements ProductPackRepository {
     }
 
     const items = pack.packItems.map((item) => {
-      let product: Product | undefined
-      if (item.product) {
-        product = new Product(
-          AppId.fromString(item.product.id),
-          item.product.designation,
-          new ProductCategory(
-            item.product.categoryId ? AppId.fromString(item.product.categoryId) : null,
-            ''
-          ),
-          item.product.description,
-          item.product.price,
-          new ProductImage(
-            AppId.fromString(item.product.mainImageId),
-            item.product.mainImage?.url || null
-          ),
-          [],
-          item.product.slug,
-          item.product.brand,
-          item.product.stockQuantity,
-          item.product.lowStockThreshold,
-          item.product.isAvailable,
-          item.product.isDeleted,
-          this.toDate(item.product.createdAt),
-          this.toDate(item.product.updatedAt)
-        )
-      }
       return new ProductPackItem(
         AppId.fromString(item.id),
         AppId.fromString(item.productId),
         item.quantity,
-        product,
+        AppId.fromString(item.packId),
         item.sortOrder
       )
     })
@@ -89,11 +60,11 @@ export class ProductPackARRepository implements ProductPackRepository {
 
   async save(entity: ProductPack): Promise<void> {
     const object = {
-      id: entity.getId()?.value as any,
+      id: entity.getId()?.value,
       designation: entity.getDesignation(),
       description: entity.getDescription(),
       price: entity.getPrice(),
-      mainImageId: (entity.getMainImage()?.id.value as crypto.UUID) ?? null,
+      mainImageId: entity.getMainImage()?.id.value ?? null,
       slug: entity.getSlug(),
       stockQuantity: entity.getStockQuantity(),
       lowStockThreshold: entity.getLowStockThreshold(),
@@ -105,7 +76,7 @@ export class ProductPackARRepository implements ProductPackRepository {
 
     if (entity.getId()) {
       packRecord = await EntityActiveRecord.updateOrCreate(
-        { id: entity.getId()!.value as any },
+        { id: entity.getId()?.value },
         object as any
       )
     } else {
@@ -123,7 +94,7 @@ export class ProductPackARRepository implements ProductPackRepository {
       for (const item of items) {
         await ProductPackItemActiveRecord.create({
           packId: packRecord.id,
-          productId: item.getProductId().value as crypto.UUID,
+          productId: item.getProductId().value,
           quantity: item.getQuantity(),
           sortOrder: item.getSortOrder(),
         })

@@ -121,29 +121,30 @@ export class ProductPack {
    * Returns null if pack has no stock and items don't have stock info
    */
   getEffectiveStock(): number | null {
-    if (this.hasOwnStock()) {
-      return this.stockQuantity
-    }
+    // if (this.hasOwnStock()) {
+    //   return this.stockQuantity
+    // }
 
-    // Calculate from items if they have product stock info
-    if (this.items.length === 0) {
-      return null
-    }
+    // // Calculate from items if they have product stock info
+    // if (this.items.length === 0) {
+    //   return null
+    // }
 
-    let minStock: number | null = null
-    for (const item of this.items) {
-      const product = item.getProduct()
-      if (!product) {
-        return null
-      }
-      const productStock = product.getStockQuantity()
-      const availableFromProduct = Math.floor(productStock / item.getQuantity())
+    // let minStock: number | null = null
+    // for (const item of this.items) {
+    //   const product = item.getProduct()
+    //   if (!product) {
+    //     return null
+    //   }
+    //   const productStock = product.getStockQuantity()
+    //   const availableFromProduct = Math.floor(productStock / item.getQuantity())
 
-      if (minStock === null || availableFromProduct < minStock) {
-        minStock = availableFromProduct
-      }
-    }
+    //   if (minStock === null || availableFromProduct < minStock) {
+    //     minStock = availableFromProduct
+    //   }
+    // }
 
-    return minStock
+    // return minStock
+    return null
   }
 }

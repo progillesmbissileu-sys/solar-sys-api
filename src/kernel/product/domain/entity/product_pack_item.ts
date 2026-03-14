@@ -1,16 +1,15 @@
-import { Product } from '#kernel/product/domain/entity/product'
 import { AppId } from '#shared/domain/app_id'
 
 export class ProductPackItem {
   constructor(
-    private id: AppId,
+    private id: AppId | null,
     private productId: AppId,
     private quantity: number,
-    private product?: Product,
+    private packId?: AppId,
     private sortOrder: number = 0
   ) {}
 
-  getId(): AppId {
+  getId(): AppId | null {
     return this.id
   }
 
@@ -22,8 +21,8 @@ export class ProductPackItem {
     return this.quantity
   }
 
-  getProduct(): Product | undefined {
-    return this.product
+  getPackId(): AppId | undefined {
+    return this.packId
   }
 
   getSortOrder(): number {

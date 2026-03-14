@@ -134,6 +134,7 @@ router
         router.delete('/:id', [ProductPackController, 'destroy'])
         router.get('/:id/stock', [ProductPackController, 'stock'])
         router.put('/:id/stock', [ProductPackController, 'setStock'])
+        router.delete('/item/:id/remove', [ProductPackController, 'removeItem'])
       })
       .prefix('product-packs')
       .use(middleware.auth())

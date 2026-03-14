@@ -20,7 +20,7 @@ export default class ProductPack extends BaseModel {
   @column()
   declare designation: string
 
-  @column({ columnName: 'pack_slug' })
+  @column({ columnName: 'slug' })
   declare slug: string
 
   @column()

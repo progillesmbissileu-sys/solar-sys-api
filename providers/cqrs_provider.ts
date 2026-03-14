@@ -47,6 +47,7 @@ import { ListOrdersHandler } from '#kernel/order/application/query-handler/list_
 import { GetOrderHandler } from '#kernel/order/application/query-handler/get_order_handler'
 import { GetOrderByNumberHandler } from '#kernel/order/application/query-handler/get_order_by_number_handler'
 import { ListCustomerOrdersHandler } from '#kernel/order/application/query-handler/list_customer_orders_handler'
+import { RemoveProductPackItemHandler } from '#kernel/product/application/command-handler/remove_product_pack_item_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -142,6 +143,10 @@ export default class CqrsProvider {
         'ProductPackRepository',
       ])
       commandBus.register('SetProductPackStockCommand', SetProductPackStockHandler, [
+        'ProductPackRepository',
+      ])
+      commandBus.register('RemoveProductPackItemCommand', RemoveProductPackItemHandler, [
+        'ProductPackItemRepository',
         'ProductPackRepository',
       ])
 
