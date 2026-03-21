@@ -1,4 +1,4 @@
-import { Address } from '#kernel/customer/domain/entity/address'
+import { CustomerAddress } from '#kernel/customer/domain/entity/address'
 import { AppId } from '#shared/domain/app_id'
 
 export class Customer {
@@ -9,7 +9,7 @@ export class Customer {
     private lastName: string,
     private phone: string,
     private email?: string,
-    private addresses: Address[] = [],
+    private addresses: CustomerAddress[] = [],
     private createdAt?: Date,
     private updatedAt?: Date
   ) {}
@@ -46,7 +46,7 @@ export class Customer {
     return this.phone
   }
 
-  getAddresses(): Address[] {
+  getAddresses(): CustomerAddress[] {
     return this.addresses
   }
 

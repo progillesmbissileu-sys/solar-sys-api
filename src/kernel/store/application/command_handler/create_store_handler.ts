@@ -1,6 +1,6 @@
 import { CommandHandler } from '#shared/application/use-cases/command_handler'
 import { CreateStoreCommand } from '#kernel/store/application/command/create_store_command'
-import { Store } from '#kernel/store/domain/store'
+import { Store } from '#kernel/store/domain/entity/store'
 import { StoreRepository } from '#kernel/store/domain/store_repository'
 
 export class CreateStoreHandler implements CommandHandler<CreateStoreCommand> {

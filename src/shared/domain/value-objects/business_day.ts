@@ -39,6 +39,12 @@ export class BusinessDay {
     return BusinessDay.fromDate(new Date())
   }
 
+  static toJson(businessDay: BusinessDay): { businessDay: number } {
+    return {
+      businessDay: businessDay.value,
+    }
+  }
+
   // --- Queries ---
 
   isMonday(): boolean {

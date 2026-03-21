@@ -1,15 +1,15 @@
 import { AddressRepository } from '#kernel/customer/domain/repository/address_repository'
 import { default as EntityActiveRecord } from '#database/active-records/address'
-import { Address } from '#kernel/customer/domain/entity/address'
+import { CustomerAddress } from '#kernel/customer/domain/entity/address'
 import { AddressType } from '#kernel/customer/domain/type/address_type'
 import { AppId } from '#shared/domain/app_id'
 import { DateTime } from 'luxon'
 
 export class AddressARRepository implements AddressRepository {
-  async findById(id: AppId): Promise<Address> {
+  async findById(id: AppId): Promise<CustomerAddress> {
     const address = await EntityActiveRecord.findOrFail(id.value)
 
-    return new Address(
+    return new CustomerAddress(
       AppId.fromString(address.id),
       AppId.fromString(address.customerId),
       address.type as AddressType,
@@ -25,11 +25,11 @@ export class AddressARRepository implements AddressRepository {
     )
   }
 
-  async findByCustomerId(customerId: AppId): Promise<Address[]> {
+  async findByCustomerId(customerId: AppId): Promise<CustomerAddress[]> {
     const addresses = await EntityActiveRecord.query().where('customer_id', customerId.value)
 
     return addresses.map((addr) => {
-      return new Address(
+      return new CustomerAddress(
         AppId.fromString(addr.id),
         AppId.fromString(addr.customerId),
         addr.type as AddressType,
@@ -46,7 +46,7 @@ export class AddressARRepository implements AddressRepository {
     })
   }
 
-  async save(entity: Address): Promise<void> {
+  async save(entity: CustomerAddress): Promise<void> {
     const object = {
       customerId: entity.getCustomerId().value as any,
       type: entity.getType(),

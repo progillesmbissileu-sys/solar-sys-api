@@ -1,7 +1,7 @@
 import { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
 import { default as EntityActiveRecord } from '#database/active-records/customer'
 import { Customer } from '#kernel/customer/domain/entity/customer'
-import { Address } from '#kernel/customer/domain/entity/address'
+import { CustomerAddress } from '#kernel/customer/domain/entity/address'
 import { AddressType } from '#kernel/customer/domain/type/address_type'
 import { AppId } from '#shared/domain/app_id'
 import { DateTime } from 'luxon'
@@ -14,7 +14,7 @@ export class CustomerARRepository implements CustomerRepository {
       .firstOrFail()
 
     const addresses = (customer.addresses || []).map((addr) => {
-      return new Address(
+      return new CustomerAddress(
         AppId.fromString(addr.id),
         AppId.fromString(addr.customerId),
         addr.type as AddressType,
@@ -53,7 +53,7 @@ export class CustomerARRepository implements CustomerRepository {
     }
 
     const addresses = (customer.addresses || []).map((addr) => {
-      return new Address(
+      return new CustomerAddress(
         AppId.fromString(addr.id),
         AppId.fromString(addr.customerId),
         addr.type as AddressType,
@@ -109,7 +109,7 @@ export class CustomerARRepository implements CustomerRepository {
 
     return customers.map((customer) => {
       const addresses = (customer.addresses || []).map((addr) => {
-        return new Address(
+        return new CustomerAddress(
           AppId.fromString(addr.id),
           AppId.fromString(addr.customerId),
           addr.type as AddressType,

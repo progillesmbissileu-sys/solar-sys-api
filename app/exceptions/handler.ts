@@ -55,6 +55,8 @@ export default class HttpExceptionHandler extends ExceptionHandler {
       case 'ORDER_STATUS_TRANSITION_INVALID':
       case 'PRODUCT_IMAGE_NOT_OWNED':
         return 409
+      case 'STORE_CONFLICTING_BUSINESS_HOURS':
+        return 409
       default:
         return 422
     }

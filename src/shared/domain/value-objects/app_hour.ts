@@ -30,6 +30,12 @@ export class Hours {
     return new Hours(h24)
   }
 
+  static toJson(hours: Hours): { hours: number } {
+    return {
+      hours: hours.value,
+    }
+  }
+
   toTwentyFour(): number {
     return this.value
   }

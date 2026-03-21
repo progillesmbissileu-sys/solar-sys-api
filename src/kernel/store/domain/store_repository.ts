@@ -1,4 +1,4 @@
-import { Store } from '#kernel/store/domain/store'
+import { Store } from '#kernel/store/domain/entity/store'
 import { RepositoryInterface } from '#shared/infrastructure/repository_interface'
 
 export interface StoreRepository extends RepositoryInterface {

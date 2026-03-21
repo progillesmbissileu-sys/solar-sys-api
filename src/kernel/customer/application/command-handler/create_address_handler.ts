@@ -2,7 +2,7 @@ import { CommandHandler } from '#shared/application/use-cases/command_handler'
 import { CreateAddressCommand } from '#kernel/customer/application/command/create_address_command'
 import { CustomerRepository } from '#kernel/customer/domain/repository/customer_repository'
 import { AddressRepository } from '#kernel/customer/domain/repository/address_repository'
-import { Address } from '#kernel/customer/domain/entity/address'
+import { CustomerAddress } from '#kernel/customer/domain/entity/address'
 import { AppId } from '#shared/domain/app_id'
 
 export class CreateAddressHandler implements CommandHandler<CreateAddressCommand, string> {
@@ -15,7 +15,7 @@ export class CreateAddressHandler implements CommandHandler<CreateAddressCommand
     // Verify customer exists
     await this.customerRepository.findById(AppId.fromString(command.customerId))
 
-    const address = new Address(
+    const address = new CustomerAddress(
       null,
       AppId.fromString(command.customerId),
       command.type,

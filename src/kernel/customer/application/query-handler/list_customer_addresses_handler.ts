@@ -1,6 +1,6 @@
 import { QueryHandler } from '#shared/application/use-cases/query_handler'
 import { ListCustomerAddressesQuery } from '#kernel/customer/application/query/list_customer_addresses_query'
-import { Address } from '#kernel/customer/domain/entity/address'
+import { CustomerAddress } from '#kernel/customer/domain/entity/address'
 import type { AddressRepository } from '#kernel/customer/domain/repository/address_repository'
 import { AppId } from '#shared/domain/app_id'
 
@@ -30,7 +30,7 @@ export class ListCustomerAddressesHandler implements QueryHandler<
       AppId.fromString(query.customerId)
     )
 
-    return addresses.map((address: Address) => ({
+    return addresses.map((address: CustomerAddress) => ({
       id: address.getId()?.value ?? null,
       customerId: address.getCustomerId().value,
       addressLine1: address.getAddressLine1(),

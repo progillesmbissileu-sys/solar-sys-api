@@ -1,7 +1,7 @@
 import { AddressType } from '#kernel/customer/domain/type/address_type'
 import { AppId } from '#shared/domain/app_id'
 
-export class Address {
+export class CustomerAddress {
   constructor(
     private id: AppId | null,
     private customerId: AppId,
