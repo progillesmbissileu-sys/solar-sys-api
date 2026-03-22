@@ -47,8 +47,8 @@ export default class StoreController extends AppAbstractController {
             close: value.endTime,
           })
         ),
-        payload.whatsappNumber ? PhoneNumber.of(payload.whatsappNumber) : undefined,
-        payload.phoneNumber2 ? PhoneNumber.of(payload.phoneNumber2) : undefined
+        payload.whatsappNumber ? PhoneNumber.of(payload.whatsappNumber) : null,
+        payload.phoneNumber2 ? PhoneNumber.of(payload.phoneNumber2) : null
       )
     )
     return response.created()

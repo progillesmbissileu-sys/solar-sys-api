@@ -12,8 +12,8 @@ export class UpdateStoreCommand implements Command {
     public address: Address,
     public phoneContact1: PhoneNumber,
     public businessHours: Array<BusinessHours>,
-    public whatsAppContact: PhoneNumber | null = null,
-    public phoneContact2: PhoneNumber | null = null
+    public whatsAppContact: PhoneNumber | null,
+    public phoneContact2: PhoneNumber | null
   ) {
     this.timestamp = new Date()
   }

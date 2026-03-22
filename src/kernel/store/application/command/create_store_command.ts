@@ -11,8 +11,8 @@ export class CreateStoreCommand implements Command {
     public address: Address,
     public phoneContact1: PhoneNumber,
     public businessHours: Array<BusinessHours>,
-    public whatsAppContact?: PhoneNumber,
-    public phoneContact2?: PhoneNumber
+    public whatsAppContact: PhoneNumber | null,
+    public phoneContact2: PhoneNumber | null
   ) {
     this.timestamp = new Date()
   }
