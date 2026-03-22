@@ -39,7 +39,7 @@ router
       router
         .resource('store', StoreController)
         .apiOnly()
-        .only(['store'])
+        .only(['store', 'index', 'update', 'show'])
         .use('*', middleware.auth())
       router
         .get('product/grouped-by-category', [ProductController, 'groupedByCategory'])

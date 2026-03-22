@@ -41,8 +41,12 @@ export class Store {
     this.status = { status, reason }
   }
 
-  getId(): any {
+  getId(): AppId | null {
     return this.id
+  }
+
+  setId(id: AppId) {
+    this.id = id
   }
 
   getDesignation(): string {

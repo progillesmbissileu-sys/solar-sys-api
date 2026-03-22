@@ -1,11 +1,11 @@
 meta {
-  name: Create Store
+  name: Update Store
   type: http
-  seq: 1
+  seq: 2
 }
 
-post {
-  url: {{base_url}}/api/store
+put {
+  url: {{base_url}}/api/store/:id
   body: json
   auth: bearer
 }
@@ -14,18 +14,22 @@ auth:bearer {
   token: {{access_token}}
 }
 
+params:path {
+  id: 550e8400-e29b-41d4-a716-446655440000
+}
+
 body:json {
   {
-    "designation": "Douala Branch",
+    "designation": "Main Branch - Updated",
     "address": {
-      "street": "123 Solar Street",
+      "street": "456 Solar Avenue",
       "city": "Douala",
       "country": "Cameroon",
-      "postalCode": "00000"
+      "postalCode": "00001"
     },
     "phoneNumber1": {
       "countryCode": "237",
-      "number": "699112233"
+      "number": "699112244"
     },
     "businessHours": [
       {
@@ -37,32 +41,43 @@ body:json {
         "day": 1,
         "startTime": 8,
         "endTime": 17
+      },
+      {
+        "day": 2,
+        "startTime": 9,
+        "endTime": 18
       }
     ],
     "phoneNumber2": {
       "countryCode": "237",
-      "number": "677445566"
+      "number": "677445577"
     },
     "whatsappNumber": {
       "countryCode": "237",
-      "number": "655001122"
+      "number": "655001133"
     }
   }
 }
 
 tests {
-  test("should return 201 on success", function() {
-    expect(res.status).toBe(201);
+  test("should return 204 on success", function() {
+    expect(res.status).toBe(204);
   });
 }
 
 docs {
-  # Create Store
-  
-  Creates a new store.
-  
+  # Update Store
+
+  Updates an existing store by ID.
+
+  ## Path Parameters
+
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | id | uuid | Store ID |
+
   ## Request Body
-  
+
   | Field | Type | Required | Description |
   |-------|------|----------|-------------|
   | designation | string | Yes | Store designation (min 1 character) |
@@ -84,10 +99,11 @@ docs {
   | whatsappNumber | object | No | WhatsApp contact |
   | whatsappNumber.countryCode | string | Yes (if object provided) | Country dialing code |
   | whatsappNumber.number | string | Yes (if object provided) | Phone number |
-  
+
   ## Response
-  
-  - **201 Created**: Store created successfully
-  - **422 Unprocessable Entity**: Validation error
+
+  - **204 No Content**: Store updated successfully
   - **401 Unauthorized**: Missing or invalid bearer token
+  - **404 Not Found**: Store not found
+  - **422 Unprocessable Entity**: Validation error
 }

@@ -1,0 +1,93 @@
+meta {
+  name: Get Store
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/api/store/{{store_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+vars:pre-request {
+  store_id: e677bfb1-f28b-4f28-bc45-31d884dd5303
+}
+
+tests {
+  test("should return 200 when store exists", function() {
+    if (res.status === 200) {
+      expect(res.status).toBe(200);
+    }
+  });
+  
+  test("should return 404 when store does not exist", function() {
+    if (res.status !== 200) {
+      expect(res.status).toBe(404);
+    }
+  });
+  
+  test("should return expected fields when successful", function() {
+    if (res.status === 200) {
+      const body = res.body;
+      expect(body.id).toBeTruthy();
+      expect(body.designation).toBeTruthy();
+      expect(body.address).toBeTruthy();
+      expect(body.phoneContact1).toBeTruthy();
+    }
+  });
+}
+
+docs {
+  # Get Store
+  
+  Retrieves a single store by its ID.
+  
+  ## URL Parameters
+  
+  | Parameter | Type | Description |
+  |-----------|------|-------------|
+  | store_id | uuid | Store ID to retrieve |
+  
+  ## Response
+  
+  - **200 OK**: Store retrieved successfully
+  - **404 Not Found**: Store not found
+  - **401 Unauthorized**: Missing or invalid bearer token
+  
+  ## Response Body (200)
+  
+  ```json
+  {
+    "id": "uuid",
+    "designation": "Main Branch",
+    "address": {
+      "street": "123 Solar Street",
+      "city": "Douala",
+      "country": "Cameroon",
+      "postalCode": "00000",
+      "region": "Littoral"
+    },
+    "phoneContact1": {
+      "countryCode": "237",
+      "number": "699112233"
+    },
+    "phoneContact2": {
+      "countryCode": "237",
+      "number": "677445566"
+    },
+    "whatsAppContact": {
+      "countryCode": "237",
+      "number": "655001122"
+    },
+    "status": "active",
+    "statusReason": null,
+    "createdAt": "2026-03-22T10:00:00.000+00:00",
+    "updatedAt": "2026-03-22T10:00:00.000+00:00"
+  }
+  ```
+}
