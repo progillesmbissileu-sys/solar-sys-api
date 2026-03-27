@@ -1,14 +1,16 @@
-import { Pagination } from '#shared/application/query-options/pagination'
-import { QuerySearch } from '#shared/application/query-options/query_search'
-import { Query } from '#shared/application/use-cases/query'
+import { QueryHandler } from '#shared/application/use-cases/query_handler'
+import { ListStoreQuery } from '#kernel/store/application/query/list_stores_query'
+import { StoreListItemDto } from '#kernel/store/application/dto/store_dto'
+import { StoreCollection } from '../collection/store_collection'
+import { PaginatedResultDto } from '#shared/application/collection/paginated_result'
 
-export class GetStoreListQuery implements Query {
-  readonly timestamp: Date
+export class ListStoreQueryHandler implements QueryHandler<
+  ListStoreQuery,
+  PaginatedResultDto<StoreListItemDto>
+> {
+  constructor(private readonly collectionService: StoreCollection) {}
 
-  constructor(
-    public readonly pagination: Pagination,
-    public readonly search: QuerySearch
-  ) {
-    this.timestamp = new Date()
+  handle(query: ListStoreQuery): Promise<PaginatedResultDto<StoreListItemDto>> {
+    return this.collectionService.collection(query)
   }
 }

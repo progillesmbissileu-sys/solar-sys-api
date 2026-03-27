@@ -57,6 +57,8 @@ import { DeleteStaffMemberHandler } from '#kernel/staff/application/command-hand
 import { ListStaffMembersHandler } from '#kernel/staff/application/query-handler/list_staff_members_handler'
 import { GetStaffMemberHandler } from '#kernel/staff/application/query-handler/get_staff_member_handler'
 import { ChangeStoreStatusHandler } from '#kernel/store/application/command_handler/change_store_status_hanler'
+import { ListStoreQueryHandler } from '#kernel/store/application/query_handler/list_stores_query_handler'
+import { GetStoreQueryHandler } from '#kernel/store/application/query_handler/get_store_query_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -184,6 +186,10 @@ export default class CqrsProvider {
 
     this.app.container.singleton('CQRS/QueryBus', () => {
       const queryBus = new QueryBus(this.app)
+
+      //STORE QUERIES
+      queryBus.register('ListStoreQuery', ListStoreQueryHandler, ['StoreCollection'])
+      queryBus.register('GetStoreQuery', GetStoreQueryHandler, ['StoreReadModel'])
 
       //CUSTOMER QUERIES
       queryBus.register('ListCustomersQuery', ListCustomersHandler, ['CustomerRepository'])

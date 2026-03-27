@@ -16,9 +16,9 @@ export default class Store extends BaseModel {
   declare address: {
     street: string
     city: string
-    country?: string
-    postalCode?: string
-    region?: string
+    country: string | undefined
+    postalCode: string | undefined
+    region: string | undefined
   }
 
   @column()

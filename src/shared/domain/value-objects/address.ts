@@ -48,7 +48,7 @@ export class Address {
   }
 
   toString(): string {
-    return this.toLines().join('\n')
+    return this.toLines().join(',')
   }
 
   toInline(): string {

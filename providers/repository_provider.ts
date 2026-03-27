@@ -1,5 +1,5 @@
 import { ApplicationService } from '@adonisjs/core/types'
-import { StoreARRepository } from '#kernel/store/infrastructure/persistence/store_ar_repository'
+import { StoreARRepository } from '#kernel/store/infrastructure/store_ar_repository'
 import { ProductARRepository } from '#kernel/product/infrastructure/persistence/aggregates/product_ar_repository'
 import { ProductCategoryARRepository } from '#kernel/product/infrastructure/persistence/aggregates/product_category_ar_repository'
 import { MarketServiceARRepository } from '#kernel/market/infrastructure/persistence/market_service_ar_repository'
@@ -23,6 +23,8 @@ import { MarketServiceARCollection } from '#kernel/market/infrastructure/persist
 import { MarketServiceARReadModel } from '#kernel/market/infrastructure/persistence/projections/market_service_ar_read_model'
 import { StaffMemberARRepository } from '#kernel/staff/infrastructure/persistence/staff_member_ar_repository'
 import { StaffMemberARCollection } from '#kernel/staff/infrastructure/persistence/projections/staff_member_ar_collection'
+import { StoreARCollection } from '#kernel/store/infrastructure/store_ar_collection'
+import { StoreARReadModel } from '#kernel/store/infrastructure/store_ar_read_model'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -31,6 +33,12 @@ export default class RepositoryProvider {
     if (this.app.nodeEnvironment !== 'test') {
       this.app.container.bind('StoreRepository', () => {
         return new StoreARRepository()
+      })
+      this.app.container.bind('StoreCollection', () => {
+        return new StoreARCollection()
+      })
+      this.app.container.bind('StoreReadModel', () => {
+        return new StoreARReadModel()
       })
       this.app.container.bind('ProductRepository', () => {
         return new ProductARRepository()

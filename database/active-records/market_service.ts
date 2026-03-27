@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/orm'
 import crypto from 'node:crypto'
 import ImageMedia from '#database/active-records/image_media'
+import { type BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class MarketService extends BaseModel {
   @column({ isPrimary: true })

@@ -9,16 +9,20 @@ import { BusinessDay } from '#shared/domain/value-objects/business_day'
 import { UpdateStoreCommand } from '#kernel/store/application/command/update_store_command'
 import Store from '#database/active-records/store'
 import { AppId } from '#shared/domain/app_id'
+import { ListStoreQuery } from '#kernel/store/application/query/list_stores_query'
 
 export default class StoreController extends AppAbstractController {
   constructor() {
     super()
   }
 
-  public async index({ response }: HttpContext) {
-    const stores = await Store.all()
+  public async index({ response, request }: HttpContext) {
+    const query = request.qs()
+    const results = await this.handleQuery(
+      new ListStoreQuery(this.parseQueryPagination(query), this.parseQuerySearch(query))
+    )
 
-    response.status(200).json(stores)
+    response.status(200).json(results)
   }
 
   public async show({ request, response }: HttpContext) {

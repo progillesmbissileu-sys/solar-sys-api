@@ -18,6 +18,8 @@ import { MarketServiceCollection } from '#kernel/market/application/collection/m
 import { MarketServiceReadModel } from '#kernel/market/application/read-model/market_service_read_model'
 import type { StaffMemberRepository } from '#kernel/staff/domain/repository/staff_member_repository'
 import { StaffMemberCollection } from '#kernel/staff/application/collection/staff_member_collection'
+import { StoreCollection } from '#kernel/store/application/collection/store_collection'
+import { StoreReadModel } from '#kernel/store/application/read_model/store_read_model'
 
 declare module '@adonisjs/core/types' {
   interface ContainerBindings {
@@ -51,6 +53,8 @@ declare module '@adonisjs/core/types' {
     'MarketServiceCollection': MarketServiceCollection
     'MarketServiceReadModel': MarketServiceReadModel
     'StaffMemberCollection': StaffMemberCollection
+    'StoreCollection': StoreCollection
+    'StoreReadModel': StoreReadModel
 
     //SERVICE
     'MediaUploadService': MediaManagerInterface

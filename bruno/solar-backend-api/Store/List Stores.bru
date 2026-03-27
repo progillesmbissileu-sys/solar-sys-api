@@ -6,6 +6,7 @@ meta {
 
 get {
   url: {{base_url}}/api/store
+  body: none
   auth: bearer
 }
 
@@ -13,11 +14,15 @@ auth:bearer {
   token: {{access_token}}
 }
 
+vars:pre-request {
+  q: Bafoussam 
+}
+
 tests {
   test("should return 200 on success", function() {
     expect(res.status).toBe(200);
   });
-
+  
   test("should return an array of stores", function() {
     const body = res.body;
     expect(Array.isArray(body)).toBe(true);
@@ -26,24 +31,24 @@ tests {
 
 docs {
   # List Stores
-
+  
   Retrieves all stores.
-
+  
   ## Endpoint
-
+  
   `GET /api/store`
-
+  
   ## Authentication
-
+  
   Bearer token required.
-
+  
   ## Response
-
+  
   - **200 OK**: Returns the list of stores
   - **401 Unauthorized**: Missing or invalid bearer token
-
+  
   ### Response Body
-
+  
   ```json
   [
     {
