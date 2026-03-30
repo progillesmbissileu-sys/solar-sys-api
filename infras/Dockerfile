@@ -24,7 +24,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=build /app/build ./
-RUN npm ci --omit=dev && node bin/server.js
+RUN npm ci --omit=dev
 
 EXPOSE 3333
 CMD ["node", "bin/server.js"]
