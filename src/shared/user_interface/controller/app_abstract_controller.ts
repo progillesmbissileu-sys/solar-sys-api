@@ -25,12 +25,12 @@ export class AppAbstractController {
   }
 
   protected parseQuerySearch(query: Record<string, any>) {
-    return new QuerySearch(query.q || query.search)
+    return new QuerySearch(query['q'] || query['search'])
   }
 
   protected parseQueryPagination(query: Record<string, any>) {
-    const page = query.page || query['page[offset]']
-    const limit = query.limit || query['page[limit]']
+    const page = query['page'] || query['page[offset]']
+    const limit = query['limit'] || query['page[limit]']
 
     return new Pagination(page, limit)
   }
