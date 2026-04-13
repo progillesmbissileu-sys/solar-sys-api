@@ -1,0 +1,2876 @@
+{
+  "info": {
+    "_postman_id": "b5d6d8d7-9bee-4a86-a3bf-211b8bf0642b",
+    "name": "Solar Backend API",
+    "description": "API documentation for Solar Backend - A comprehensive e-commerce and inventory management system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3333",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"admin-dev@admin.com\",\r\n    \"password\": \"admin-pwd\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"admin-dev@admin.com\",\r\n    \"password\": \"admin-pwd\",\r\n    \"fullName\": \"Test User\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Add Customer Address",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/:id/addresses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":id",
+                "addresses"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Add Customer Address\r\n  \r\n  Adds a new address to a customer.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Customer ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | addressLine1 | string | Yes | Primary address line (max 255 characters) |\r\n  | addressLine2 | string | No | Secondary address line (max 255 characters, nullable) |\r\n  | city | string | Yes | City name (max 100 characters) |\r\n  | state | string | Yes | State/Province (max 100 characters) |\r\n  | postalCode | string | Yes | Postal/ZIP code (max 20 characters) |\r\n  | country | string | Yes | Country name (max 100 characters) |\r\n  | type | string | Yes | Address type: \"SHIPPING\" or \"BILLING\" |\r\n  | isDefault | boolean | No | Set as default address |\r\n  \r\n  ## Response\r\n  \r\n  - **201 Created**: Address added successfully\r\n  - **404 Not Found**: Customer not found\r\n  - **422 Unprocessable Entity**: Validation error\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Address added successfully\",\r\n    \"data\": {\r\n      \"id\": \"uuid\"\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"addressLine1\": \"123 Main Street\",\r\n    \"addressLine2\": \"Apt 4B\",\r\n    \"city\": \"Lagos\",\r\n    \"state\": \"Lagos\",\r\n    \"postalCode\": \"100001\",\r\n    \"country\": \"Nigeria\",\r\n    \"type\": \"SHIPPING\",\r\n    \"isDefault\": true",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "  # Create Customer\r\n  \r\n  Creates a new customer.\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | firstName | string | Yes | Customer first name (2-100 characters) |\r\n  | lastName | string | Yes | Customer last name (2-100 characters) |\r\n  | phone | string | Yes | Phone number (10-20 characters) |\r\n  | email | string | No | Email address (valid email format, nullable) |\r\n  \r\n  ## Response\r\n  \r\n  - **201 Created**: Customer created successfully\r\n  - **422 Unprocessable Entity**: Validation error\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Customer created successfully\",\r\n    \"data\": {\r\n      \"id\": \"uuid\"\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"phone\": \"08012345679\",\r\n    \"email\": \"jane.doe@example.com\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Customer Address",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/:id/addresses/:addressId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":id",
+                "addresses",
+                ":addressId"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                {
+                  "key": "addressId",
+                  "value": "660e8400-e29b-41d4-a716-446655440001"
+                }
+              ]
+            },
+            "description": "  # Delete Customer Address\r\n  \r\n  Deletes a customer's address.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Customer ID |\r\n  | addressId | uuid | Address ID |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Address deleted successfully\r\n  - **404 Not Found**: Customer or address not found\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Address deleted successfully\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Get Customer\r\n  \r\n  Retrieves a single customer by ID.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Customer ID |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns customer data\r\n  - **404 Not Found**: Customer not found\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"data\": {\r\n      \"id\": \"uuid\",\r\n      \"firstName\": \"string\",\r\n      \"lastName\": \"string\",\r\n      \"phone\": \"string\",\r\n      \"email\": \"string | null\",\r\n      \"createdAt\": \"datetime\",\r\n      \"updatedAt\": \"datetime\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Customer Addresses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/:id/addresses",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":id",
+                "addresses"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # List Customer Addresses\r\n  \r\n  Retrieves all addresses for a specific customer.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Customer ID |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns array of addresses\r\n  - **404 Not Found**: Customer not found\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"data\": [\r\n      {\r\n        \"id\": \"uuid\",\r\n        \"customerId\": \"uuid\",\r\n        \"addressLine1\": \"string\",\r\n        \"addressLine2\": \"string | null\",\r\n        \"city\": \"string\",\r\n        \"state\": \"string\",\r\n        \"postalCode\": \"string\",\r\n        \"country\": \"string\",\r\n        \"type\": \"SHIPPING | BILLING\",\r\n        \"isDefault\": \"boolean\",\r\n        \"createdAt\": \"datetime\",\r\n        \"updatedAt\": \"datetime\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "  # List Customers\r\n  \r\n  Retrieves a list of all customers.\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns array of customers\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"data\": [\r\n      {\r\n        \"id\": \"uuid\",\r\n        \"firstName\": \"string\",\r\n        \"lastName\": \"string\",\r\n        \"phone\": \"string\",\r\n        \"email\": \"string | null\",\r\n        \"createdAt\": \"datetime\",\r\n        \"updatedAt\": \"datetime\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Customer Address",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/:id/addresses/:addressId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":id",
+                "addresses",
+                ":addressId"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                {
+                  "key": "addressId",
+                  "value": "660e8400-e29b-41d4-a716-446655440001"
+                }
+              ]
+            },
+            "description": "  # Update Customer Address\r\n  \r\n  Updates an existing customer address.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Customer ID |\r\n  | addressId | uuid | Address ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | addressLine1 | string | No | Primary address line (max 255 characters) |\r\n  | addressLine2 | string | No | Secondary address line (max 255 characters, nullable) |\r\n  | city | string | No | City name (max 100 characters) |\r\n  | state | string | No | State/Province (max 100 characters) |\r\n  | postalCode | string | No | Postal/ZIP code (max 20 characters) |\r\n  | country | string | No | Country name (max 100 characters) |\r\n  | type | string | No | Address type: \"SHIPPING\" or \"BILLING\" |\r\n  | isDefault | boolean | No | Set as default address |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Address updated successfully\r\n  - **404 Not Found**: Customer or address not found\r\n  - **422 Unprocessable Entity**: Validation error\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Address updated successfully\",\r\n    \"data\": {\r\n      \"id\": \"uuid\",\r\n      \"customerId\": \"uuid\",\r\n      \"addressLine1\": \"string\",\r\n      \"addressLine2\": \"string | null\",\r\n      \"city\": \"string\",\r\n      \"state\": \"string\",\r\n      \"postalCode\": \"string\",\r\n      \"country\": \"string\",\r\n      \"type\": \"SHIPPING | BILLING\",\r\n      \"isDefault\": \"boolean\",\r\n      \"createdAt\": \"datetime\",\r\n      \"updatedAt\": \"datetime\"\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"addressLine1\": \"456 Updated Avenue\",\r\n    \"city\": \"Abuja\",\r\n    \"state\": \"FCT\",\r\n    \"postalCode\": \"900001\",\r\n    \"country\": \"Nigeria\",\r\n    \"type\": \"BILLING\",\r\n    \"isDefault\": false",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/customers/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Update Customer\r\n  \r\n  Updates an existing customer's information.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Customer ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | firstName | string | No | Customer first name (2-100 characters) |\r\n  | lastName | string | No | Customer last name (2-100 characters) |\r\n  | phone | string | No | Phone number (10-20 characters) |\r\n  | email | string | No | Email address (valid email format, nullable) |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Customer updated successfully\r\n  - **404 Not Found**: Customer not found\r\n  - **422 Unprocessable Entity**: Validation error\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Customer updated successfully\",\r\n    \"data\": {\r\n      \"id\": \"uuid\",\r\n      \"firstName\": \"string\",\r\n      \"lastName\": \"string\",\r\n      \"phone\": \"string\",\r\n      \"email\": \"string | null\",\r\n      \"createdAt\": \"datetime\",\r\n      \"updatedAt\": \"datetime\"\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Smith\",\r\n    \"phone\": \"08098765432\",\r\n    \"email\": \"jane.smith@example.com\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Image Media",
+      "item": [
+        {
+          "name": "Delete Image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/image-media/00000-00000000000-0",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "image-media",
+                "00000-00000000000-0"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/image-media",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "image-media"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "value": "",
+                  "type": "file",
+                  "src": "C:\\Users\\Elkira01\\Pictures\\KBM\\kbm.webp"
+                },
+                {
+                  "key": "title",
+                  "value": "service2",
+                  "type": "text"
+                },
+                {
+                  "key": "alt",
+                  "value": "service2",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Market Services",
+      "item": [
+        {
+          "name": "Create Service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/market-services",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "market-services"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"Service Two\",\r\n    \"thumbnailId\": \"998cdd2e-e9f3-47aa-af69-4c78b2ef1fb2\",\r\n    \"contentDescription\": \"<p>Service content description</p>\",\r\n    \"shortDescription\": \"Short description bis\",\r\n    \"features\": [\"Feat one bis\",\"feat two bis\"]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Service",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/market-services/{{service_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "market-services",
+                "{{service_id}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Service",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/market-services/{{service_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "market-services",
+                "{{service_id}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/market-services",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "market-services"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Replace Thumbnail",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/market-services/{{service_id}}/thumbnail",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "market-services",
+                "{{service_id}}",
+                "thumbnail"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"thumbnailId\": \"04f15224-3fb6-468c-b725-2761ac82484c\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Service",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/market-services/{{service_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "market-services",
+                "{{service_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"Updated Service Name\",\r\n    \"contentDescription\": \"<p>Updated content description</p>\",\r\n    \"shortDescription\": \"Updated short description\",\r\n    \"features\": []",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/:id/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                ":id",
+                "cancel"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Cancel Order\r\n  \r\n  Cancels an existing order.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Order ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | reason | string | No | Cancellation reason (max 500 characters, nullable) |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Order cancelled successfully\r\n  - **404 Not Found**: Order not found\r\n  - **422 Unprocessable Entity**: Validation error or order cannot be cancelled\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Order cancelled successfully\"\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"reason\": \"Customer requested cancellation\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
+            },
+            "description": "  # Create Order\r\n  \r\n  Creates a new order for a customer.\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | customerId | uuid | Yes | Customer ID |\r\n  | items | array | Yes | Array of order items (min 1 item) |\r\n  | items[].productId | uuid | Yes | Product ID |\r\n  | items[].quantity | number | Yes | Quantity (1-1000) |\r\n  | shippingAddressId | uuid | Yes | Shipping address ID |\r\n  | customerNotes | string | No | Order notes (max 1000 characters, nullable) |\r\n  \r\n  ## Response\r\n  \r\n  - **201 Created**: Order created successfully\r\n  - **422 Unprocessable Entity**: Validation error\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Order created successfully\",\r\n    \"data\": {\r\n      \"orderNumber\": \"string\"\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customerId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"items\": [\r\n      {\r\n        \"productId\": \"660e8400-e29b-41d4-a716-446655440001\",\r\n        \"quantity\": 2\r\n      },\r\n      {\r\n        \"productId\": \"660e8400-e29b-41d4-a716-446655440002\",\r\n        \"quantity\": 1",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Order by Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/number/:orderNumber",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "number",
+                ":orderNumber"
+              ],
+              "variable": [
+                {
+                  "key": "orderNumber",
+                  "value": "ORD-2024-000001"
+                }
+              ]
+            },
+            "description": "  # Get Order by Number\r\n  \r\n  Retrieves a single order by its order number.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | orderNumber | string | Order number (e.g., ORD-2024-000001) |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns order data\r\n  - **404 Not Found**: Order not found\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"data\": {\r\n      \"id\": \"uuid\",\r\n      \"orderNumber\": \"string\",\r\n      \"customerId\": \"uuid\",\r\n      \"status\": \"string\",\r\n      \"customerFirstName\": \"string\",\r\n      \"customerLastName\": \"string\",\r\n      \"customerPhone\": \"string\",\r\n      \"shippingAddressLine1\": \"string\",\r\n      \"shippingAddressLine2\": \"string | null\",\r\n      \"shippingCity\": \"string\",\r\n      \"shippingState\": \"string\",\r\n      \"shippingPostalCode\": \"string\",\r\n      \"shippingCountry\": \"string\",\r\n      \"subtotal\": \"number\",\r\n      \"shippingFee\": \"number\",\r\n      \"total\": \"number\",\r\n      \"customerNotes\": \"string | null\",\r\n      \"adminNotes\": \"string | null\",\r\n      \"confirmedAt\": \"datetime | null\",\r\n      \"shippedAt\": \"datetime | null\",\r\n      \"deliveredAt\": \"datetime | null\",\r\n      \"cancelledAt\": \"datetime | null\",\r\n      \"createdAt\": \"datetime\",\r\n      \"updatedAt\": \"datetime\",\r\n      \"items\": [\r\n        {\r\n          \"id\": \"uuid\",\r\n          \"productId\": \"uuid\",\r\n          \"productName\": \"string\",\r\n          \"productSlug\": \"string\",\r\n          \"quantity\": \"number\",\r\n          \"unitPrice\": \"number\",\r\n          \"totalPrice\": \"number\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Get Order\r\n  \r\n  Retrieves a single order by ID.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Order ID |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns order data\r\n  - **404 Not Found**: Order not found\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"data\": {\r\n      \"id\": \"uuid\",\r\n      \"orderNumber\": \"string\",\r\n      \"customerId\": \"uuid\",\r\n      \"status\": \"string\",\r\n      \"customerFirstName\": \"string\",\r\n      \"customerLastName\": \"string\",\r\n      \"customerPhone\": \"string\",\r\n      \"shippingAddressLine1\": \"string\",\r\n      \"shippingAddressLine2\": \"string | null\",\r\n      \"shippingCity\": \"string\",\r\n      \"shippingState\": \"string\",\r\n      \"shippingPostalCode\": \"string\",\r\n      \"shippingCountry\": \"string\",\r\n      \"subtotal\": \"number\",\r\n      \"shippingFee\": \"number\",\r\n      \"total\": \"number\",\r\n      \"customerNotes\": \"string | null\",\r\n      \"adminNotes\": \"string | null\",\r\n      \"confirmedAt\": \"datetime | null\",\r\n      \"shippedAt\": \"datetime | null\",\r\n      \"deliveredAt\": \"datetime | null\",\r\n      \"cancelledAt\": \"datetime | null\",\r\n      \"createdAt\": \"datetime\",\r\n      \"updatedAt\": \"datetime\",\r\n      \"items\": [\r\n        {\r\n          \"id\": \"uuid\",\r\n          \"productId\": \"uuid\",\r\n          \"productName\": \"string\",\r\n          \"productSlug\": \"string\",\r\n          \"quantity\": \"number\",\r\n          \"unitPrice\": \"number\",\r\n          \"totalPrice\": \"number\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Orders by Customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/customer/:customerId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "customer",
+                ":customerId"
+              ],
+              "variable": [
+                {
+                  "key": "customerId",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Get Orders by Customer\r\n  \r\n  Retrieves all orders for a specific customer.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | customerId | uuid | Customer ID |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns array of orders with pagination metadata\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"data\": [\r\n      {\r\n        \"id\": \"uuid\",\r\n        \"orderNumber\": \"string\",\r\n        \"customerId\": \"uuid\",\r\n        \"status\": \"string\",\r\n        \"customerFirstName\": \"string\",\r\n        \"customerLastName\": \"string\",\r\n        \"customerPhone\": \"string\",\r\n        \"shippingAddressLine1\": \"string\",\r\n        \"shippingAddressLine2\": \"string | null\",\r\n        \"shippingCity\": \"string\",\r\n        \"shippingState\": \"string\",\r\n        \"shippingPostalCode\": \"string\",\r\n        \"shippingCountry\": \"string\",\r\n        \"subtotal\": \"number\",\r\n        \"shippingFee\": \"number\",\r\n        \"total\": \"number\",\r\n        \"customerNotes\": \"string | null\",\r\n        \"adminNotes\": \"string | null\",\r\n        \"confirmedAt\": \"datetime | null\",\r\n        \"shippedAt\": \"datetime | null\",\r\n        \"deliveredAt\": \"datetime | null\",\r\n        \"cancelledAt\": \"datetime | null\",\r\n        \"createdAt\": \"datetime\",\r\n        \"updatedAt\": \"datetime\",\r\n        \"items\": [\r\n          {\r\n            \"id\": \"uuid\",\r\n            \"productId\": \"uuid\",\r\n            \"productName\": \"string\",\r\n            \"productSlug\": \"string\",\r\n            \"quantity\": \"number\",\r\n            \"unitPrice\": \"number\",\r\n            \"totalPrice\": \"number\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": "  # List Orders\r\n  \r\n  Retrieves a list of all orders with optional status filtering.\r\n  \r\n  ## Query Parameters\r\n  \r\n  | Parameter | Type | Required | Description |\r\n  |-----------|------|----------|-------------|\r\n  | status | string | No | Filter by order status: PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns array of orders\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"data\": [\r\n      {\r\n        \"id\": \"uuid\",\r\n        \"orderNumber\": \"string\",\r\n        \"customerId\": \"uuid\",\r\n        \"status\": \"string\",\r\n        \"customerFirstName\": \"string\",\r\n        \"customerLastName\": \"string\",\r\n        \"customerPhone\": \"string\",\r\n        \"shippingAddressLine1\": \"string\",\r\n        \"shippingAddressLine2\": \"string | null\",\r\n        \"shippingCity\": \"string\",\r\n        \"shippingState\": \"string\",\r\n        \"shippingPostalCode\": \"string\",\r\n        \"shippingCountry\": \"string\",\r\n        \"subtotal\": \"number\",\r\n        \"shippingFee\": \"number\",\r\n        \"total\": \"number\",\r\n        \"customerNotes\": \"string | null\",\r\n        \"adminNotes\": \"string | null\",\r\n        \"confirmedAt\": \"datetime | null\",\r\n        \"shippedAt\": \"datetime | null\",\r\n        \"deliveredAt\": \"datetime | null\",\r\n        \"cancelledAt\": \"datetime | null\",\r\n        \"createdAt\": \"datetime\",\r\n        \"updatedAt\": \"datetime\",\r\n        \"items\": [\r\n          {\r\n            \"id\": \"uuid\",\r\n            \"productId\": \"uuid\",\r\n            \"productName\": \"string\",\r\n            \"productSlug\": \"string\",\r\n            \"quantity\": \"number\",\r\n            \"unitPrice\": \"number\",\r\n            \"totalPrice\": \"number\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/orders/:id/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                ":id",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Update Order Status\r\n  \r\n  Updates the status of an order (admin only).\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Order ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | status | string | Yes | New status: PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED |\r\n  | adminNotes | string | No | Admin notes (max 1000 characters, nullable) |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Order status updated successfully\r\n  - **404 Not Found**: Order not found\r\n  - **422 Unprocessable Entity**: Validation error\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"status\": \"success\",\r\n    \"message\": \"Order status updated successfully\"\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"CONFIRMED\",\r\n    \"adminNotes\": \"Payment verified, order confirmed\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product Categories",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-category",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-category"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"C\",\r\n    \"type\": \"CATEGORY\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-category/{{category_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-category",
+                "{{category_id}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-category",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-category"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-category/{{category_id}}/products",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-category",
+                "{{category_id}}",
+                "products"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-category/{{category_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-category",
+                "{{category_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"Updated Category Name XXXXXXXXXXXXXXXXXX\",\r\n    \"type\": \"CATEGORY\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product Packs",
+      "item": [
+        {
+          "name": "Create Product Pack",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs"
+              ]
+            },
+            "description": "  # Create Product Pack\r\n  \r\n  Creates a new product pack.\r\n  \r\n  ## Request Body\r\n  \r\n  - designation: string (min 2)\r\n  - description: string (optional)\r\n  - price: number (positive)\r\n  - mainImageId: uuid (optional)\r\n  - stockQuantity: number|null (optional)\r\n  - lowStockThreshold: number (optional)\r\n  - items: array (min 1) of { productId: uuid, quantity: number }\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"Pro Pack\",\r\n    \"description\": \"Optional description\",\r\n    \"price\": 199.99,\r\n    \"stockQuantity\": 10,\r\n    \"lowStockThreshold\": 2,\r\n    \"items\": [\r\n      {\r\n        \"productId\": \"c9a890d9-9d95-40a4-acdf-5c94c84449fd\",\r\n        \"quantity\": 1\r\n      },\r\n      {\r\n        \"productId\": \"ed4e1c7c-f511-4c9d-8f06-54932e3fd548\",\r\n        \"quantity\": 1",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Product Pack",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs/{{pack_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs",
+                "{{pack_id}}"
+              ]
+            },
+            "description": "  # Delete Product Pack\r\n\r\n  Deletes a product pack.\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product Pack Stock",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs/{{pack_id}}/stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs",
+                "{{pack_id}}",
+                "stock"
+              ]
+            },
+            "description": "  # Get Product Pack Stock\r\n\r\n  Retrieves stock information for a product pack.\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product Pack",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs/{{pack_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs",
+                "{{pack_id}}"
+              ]
+            },
+            "description": "  # Get Product Pack\r\n  \r\n  Retrieves a product pack by id.\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Product Packs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remove Pack Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs/item/{{item_id}}/remove",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs",
+                "item",
+                "{{item_id}}",
+                "remove"
+              ]
+            },
+            "description": "  # Delete Product Pack\r\n  \r\n  Deletes a product pack.\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Set Product Pack Stock",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs/{{pack_id}}/stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs",
+                "{{pack_id}}",
+                "stock"
+              ]
+            },
+            "description": "  # Set Product Pack Stock\r\n\r\n  Sets stock quantity for a product pack.\r\n\r\n  Use null to make it unlimited (if supported by domain rules).\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\": 10",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Product Pack",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-packs/{{pack_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-packs",
+                "{{pack_id}}"
+              ]
+            },
+            "description": "  # Update Product Pack\r\n  \r\n  Updates an existing product pack.\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"Updated Pack\",\r\n    \"description\": \"Optional description\",\r\n    \"price\": 199.99,\r\n    \"lowStockThreshold\": 2,\r\n    \"items\": [\r\n      {\r\n        \"productId\": \"ed4e1c7c-f511-4c9d-8f06-54932e3fd548\",\r\n        \"quantity\": 12\r\n      },\r\n      {\r\n        \"productId\": \"c9a890d9-9d95-40a4-acdf-5c94c84449fd\",\r\n        \"quantity\": 10\r\n      },\r\n      {\r\n        \"productId\": \"40bcb45c-1d8b-41ec-baea-d6d9de7d18fd\",\r\n        \"quantity\": 1",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Add Product Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/media/{{productId}}/images",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "media",
+                "{{productId}}",
+                "images"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"imageId\": \"{{imageId}}\",\r\n    \"isMainImage\": false",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product?sort[created_at]=desc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product?sort[created_at]=desc"
+              ]
+            }
+          }
+        },
+        {
+          "name": "By Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/grouped-by-category",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "grouped-by-category"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "search term",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "  # Products Grouped By Category\r\n  \r\n  Retrieves products grouped by their categories with main image only (no additional images).\r\n  \r\n  ## Query Parameters\r\n  \r\n  | Parameter | Type | Default | Description |\r\n  |-----------|------|---------|-------------|\r\n  | q | string | - | Search term to filter by designation |\r\n  | page | number | 1 | Page number |\r\n  | limit | number | 10 | Items per page |\r\n  \r\n  ## Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"meta\": {\r\n      \"total\": 100,\r\n      \"perPage\": 10,\r\n      \"currentPage\": 1,\r\n      \"lastPage\": 10\r\n    },\r\n    \"data\": [\r\n      {\r\n        \"categoryId\": \"uuid\",\r\n        \"categoryName\": \"Category Name\",\r\n        \"products\": [\r\n          {\r\n            \"id\": \"uuid\",\r\n            \"slug\": \"product-slug\",\r\n            \"designation\": \"Product Name\",\r\n            \"price\": 99.99,\r\n            \"categoryName\": \"Category Name\",\r\n            \"categoryId\": \"uuid\",\r\n            \"mainImageUrl\": \"signed-url\",\r\n            \"brand\": \"Brand Name\",\r\n            \"createdAt\": \"2024-01-01T00:00:00.000Z\",\r\n            \"updatedAt\": \"2024-01-01T00:00:00.000Z\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product"
+              ]
+            },
+            "description": "  # Create Product\r\n  \r\n  Creates a new product with a main image and optional additional images.\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | designation | string | Yes | Product name (min 2 characters) |\r\n  | description | string | Yes | Product description |\r\n  | categoryId | uuid | Yes | Category ID |\r\n  | mainImageId | uuid | Yes | Main product image ID |\r\n  | price | number | Yes | Product price |\r\n  | brand | string | No | Brand name |\r\n  | imageIds | array | No | Array of additional image IDs (max 2) |\r\n  \r\n  ## Response\r\n  \r\n  - **201 Created**: Product created successfully\r\n  - **422 Unprocessable Entity**: Validation error\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"PLAT 3\",\r\n    \"description\": \"PANNEAU SSSSS\",\r\n    \"categoryId\": \"7ad6e7aa-5a19-4051-b394-54247ed1bf8e\",\r\n    \"mainImageId\": \"f6284da6-c3ce-42f2-9aaf-2f998ac7c23b\",\r\n    \"price\": 99.99,\r\n    \"brand\": \"OLLE OLE SSSS\",\r\n    \"imageIds\": []",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/{{product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "{{product_id}}"
+              ]
+            },
+            "description": "  # Get Product\r\n  \r\n  Retrieves a single product with full details including main image and all additional images.\r\n  \r\n  ## URL Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | product_id | uuid | Product ID to retrieve |\r\n  \r\n  ## Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"data\": {\r\n      \"id\": \"uuid\",\r\n      \"slug\": \"product-slug\",\r\n      \"categoryId\": \"uuid\",\r\n      \"designation\": \"Product Name\",\r\n      \"description\": \"Product description\",\r\n      \"price\": 99.99,\r\n      \"brand\": \"Brand Name\",\r\n      \"isAvailable\": true,\r\n      \"isDeleted\": false,\r\n      \"createdAt\": \"2024-01-01T00:00:00.000Z\",\r\n      \"updatedAt\": \"2024-01-01T00:00:00.000Z\",\r\n      \"category\": {\r\n        \"id\": \"uuid\",\r\n        \"designation\": \"Category Name\"\r\n      },\r\n      \"mainImage\": {\r\n        \"id\": \"uuid\",\r\n        \"url\": \"signed-url\",\r\n        \"alt\": \"Alt description\",\r\n        \"title\": \"Image title\"\r\n      },\r\n      \"images\": [\r\n        {\r\n          \"id\": \"uuid\",\r\n          \"url\": \"signed-url\",\r\n          \"alt\": \"Alt description\",\r\n          \"title\": \"Image title\"\r"
+          }
+        },
+        {
+          "name": "Grouped By Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/grouped-by-category?sort[price]=desc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "grouped-by-category?sort[price]=desc"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "search term",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "  # List Products\r\n  \r\n  Retrieves a paginated list of products with main image only (no additional images).\r\n  \r\n  ## Query Parameters\r\n  \r\n  | Parameter | Type | Default | Description |\r\n  |-----------|------|---------|-------------|\r\n  | q | string | - | Search term to filter by designation |\r\n  | page | number | 1 | Page number |\r\n  | limit | number | 10 | Items per page |\r\n  \r\n  ## Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"meta\": {\r\n      \"total\": 100,\r\n      \"perPage\": 10,\r\n      \"currentPage\": 1,\r\n      \"lastPage\": 10\r\n    },\r\n    \"data\": [\r\n      {\r\n        \"id\": \"uuid\",\r\n        \"slug\": \"product-slug\",\r\n        \"designation\": \"Product Name\",\r\n        \"price\": 99.99,\r\n        \"categoryName\": \"Category Name\",\r\n        \"categoryId\": \"uuid\",\r\n        \"mainImageUrl\": \"signed-url\",\r\n        \"mainImageAlt\": \"Alt description\",\r\n        \"mainImageTitle\": \"Image title\",\r\n        \"brand\": \"Brand Name\",\r\n        \"createdAt\": \"2024-01-01T00:00:00.000Z\",\r\n        \"updatedAt\": \"2024-01-01T00:00:00.000Z\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remove Product Image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/media/{{productId}}/images",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "media",
+                "{{productId}}",
+                "images"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"imageId\": \"{{imageId}}\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/{{product_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                "{{product_id}}"
+              ]
+            },
+            "description": "  # Update Product\r\n  \r\n  Updates an existing product including its main image and additional images.\r\n  \r\n  ## URL Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | product_id | uuid | Product ID to update |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | designation | string | Yes | Product name (min 2 characters) |\r\n  | description | string | Yes | Product description |\r\n  | categoryId | uuid | Yes | Category ID |\r\n  | mainImageId | uuid | Yes | Main product image ID |\r\n  | price | number | Yes | Product price |\r\n  | brand | string | No | Brand name |\r\n  | imageIds | array | No | Array of additional image IDs (max 2). Replaces existing additional images. |\r\n  \r\n  ## Response\r\n  \r\n  - **204 No Content**: Product updated successfully\r\n  - **404 Not Found**: Product not found\r\n  - **422 Unprocessable Entity**: Validation error\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n      \"categoryId\": \"2bfa2a84-0f81-4c3e-88a2-0cde8b8c82b4\",\r\n      \"designation\": \"WITH BRANDING XXXXXX\",\r\n      \"description\": \"PANNEAU\",\r\n      \"price\": 99.99,\r\n      \"brand\": \"OLLE OLE\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Staff Members",
+      "item": [
+        {
+          "name": "Create Staff Member",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/staff-members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "staff-members"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": null,\r\n    \"fullName\": \"John Doe\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"+2348012345678\",\r\n    \"emergencyContact\": {\r\n      \"name\": \"Jane Doe\",\r\n      \"phone\": \"+2348098765432\"\r\n    },\r\n    \"jobTitle\": \"Solar Engineer\",\r\n    \"department\": \"Engineering\",\r\n    \"employmentType\": \"full_time\",\r\n    \"role\": \"staff\",\r\n    \"profileImageId\": null,\r\n    \"profileImageUrl\": \"https://example.com/profile.jpg\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Staff Member",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/staff-members/{{staff_member_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "staff-members",
+                "{{staff_member_id}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Staff Member",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/staff-members/{{staff_member_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "staff-members",
+                "{{staff_member_id}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Staff Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/staff-members",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "staff-members"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "sort[created_at]",
+                  "value": "desc",
+                  "disabled": true
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Staff Member",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/staff-members/{{staff_member_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "staff-members",
+                "{{staff_member_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fullName\": \"Updated Name\",\r\n    \"email\": \"updated@example.com\",\r\n    \"phone\": \"+2348012345678\",\r\n    \"emergencyContact\": {\r\n      \"name\": \"Emergency Contact\",\r\n      \"phone\": \"+2348098765432\"\r\n    },\r\n    \"jobTitle\": \"Senior Engineer\",\r\n    \"department\": \"Operations\",\r\n    \"employmentType\": \"part_time\",\r\n    \"role\": \"manager\",\r\n    \"status\": \"active\",\r\n    \"profileImageId\": null,\r\n    \"profileImageUrl\": \"https://example.com/new-profile.jpg\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stock",
+      "item": [
+        {
+          "name": "Add Stock",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:id/stock/add",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":id",
+                "stock",
+                "add"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Add Stock\r\n  \r\n  Adds stock quantity to a product.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Product ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | quantity | number | Yes | Quantity to add (must be positive) |\r\n  | reason | string | No | Reason for adding stock (max 255 characters) |\r\n  \r\n  ## Response\r\n  \r\n  - **204 No Content**: Stock added successfully\r\n  - **404 Not Found**: Product not found\r\n  - **422 Unprocessable Entity**: Validation error\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\": 50,\r\n    \"reason\": \"New inventory received from supplier\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Low Stock Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/products/low-stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "low-stock"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": false
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": "  # Get Low Stock Products\r\n  \r\n  Retrieves a paginated list of products that are running low on stock (stock quantity is below or equal to the low stock threshold but greater than 0).\r\n  \r\n  ## Query Parameters\r\n  \r\n  | Parameter | Type | Required | Description |\r\n  |-----------|------|----------|-------------|\r\n  | page | number | No | Page number (default: 1) |\r\n  | limit | number | No | Items per page (default: 10) |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns paginated list of low stock products\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"meta\": {\r\n      \"total\": \"number\",\r\n      \"perPage\": \"number\",\r\n      \"currentPage\": \"number\",\r\n      \"lastPage\": \"number\",\r\n      \"firstPage\": \"number\",\r\n      \"firstPageUrl\": \"string\",\r\n      \"lastPageUrl\": \"string\",\r\n      \"nextPageUrl\": \"string | null\",\r\n      \"previousPageUrl\": \"string | null\"\r\n    },\r\n    \"data\": [\r\n      {\r\n        \"id\": \"uuid\",\r\n        \"designation\": \"string\",\r\n        \"stockQuantity\": \"number\",\r\n        \"lowStockThreshold\": \"number\",\r\n        \"slug\": \"string\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product Stock",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:id/stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":id",
+                "stock"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Get Product Stock\r\n  \r\n  Retrieves the stock information for a specific product.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Product ID |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns stock data\r\n  - **404 Not Found**: Product not found\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"data\": {\r\n      \"productId\": \"uuid\",\r\n      \"quantity\": \"number\",\r\n      \"lowStockThreshold\": \"number\",\r\n      \"isLowStock\": \"boolean\",\r\n      \"isOutOfStock\": \"boolean\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Stock History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:id/stock/history",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":id",
+                "stock",
+                "history"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": false
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "disabled": false
+                }
+              ]
+            },
+            "description": "  # Get Stock History\r\n  \r\n  Retrieves the stock movement history for a specific product with pagination.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Product ID |\r\n  \r\n  ## Query Parameters\r\n  \r\n  | Parameter | Type | Required | Description |\r\n  |-----------|------|----------|-------------|\r\n  | page | number | No | Page number (min 1, default: 1) |\r\n  | limit | number | No | Items per page (min 1, max 100, default: 20) |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns paginated stock movement history\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  {\r\n    \"meta\": {\r\n      \"total\": \"number\",\r\n      \"perPage\": \"number\",\r\n      \"currentPage\": \"number\",\r\n      \"lastPage\": \"number\",\r\n      \"firstPage\": \"number\",\r\n      \"firstPageUrl\": \"string\",\r\n      \"lastPageUrl\": \"string\",\r\n      \"nextPageUrl\": \"string | null\",\r\n      \"previousPageUrl\": \"string | null\"\r\n    },\r\n    \"data\": [\r\n      {\r\n        \"id\": \"uuid\",\r\n        \"operationType\": \"ADD | REMOVE | SET\",\r\n        \"quantity\": \"number\",\r\n        \"previousQuantity\": \"number\",\r\n        \"newQuantity\": \"number\",\r\n        \"reason\": \"string | null\",\r\n        \"createdAt\": \"datetime\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remove Stock",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:id/stock/remove",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":id",
+                "stock",
+                "remove"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Remove Stock\r\n  \r\n  Removes stock quantity from a product.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Product ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | quantity | number | Yes | Quantity to remove (must be positive) |\r\n  | reason | string | No | Reason for removing stock (max 255 characters) |\r\n  \r\n  ## Response\r\n  \r\n  - **204 No Content**: Stock removed successfully\r\n  - **404 Not Found**: Product not found\r\n  - **422 Unprocessable Entity**: Validation error or insufficient stock\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\": 10,\r\n    \"reason\": \"Damaged goods removed\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Set Stock",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:id/stock",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":id",
+                "stock"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "description": "  # Set Stock\r\n  \r\n  Sets the stock quantity of a product to a specific value.\r\n  \r\n  ## Path Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | id | uuid | Product ID |\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | quantity | number | Yes | New stock quantity (min 0) |\r\n  | reason | string | No | Reason for setting stock (max 255 characters) |\r\n  \r\n  ## Response\r\n  \r\n  - **204 No Content**: Stock set successfully\r\n  - **404 Not Found**: Product not found\r\n  - **422 Unprocessable Entity**: Validation error\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\": 100,\r\n    \"reason\": \"Stock count adjustment\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Store",
+      "item": [
+        {
+          "name": "Create Store",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/store",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "store"
+              ]
+            },
+            "description": "  # Create Store\r\n  \r\n  Creates a new store.\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | designation | string | Yes | Store designation (min 1 character) |\r\n  | address | object | Yes | Store address object |\r\n  | address.street | string | Yes | Street name and number |\r\n  | address.city | string | Yes | City name |\r\n  | address.country | string | No | Country name |\r\n  | address.postalCode | string | No | Postal or ZIP code |\r\n  | phoneNumber1 | object | Yes | Primary phone contact |\r\n  | phoneNumber1.countryCode | string | Yes | Country dialing code (digits only, no `+`) |\r\n  | phoneNumber1.number | string | Yes | Phone number (digits only) |\r\n  | businessHours | array<object> | Yes | Business hours entries |\r\n  | businessHours[].day | number | Yes | Business day index (0=Monday, 1=Tuesday, 2=Wednesday, 3=Thursday, 4=Friday) |\r\n  | businessHours[].startTime | number | Yes | Opening hour in 24h format (0-23) |\r\n  | businessHours[].endTime | number | Yes | Closing hour in 24h format (0-23) |\r\n  | phoneNumber2 | object | No | Secondary phone contact |\r\n  | phoneNumber2.countryCode | string | Yes (if object provided) | Country dialing code |\r\n  | phoneNumber2.number | string | Yes (if object provided) | Phone number |\r\n  | whatsappNumber | object | No | WhatsApp contact |\r\n  | whatsappNumber.countryCode | string | Yes (if object provided) | Country dialing code |\r\n  | whatsappNumber.number | string | Yes (if object provided) | Phone number |\r\n  \r\n  ## Response\r\n  \r\n  - **201 Created**: Store created successfully\r\n  - **422 Unprocessable Entity**: Validation error\r\n  - **401 Unauthorized**: Missing or invalid bearer token\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"Douala Branch\",\r\n    \"address\": {\r\n      \"street\": \"123 Solar Street\",\r\n      \"city\": \"Douala\",\r\n      \"country\": \"Cameroon\",\r\n      \"postalCode\": \"00000\"\r\n    },\r\n    \"phoneNumber1\": {\r\n      \"countryCode\": \"237\",\r\n      \"number\": \"699112233\"\r\n    },\r\n    \"businessHours\": [\r\n      {\r\n        \"day\": 0,\r\n        \"startTime\": 8,\r\n        \"endTime\": 17\r\n      },\r\n      {\r\n        \"day\": 1,\r\n        \"startTime\": 8,\r\n        \"endTime\": 17",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Store",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/store/{{store_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "{{store_id}}"
+              ]
+            },
+            "description": "  # Get Store\r\n  \r\n  Retrieves a single store by its ID.\r\n  \r\n  ## URL Parameters\r\n  \r\n  | Parameter | Type | Description |\r\n  |-----------|------|-------------|\r\n  | store_id | uuid | Store ID to retrieve |\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Store retrieved successfully\r\n  - **404 Not Found**: Store not found\r\n  - **401 Unauthorized**: Missing or invalid bearer token\r\n  \r\n  ## Response Body (200)\r\n  \r\n  ```json\r\n  {\r\n    \"id\": \"uuid\",\r\n    \"designation\": \"Main Branch\",\r\n    \"address\": {\r\n      \"street\": \"123 Solar Street\",\r\n      \"city\": \"Douala\",\r\n      \"country\": \"Cameroon\",\r\n      \"postalCode\": \"00000\",\r\n      \"region\": \"Littoral\"\r\n    },\r\n    \"phoneContact1\": {\r\n      \"countryCode\": \"237\",\r\n      \"number\": \"699112233\"\r\n    },\r\n    \"phoneContact2\": {\r\n      \"countryCode\": \"237\",\r\n      \"number\": \"677445566\"\r\n    },\r\n    \"whatsAppContact\": {\r\n      \"countryCode\": \"237\",\r\n      \"number\": \"655001122\"\r\n    },\r\n    \"status\": \"active\",\r\n    \"statusReason\": null,\r\n    \"createdAt\": \"2026-03-22T10:00:00.000+00:00\",\r\n    \"updatedAt\": \"2026-03-22T10:00:00.000+00:00\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Stores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/store?q=Bafoussam",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "store?q=Bafoussam"
+              ]
+            },
+            "description": "  # List Stores\r\n  \r\n  Retrieves all stores.\r\n  \r\n  ## Endpoint\r\n  \r\n  `GET /api/store`\r\n  \r\n  ## Authentication\r\n  \r\n  Bearer token required.\r\n  \r\n  ## Response\r\n  \r\n  - **200 OK**: Returns the list of stores\r\n  - **401 Unauthorized**: Missing or invalid bearer token\r\n  \r\n  ### Response Body\r\n  \r\n  ```json\r\n  [\r\n    {\r\n      \"id\": \"uuid\",\r\n      \"designation\": \"Main Branch\",\r\n      \"address\": {\r\n        \"street\": \"123 Solar Street\",\r\n        \"city\": \"Douala\",\r\n        \"country\": \"Cameroon\",\r\n        \"postalCode\": \"00000\",\r\n        \"region\": \"Littoral\"\r\n      },\r\n      \"phoneContact1\": {\r\n        \"countryCode\": \"237\",\r\n        \"number\": \"699112233\"\r\n      },\r\n      \"phoneContact2\": {\r\n        \"countryCode\": \"237\",\r\n        \"number\": \"677445566\"\r\n      },\r\n      \"whatsAppContact\": {\r\n        \"countryCode\": \"237\",\r\n        \"number\": \"655001122\"\r\n      },\r\n      \"status\": \"active\",\r\n      \"statusReason\": null,\r\n      \"createdAt\": \"2024-01-01T00:00:00.000+00:00\",\r\n      \"updatedAt\": \"2024-01-02T00:00:00.000+00:00\"\r",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Store",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/store/{{store_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "store",
+                "{{store_id}}"
+              ]
+            },
+            "description": "  # Create Store\r\n  \r\n  Creates a new store.\r\n  \r\n  ## Request Body\r\n  \r\n  | Field | Type | Required | Description |\r\n  |-------|------|----------|-------------|\r\n  | designation | string | Yes | Store designation (min 1 character) |\r\n  | address | object | Yes | Store address object |\r\n  | address.street | string | Yes | Street name and number |\r\n  | address.city | string | Yes | City name |\r\n  | address.country | string | No | Country name |\r\n  | address.postalCode | string | No | Postal or ZIP code |\r\n  | phoneNumber1 | object | Yes | Primary phone contact |\r\n  | phoneNumber1.countryCode | string | Yes | Country dialing code (digits only, no `+`) |\r\n  | phoneNumber1.number | string | Yes | Phone number (digits only) |\r\n  | businessHours | array<object> | Yes | Business hours entries |\r\n  | businessHours[].day | number | Yes | Business day index (0=Monday, 1=Tuesday, 2=Wednesday, 3=Thursday, 4=Friday) |\r\n  | businessHours[].startTime | number | Yes | Opening hour in 24h format (0-23) |\r\n  | businessHours[].endTime | number | Yes | Closing hour in 24h format (0-23) |\r\n  | phoneNumber2 | object | No | Secondary phone contact |\r\n  | phoneNumber2.countryCode | string | Yes (if object provided) | Country dialing code |\r\n  | phoneNumber2.number | string | Yes (if object provided) | Phone number |\r\n  | whatsappNumber | object | No | WhatsApp contact |\r\n  | whatsappNumber.countryCode | string | Yes (if object provided) | Country dialing code |\r\n  | whatsappNumber.number | string | Yes (if object provided) | Phone number |\r\n  \r\n  ## Response\r\n  \r\n  - **201 Created**: Store created successfully\r\n  - **422 Unprocessable Entity**: Validation error\r\n  - **401 Unauthorized**: Missing or invalid bearer token\r",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"designation\": \"Bafoussam Branch\",\r\n    \"address\": {\r\n      \"street\": \"123 Solar Street\",\r\n      \"city\": \"Douala\",\r\n      \"country\": \"Cameroon\",\r\n      \"postalCode\": \"00000\"\r\n    },\r\n    \"phoneNumber1\": {\r\n      \"countryCode\": \"237\",\r\n      \"number\": \"699112233\"\r\n    },\r\n    \"businessHours\": [\r\n      {\r\n        \"day\": 0,\r\n        \"startTime\": 8,\r\n        \"endTime\": 17\r\n      },\r\n      {\r\n        \"day\": 1,\r\n        \"startTime\": 8,\r\n        \"endTime\": 17",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product Modifiers",
+      "item": [
+        {
+          "name": "List Modifier Groups",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "q",
+                  "value": "search term",
+                  "disabled": true
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# List Modifier Groups\n\nRetrieves a paginated list of all product modifier groups.\n\n## Query Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| page | number | 1 | Page number |\n| limit | number | 10 | Items per page |\n| q | string | - | Search term to filter by designation |\n| sortBy | string | createdAt | Sort field |\n| sortOrder | string | desc | Sort order (asc/desc) |\n\n## Response\n\n- **200 OK**: Returns paginated list of modifier groups"
+          }
+        },
+        {
+          "name": "Create Modifier Group",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Create Modifier Group\n\nCreates a new product modifier group.\n\n## Request Body\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| designation | string | Yes | Group name (2-255 characters) |\n| minSelections | number | No | Minimum selections allowed (default: 0) |\n| maxSelections | number | No | Maximum selections allowed (nullable) |\n| selectionType | string | No | Selection type: \"single\" or \"multi\" (default: \"multi\") |\n| required | boolean | No | Whether selection is required (default: false) |\n| available | boolean | No | Whether group is available (default: true) |\n| sortOrder | number | No | Sort order (default: 0) |\n\n## Response\n\n- **201 Created**: Modifier group created successfully\n- **422 Unprocessable Entity**: Validation error",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"designation\": \"Size Options\",\n  \"minSelections\": 0,\n  \"maxSelections\": 1,\n  \"selectionType\": \"single\",\n  \"required\": false,\n  \"available\": true,\n  \"sortOrder\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Modifier Group",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Get Modifier Group\n\nRetrieves a single modifier group by ID.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n\n## Response\n\n- **200 OK**: Returns modifier group data\n- **404 Not Found**: Modifier group not found"
+          }
+        },
+        {
+          "name": "Update Modifier Group",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Update Modifier Group\n\nUpdates an existing modifier group.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n\n## Request Body\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| designation | string | Yes | Group name (2-255 characters) |\n| minSelections | number | No | Minimum selections allowed |\n| maxSelections | number | No | Maximum selections allowed (nullable) |\n| selectionType | string | No | Selection type: \"single\" or \"multi\" |\n| required | boolean | No | Whether selection is required |\n| available | boolean | No | Whether group is available |\n| sortOrder | number | No | Sort order |\n\n## Response\n\n- **204 No Content**: Modifier group updated successfully\n- **404 Not Found**: Modifier group not found\n- **422 Unprocessable Entity**: Validation error",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"designation\": \"Updated Size Options\",\n  \"minSelections\": 1,\n  \"maxSelections\": 3,\n  \"selectionType\": \"multi\",\n  \"required\": true,\n  \"available\": true,\n  \"sortOrder\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Modifier Group",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Delete Modifier Group\n\nDeletes a modifier group and all its associated modifiers.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n\n## Response\n\n- **204 No Content**: Modifier group deleted successfully\n- **404 Not Found**: Modifier group not found"
+          }
+        },
+        {
+          "name": "List Modifiers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id/modifiers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id",
+                "modifiers"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "q",
+                  "value": "search term",
+                  "disabled": true
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# List Modifiers\n\nRetrieves a paginated list of all modifiers within a modifier group.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n\n## Query Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| page | number | 1 | Page number |\n| limit | number | 10 | Items per page |\n| q | string | - | Search term to filter by designation |\n| sortBy | string | sortOrder | Sort field |\n| sortOrder | string | asc | Sort order (asc/desc) |\n\n## Response\n\n- **200 OK**: Returns paginated list of modifiers\n- **404 Not Found**: Modifier group not found"
+          }
+        },
+        {
+          "name": "Create Modifier",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id/modifiers",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id",
+                "modifiers"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Create Modifier\n\nCreates a new modifier within a modifier group.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n\n## Request Body\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| designation | string | Yes | Modifier name (2-255 characters) |\n| priceAdjustment | number | No | Price adjustment amount (default: 0) |\n| adjustmentType | string | No | Adjustment type: \"fixed\" or \"percentage\" (default: \"fixed\") |\n| available | boolean | No | Whether modifier is available (default: true) |\n| sortOrder | number | No | Sort order (default: 0) |\n\n## Response\n\n- **201 Created**: Modifier created successfully\n- **404 Not Found**: Modifier group not found\n- **422 Unprocessable Entity**: Validation error",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"designation\": \"Large\",\n  \"priceAdjustment\": 2.5,\n  \"adjustmentType\": \"fixed\",\n  \"available\": true,\n  \"sortOrder\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Modifier",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id/modifiers/:modifierId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id",
+                "modifiers",
+                ":modifierId"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                {
+                  "key": "modifierId",
+                  "value": "660e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Get Modifier\n\nRetrieves a single modifier by ID.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n| modifierId | uuid | Modifier ID |\n\n## Response\n\n- **200 OK**: Returns modifier data\n- **404 Not Found**: Modifier not found"
+          }
+        },
+        {
+          "name": "Update Modifier",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id/modifiers/:modifierId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id",
+                "modifiers",
+                ":modifierId"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                {
+                  "key": "modifierId",
+                  "value": "660e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Update Modifier\n\nUpdates an existing modifier.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n| modifierId | uuid | Modifier ID |\n\n## Request Body\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| designation | string | Yes | Modifier name (2-255 characters) |\n| priceAdjustment | number | No | Price adjustment amount |\n| adjustmentType | string | No | Adjustment type: \"fixed\" or \"percentage\" |\n| available | boolean | No | Whether modifier is available |\n| sortOrder | number | No | Sort order |\n\n## Response\n\n- **204 No Content**: Modifier updated successfully\n- **404 Not Found**: Modifier not found\n- **422 Unprocessable Entity**: Validation error",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"designation\": \"Extra Large\",\n  \"priceAdjustment\": 5,\n  \"adjustmentType\": \"fixed\",\n  \"available\": true,\n  \"sortOrder\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Delete Modifier",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product-modifier-groups/:id/modifiers/:modifierId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product-modifier-groups",
+                ":id",
+                "modifiers",
+                ":modifierId"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                {
+                  "key": "modifierId",
+                  "value": "660e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Delete Modifier\n\nDeletes a modifier from a modifier group.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| id | uuid | Modifier group ID |\n| modifierId | uuid | Modifier ID |\n\n## Response\n\n- **204 No Content**: Modifier deleted successfully\n- **404 Not Found**: Modifier not found"
+          }
+        },
+        {
+          "name": "List Product Modifier Groups",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:productId/modifier-groups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":productId",
+                "modifier-groups"
+              ],
+              "variable": [
+                {
+                  "key": "productId",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "q",
+                  "value": "search term",
+                  "disabled": true
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# List Product Modifier Groups\n\nRetrieves all modifier groups attached to a specific product.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| productId | uuid | Product ID |\n\n## Query Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| page | number | 1 | Page number |\n| limit | number | 10 | Items per page |\n| q | string | - | Search term to filter by designation |\n| sortBy | string | sortOrder | Sort field |\n| sortOrder | string | asc | Sort order (asc/desc) |\n\n## Response\n\n- **200 OK**: Returns paginated list of modifier groups\n- **404 Not Found**: Product not found"
+          }
+        },
+        {
+          "name": "Attach Modifier Group to Product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:productId/modifier-groups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":productId",
+                "modifier-groups"
+              ],
+              "variable": [
+                {
+                  "key": "productId",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Attach Modifier Group to Product\n\nAttaches a modifier group to a product, allowing customers to select modifiers when ordering.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| productId | uuid | Product ID |\n\n## Request Body\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| modifierGroupId | uuid | Yes | Modifier group ID to attach |\n| sortOrder | number | No | Sort order for display (default: 0) |\n\n## Response\n\n- **204 No Content**: Modifier group attached successfully\n- **404 Not Found**: Product or modifier group not found\n- **422 Unprocessable Entity**: Validation error",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modifierGroupId\": \"770e8400-e29b-41d4-a716-446655440000\",\n  \"sortOrder\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Detach Modifier Group from Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/product/:productId/modifier-groups",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "product",
+                ":productId",
+                "modifier-groups"
+              ],
+              "variable": [
+                {
+                  "key": "productId",
+                  "value": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "description": "# Detach Modifier Group from Product\n\nDetaches a modifier group from a product.\n\n## Path Parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| productId | uuid | Product ID |\n\n## Request Body\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| modifierGroupId | uuid | Yes | Modifier group ID to detach |\n\n## Response\n\n- **204 No Content**: Modifier group detached successfully\n- **404 Not Found**: Product or modifier group not found\n- **422 Unprocessable Entity**: Validation error",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modifierGroupId\": \"770e8400-e29b-41d4-a716-446655440000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

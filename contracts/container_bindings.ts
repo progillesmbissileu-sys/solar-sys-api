@@ -20,6 +20,12 @@ import type { StaffMemberRepository } from '#kernel/staff/domain/repository/staf
 import { StaffMemberCollection } from '#kernel/staff/application/collection/staff_member_collection'
 import { StoreCollection } from '#kernel/store/application/collection/store_collection'
 import { StoreReadModel } from '#kernel/store/application/read_model/store_read_model'
+import { ProductModifierGroupCollection } from '#kernel/product/application/collection/product_modifier_group_collection'
+import { ProductModifierGroupReadModel } from '#kernel/product/application/read-model/product_modifier_group_read_model'
+import { ProductModifierCollection } from '#kernel/product/application/collection/product_modifier_collection'
+import { ProductModifierReadModel } from '#kernel/product/application/read-model/product_modifier_read_model'
+import type { ProductModifierGroupRepository } from '#kernel/product/domain/repository/product_modifier_group_repository'
+import type { ProductModifierRepository } from '#kernel/product/domain/repository/product_modifier_repository'
 
 declare module '@adonisjs/core/types' {
   interface ContainerBindings {
@@ -40,6 +46,8 @@ declare module '@adonisjs/core/types' {
     'ProductPackRepository': ProductPackRepository
     'ProductPackItemRepository': ProductPackItemRepository
     'StaffMemberRepository': StaffMemberRepository
+    'ProductModifierGroupRepository': ProductModifierGroupRepository
+    'ProductModifierRepository': ProductModifierRepository
 
     // READ MODELS
     'ProductCollection': ProductCollection
@@ -55,6 +63,10 @@ declare module '@adonisjs/core/types' {
     'StaffMemberCollection': StaffMemberCollection
     'StoreCollection': StoreCollection
     'StoreReadModel': StoreReadModel
+    'ProductModifierGroupCollection': ProductModifierGroupCollection
+    'ProductModifierGroupReadModel': ProductModifierGroupReadModel
+    'ProductModifierCollection': ProductModifierCollection
+    'ProductModifierReadModel': ProductModifierReadModel
 
     //SERVICE
     'MediaUploadService': MediaManagerInterface
