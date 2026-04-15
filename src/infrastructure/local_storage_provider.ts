@@ -19,14 +19,14 @@ export interface LocalProviderConfig {
 }
 
 export class LocalStorageProvider implements StorageProviderInterface {
-  private storagePath: string
+  // private storagePath: string
   private basePath?: string
   private imageBasePath?: string
   private documentBasePath?: string
   private diskDriver = drive.use()
 
   constructor(config: LocalProviderConfig) {
-    this.storagePath = config.storagePath
+    // this.storagePath = config.storagePath
     this.basePath = config.basePath
     this.imageBasePath = config.imageBasePath
     this.documentBasePath = config.documentBasePath

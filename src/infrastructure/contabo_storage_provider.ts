@@ -46,9 +46,10 @@ export class ContaboStorageProvider implements StorageProviderInterface {
   private readonly documentBasePath: string
 
   constructor(config: ContaboProviderConfig = {}) {
-    this.basePath = config.basePath ?? ''
+    this.basePath = ''
     this.imageBasePath = config.imageBasePath ?? 'images'
     this.documentBasePath = config.documentBasePath ?? 'documents'
+
   }
 
   // ---------------------------------------------------------------------------
@@ -90,6 +91,7 @@ export class ContaboStorageProvider implements StorageProviderInterface {
         },
       }
     } catch (error) {
+
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Upload to Contabo storage failed',
