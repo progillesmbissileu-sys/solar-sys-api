@@ -46,7 +46,7 @@ export class ContaboStorageProvider implements StorageProviderInterface {
   private readonly documentBasePath: string
 
   constructor(config: ContaboProviderConfig = {}) {
-    this.basePath = config.basePath ?? ''
+    this.basePath = ''
     this.imageBasePath = config.imageBasePath ?? 'images'
     this.documentBasePath = config.documentBasePath ?? 'documents'
   }
