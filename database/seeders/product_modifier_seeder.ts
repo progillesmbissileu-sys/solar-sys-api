@@ -25,7 +25,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
       selectionType: 'single',
       required: true,
       available: true,
-      sortOrder: 1,
+      sortIndex: 1,
     })
 
     await ProductModifier.createMany([
@@ -35,7 +35,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 1,
+        sortIndex: 1,
       },
       {
         modifierGroupId: sizeGroup.id,
@@ -43,7 +43,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 1.5,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 2,
+        sortIndex: 2,
       },
       {
         modifierGroupId: sizeGroup.id,
@@ -51,7 +51,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 3.0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 3,
+        sortIndex: 3,
       },
     ])
 
@@ -65,7 +65,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
       selectionType: 'multiple',
       required: false,
       available: true,
-      sortOrder: 2,
+      sortIndex: 2,
     })
 
     await ProductModifier.createMany([
@@ -75,7 +75,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 1.0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 1,
+        sortIndex: 1,
       },
       {
         modifierGroupId: toppingsGroup.id,
@@ -83,7 +83,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 2.0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 2,
+        sortIndex: 2,
       },
       {
         modifierGroupId: toppingsGroup.id,
@@ -91,7 +91,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0.75,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 3,
+        sortIndex: 3,
       },
       {
         modifierGroupId: toppingsGroup.id,
@@ -99,7 +99,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0.5,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 4,
+        sortIndex: 4,
       },
       {
         modifierGroupId: toppingsGroup.id,
@@ -107,7 +107,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 3.5,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 5,
+        sortIndex: 5,
       },
     ])
 
@@ -121,7 +121,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
       selectionType: 'single',
       required: false,
       available: true,
-      sortOrder: 3,
+      sortIndex: 3,
     })
 
     await ProductModifier.createMany([
@@ -131,7 +131,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 1,
+        sortIndex: 1,
       },
       {
         modifierGroupId: cookingGroup.id,
@@ -139,7 +139,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 2,
+        sortIndex: 2,
       },
       {
         modifierGroupId: cookingGroup.id,
@@ -147,7 +147,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 3,
+        sortIndex: 3,
       },
     ])
 
@@ -161,7 +161,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
       selectionType: 'multiple',
       required: false,
       available: true,
-      sortOrder: 4,
+      sortIndex: 4,
     })
 
     await ProductModifier.createMany([
@@ -171,7 +171,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 1,
+        sortIndex: 1,
       },
       {
         modifierGroupId: removeGroup.id,
@@ -179,7 +179,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 2,
+        sortIndex: 2,
       },
       {
         modifierGroupId: removeGroup.id,
@@ -187,7 +187,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 3,
+        sortIndex: 3,
       },
       {
         modifierGroupId: removeGroup.id,
@@ -195,7 +195,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 4,
+        sortIndex: 4,
       },
     ])
 
@@ -209,7 +209,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
       selectionType: 'single',
       required: true,
       available: true,
-      sortOrder: 5,
+      sortIndex: 5,
     })
 
     await ProductModifier.createMany([
@@ -219,7 +219,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 1,
+        sortIndex: 1,
       },
       {
         modifierGroupId: drinkGroup.id,
@@ -227,7 +227,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 2,
+        sortIndex: 2,
       },
       {
         modifierGroupId: drinkGroup.id,
@@ -235,7 +235,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 3,
+        sortIndex: 3,
       },
       {
         modifierGroupId: drinkGroup.id,
@@ -243,7 +243,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: -0.5,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 4,
+        sortIndex: 4,
       },
     ])
 
@@ -257,7 +257,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
       selectionType: 'multiple',
       required: false,
       available: true,
-      sortOrder: 6,
+      sortIndex: 6,
     })
 
     await ProductModifier.createMany([
@@ -267,7 +267,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 1,
+        sortIndex: 1,
       },
       {
         modifierGroupId: sauceGroup.id,
@@ -275,7 +275,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 2,
+        sortIndex: 2,
       },
       {
         modifierGroupId: sauceGroup.id,
@@ -283,7 +283,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0.25,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 3,
+        sortIndex: 3,
       },
       {
         modifierGroupId: sauceGroup.id,
@@ -291,7 +291,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 0.5,
         adjustmentType: 'fixed',
         available: true,
-        sortOrder: 4,
+        sortIndex: 4,
       },
     ])
 
@@ -305,7 +305,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
       selectionType: 'multiple',
       required: false,
       available: true,
-      sortOrder: 7,
+      sortIndex: 7,
     })
 
     await ProductModifier.createMany([
@@ -315,7 +315,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 15,
         adjustmentType: 'percentage',
         available: true,
-        sortOrder: 1,
+        sortIndex: 1,
       },
       {
         modifierGroupId: premiumGroup.id,
@@ -323,7 +323,7 @@ export default class ProductModifierSeeder extends BaseSeeder {
         priceAdjustment: 50,
         adjustmentType: 'percentage',
         available: true,
-        sortOrder: 2,
+        sortIndex: 2,
       },
     ])
 
@@ -335,17 +335,17 @@ export default class ProductModifierSeeder extends BaseSeeder {
     // Attach groups to first product (all groups)
     if (products[0]) {
       const groupsToAttach = [
-        { groupId: sizeGroup.id, sortOrder: 1 },
-        { groupId: toppingsGroup.id, sortOrder: 2 },
-        { groupId: cookingGroup.id, sortOrder: 3 },
-        { groupId: removeGroup.id, sortOrder: 4 },
+        { groupId: sizeGroup.id, sortIndex: 1 },
+        { groupId: toppingsGroup.id, sortIndex: 2 },
+        { groupId: cookingGroup.id, sortIndex: 3 },
+        { groupId: removeGroup.id, sortIndex: 4 },
       ]
 
       for (const item of groupsToAttach) {
         await db.table('product_modifier_group_product').insert({
           product_id: products[0].id,
           modifier_group_id: item.groupId,
-          sort_order: item.sortOrder,
+          sort_order: item.sortIndex,
           created_at: now,
           updated_at: now,
         })
@@ -355,17 +355,17 @@ export default class ProductModifierSeeder extends BaseSeeder {
     // Attach groups to second product (combo-style)
     if (products[1]) {
       const groupsToAttach = [
-        { groupId: sizeGroup.id, sortOrder: 1 },
-        { groupId: toppingsGroup.id, sortOrder: 2 },
-        { groupId: drinkGroup.id, sortOrder: 3 },
-        { groupId: sauceGroup.id, sortOrder: 4 },
+        { groupId: sizeGroup.id, sortIndex: 1 },
+        { groupId: toppingsGroup.id, sortIndex: 2 },
+        { groupId: drinkGroup.id, sortIndex: 3 },
+        { groupId: sauceGroup.id, sortIndex: 4 },
       ]
 
       for (const item of groupsToAttach) {
         await db.table('product_modifier_group_product').insert({
           product_id: products[1].id,
           modifier_group_id: item.groupId,
-          sort_order: item.sortOrder,
+          sort_order: item.sortIndex,
           created_at: now,
           updated_at: now,
         })
@@ -375,17 +375,17 @@ export default class ProductModifierSeeder extends BaseSeeder {
     // Attach groups to third product (premium-style)
     if (products[2]) {
       const groupsToAttach = [
-        { groupId: sizeGroup.id, sortOrder: 1 },
-        { groupId: toppingsGroup.id, sortOrder: 2 },
-        { groupId: premiumGroup.id, sortOrder: 3 },
-        { groupId: cookingGroup.id, sortOrder: 4 },
+        { groupId: sizeGroup.id, sortIndex: 1 },
+        { groupId: toppingsGroup.id, sortIndex: 2 },
+        { groupId: premiumGroup.id, sortIndex: 3 },
+        { groupId: cookingGroup.id, sortIndex: 4 },
       ]
 
       for (const item of groupsToAttach) {
         await db.table('product_modifier_group_product').insert({
           product_id: products[2].id,
           modifier_group_id: item.groupId,
-          sort_order: item.sortOrder,
+          sort_order: item.sortIndex,
           created_at: now,
           updated_at: now,
         })
