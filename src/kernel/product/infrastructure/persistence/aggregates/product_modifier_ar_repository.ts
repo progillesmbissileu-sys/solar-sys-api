@@ -1,6 +1,7 @@
 import { ProductModifierRepository } from '#kernel/product/domain/repository/product_modifier_repository'
 import { default as EntityActiveRecord } from '#database/active-records/product_modifier'
 import { ProductModifier } from '#kernel/product/domain/entity/product_modifier'
+import { AdjustmentType } from '#kernel/product/domain/type/adjustment_type'
 import { AppId } from '#shared/domain/app_id'
 import { errors } from '@adonisjs/lucid'
 import { DateTime } from 'luxon'
@@ -79,7 +80,7 @@ export class ProductModifierARRepository implements ProductModifierRepository {
       AppId.fromString(modifierAR.modifierGroupId),
       modifierAR.designation,
       modifierAR.priceAdjustment,
-      modifierAR.adjustmentType as 'fixed' | 'percentage',
+      modifierAR.adjustmentType as AdjustmentType,
       modifierAR.available,
       modifierAR.sortIndex,
       this.toDate(modifierAR.createdAt),

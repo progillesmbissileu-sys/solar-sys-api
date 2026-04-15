@@ -59,7 +59,7 @@ export class ProductModifierGroupARCollection
         required: group.required,
         available: group.available,
         sortIndex: group.sortIndex,
-        modifiersCount: modifiersCount?.$extras.modifiers_count || 0,
+        modifierCount: modifiersCount?.$extras.modifiers_count || 0,
         createdAt: group.createdAt,
         updatedAt: group.updatedAt,
       }
@@ -113,7 +113,7 @@ export class ProductModifierGroupARCollection
           required: group.required,
           available: group.available,
           sortIndex: group.sortIndex,
-          modifiersCount: modifiersCount?.$extras.modifiers_count || 0,
+          modifierCount: modifiersCount?.$extras.modifiers_count || 0,
           createdAt: group.createdAt,
           updatedAt: group.updatedAt,
         }
