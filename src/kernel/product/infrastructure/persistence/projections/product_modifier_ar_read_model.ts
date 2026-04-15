@@ -19,7 +19,7 @@ export class ProductModifierARReadModel implements ProductModifierReadModel {
       priceAdjustment: modifier.priceAdjustment,
       adjustmentType: modifier.adjustmentType as 'fixed' | 'percentage',
       available: modifier.available,
-      sortOrder: modifier.sortOrder,
+      sortIndex: modifier.sortIndex,
       createdAt: modifier.createdAt,
       updatedAt: modifier.updatedAt,
     }

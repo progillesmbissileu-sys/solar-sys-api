@@ -9,10 +9,10 @@ export class UpdateProductModifierGroupCommand implements Command {
     public readonly designation: string,
     public readonly minSelections: number = 0,
     public readonly maxSelections: number | null = null,
-    public readonly selectionType: SelectionType = SelectionType.MULTI,
+    public readonly selectionType: SelectionType = SelectionType.MULTIPLE,
     public readonly required: boolean = false,
     public readonly available: boolean = true,
-    public readonly sortOrder: number = 0
+    public readonly sortIndex: number = 0
   ) {
     this.timestamp = new Date()
   }

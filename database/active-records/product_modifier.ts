@@ -1,10 +1,5 @@
 import { DateTime } from 'luxon'
-import {
-  BaseModel,
-  beforeCreate,
-  belongsTo,
-  column,
-} from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import crypto from 'node:crypto'
 import ProductModifierGroup from '#database/active-records/product_modifier_group'
@@ -28,8 +23,8 @@ export default class ProductModifier extends BaseModel {
   @column()
   declare available: boolean
 
-  @column({ columnName: 'sort_order' })
-  declare sortOrder: number
+  @column({ columnName: 'sort_index' })
+  declare sortIndex: number
 
   // @ts-ignore
   @column.dateTime({ autoCreate: true })

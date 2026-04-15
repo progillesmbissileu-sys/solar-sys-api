@@ -15,7 +15,7 @@ export class CreateProductModifierHandler implements CommandHandler<CreateProduc
       command.priceAdjustment,
       command.adjustmentType,
       command.available,
-      command.sortOrder
+      command.sortIndex
     )
 
     await this.repository.save(modifier)

@@ -9,7 +9,7 @@ export class ProductModifier {
     private priceAdjustment: number = 0,
     private adjustmentType: AdjustmentType = AdjustmentType.FIXED,
     private available: boolean = true,
-    private sortOrder: number = 0,
+    private sortIndex: number = 0,
     private createdAt?: Date,
     private updatedAt?: Date
   ) {}
@@ -42,8 +42,8 @@ export class ProductModifier {
     return this.available
   }
 
-  getSortOrder(): number {
-    return this.sortOrder
+  getSortIndex(): number {
+    return this.sortIndex
   }
 
   getCreatedAt(): Date | undefined {
@@ -70,8 +70,8 @@ export class ProductModifier {
     this.available = available
   }
 
-  setSortOrder(sortOrder: number): void {
-    this.sortOrder = sortOrder
+  setSortIndex(sortIndex: number): void {
+    this.sortIndex = sortIndex
   }
 
   /**

@@ -15,7 +15,7 @@ export class CreateProductModifierGroupHandler implements CommandHandler<CreateP
       command.selectionType,
       command.required,
       command.available,
-      command.sortOrder,
+      command.sortIndex,
       [] // No modifiers initially
     )
 

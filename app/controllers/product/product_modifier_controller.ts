@@ -70,7 +70,7 @@ export default class ProductModifierController extends AppAbstractController {
         payload.designation,
         payload.minSelections ?? 0,
         payload.maxSelections ?? null,
-        (payload.selectionType as SelectionType) ?? SelectionType.MULTI,
+        (payload.selectionType as SelectionType) ?? SelectionType.MULTIPLE,
         payload.required ?? false,
         payload.available ?? true,
         payload.sortOrder ?? 0
@@ -93,7 +93,7 @@ export default class ProductModifierController extends AppAbstractController {
         payload.designation,
         payload.minSelections ?? 0,
         payload.maxSelections ?? null,
-        (payload.selectionType as SelectionType) ?? SelectionType.MULTI,
+        (payload.selectionType as SelectionType) ?? SelectionType.MULTIPLE,
         payload.required ?? false,
         payload.available ?? true,
         payload.sortOrder ?? 0
@@ -153,6 +153,8 @@ export default class ProductModifierController extends AppAbstractController {
   public async storeModifier({ request, response }: HttpContext) {
     const groupId = request.param('id')
     const payload = await request.validateUsing(createProductModifierSchema)
+
+    console.log({ payload }, { groupId })
 
     await this.handleCommand(
       new CreateProductModifierCommand(

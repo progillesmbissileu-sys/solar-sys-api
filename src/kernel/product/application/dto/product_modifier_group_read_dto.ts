@@ -4,7 +4,7 @@ export interface ProductModifierReadDto {
   priceAdjustment: number
   adjustmentType: 'fixed' | 'percentage'
   available: boolean
-  sortOrder: number
+  sortIndex: number
   createdAt: unknown
   updatedAt: unknown
 }
@@ -14,10 +14,10 @@ export interface ProductModifierGroupReadDto {
   designation: string
   minSelections: number
   maxSelections: number | null
-  selectionType: 'single' | 'multi'
+  selectionType: 'single' | 'multiple'
   required: boolean
   available: boolean
-  sortOrder: number
+  sortIndex: number
   modifiers: ProductModifierReadDto[]
   createdAt: unknown
   updatedAt: unknown
@@ -26,10 +26,10 @@ export interface ProductModifierGroupReadDto {
 export interface ProductModifierGroupListItemDto {
   id: string
   designation: string
-  selectionType: 'single' | 'multi'
+  selectionType: 'single' | 'multiple'
   required: boolean
   available: boolean
-  sortOrder: number
+  sortIndex: number
   modifierCount: number
   createdAt: unknown
   updatedAt: unknown

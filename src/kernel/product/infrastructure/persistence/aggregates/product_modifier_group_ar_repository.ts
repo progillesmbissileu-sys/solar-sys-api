@@ -18,7 +18,7 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
     try {
       groupAR = await EntityActiveRecord.query()
         .where('id', id.value)
-        .preload('modifiers', (query) => query.orderBy('sort_order', 'asc'))
+        .preload('modifiers', (query) => query.orderBy('sort_index', 'asc'))
         .firstOrFail()
     } catch (error) {
       if (error instanceof errors.E_ROW_NOT_FOUND) {
@@ -41,7 +41,7 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
         'id',
         ids.map((id) => id.value)
       )
-      .preload('modifiers', (query) => query.orderBy('sort_order', 'asc'))
+      .preload('modifiers', (query) => query.orderBy('sort_index', 'asc'))
 
     return groups.map((group) => this.mapToDomainEntity(group))
   }
@@ -55,7 +55,7 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
       selectionType: entity.getSelectionType(),
       required: entity.isRequired(),
       available: entity.isAvailable(),
-      sortOrder: entity.getSortOrder(),
+      sortIndex: entity.getSortIndex(),
     }
 
     const trx = await db.transaction()
@@ -91,7 +91,7 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
               priceAdjustment: modifier.getPriceAdjustment(),
               adjustmentType: modifier.getAdjustmentType(),
               available: modifier.isAvailable(),
-              sortOrder: modifier.getSortOrder(),
+              sortIndex: modifier.getSortIndex(),
             },
             { client: trx }
           )
@@ -131,7 +131,7 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
   async attachToProduct(
     productId: AppId,
     modifierGroupId: AppId,
-    sortOrder: number = 0
+    sortIndex: number = 0
   ): Promise<void> {
     const trx = await db.transaction()
 
@@ -149,13 +149,13 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
           .from('product_modifier_group_product')
           .where('product_id', productId.value)
           .where('modifier_group_id', modifierGroupId.value)
-          .update({ sort_order: sortOrder, updated_at: DateTime.now().toSQL() })
+          .update({ sort_index: sortIndex, updated_at: DateTime.now().toSQL() })
       } else {
         // Create new attachment
         await db.table('product_modifier_group_product').insert({
           product_id: productId.value,
           modifier_group_id: modifierGroupId.value,
-          sort_order: sortOrder,
+          sort_index: sortIndex,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
         })
@@ -184,8 +184,8 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
         'product_modifier_group_product.modifier_group_id'
       )
       .where('product_modifier_group_product.product_id', productId.value)
-      .orderBy('product_modifier_group_product.sort_order', 'asc')
-      .preload('modifiers', (query) => query.orderBy('sort_order', 'asc'))
+      .orderBy('product_modifier_group_product.sort_index', 'asc')
+      .preload('modifiers', (query) => query.orderBy('sort_index', 'asc'))
 
     return groups.map((group) => this.mapToDomainEntity(group))
   }
@@ -199,7 +199,7 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
         modifier.priceAdjustment,
         modifier.adjustmentType as AdjustmentType,
         modifier.available,
-        modifier.sortOrder,
+        modifier.sortIndex,
         this.toDate(modifier.createdAt),
         this.toDate(modifier.updatedAt)
       )
@@ -213,7 +213,7 @@ export class ProductModifierGroupARRepository implements ProductModifierGroupRep
       groupAR.selectionType as SelectionType,
       groupAR.required,
       groupAR.available,
-      groupAR.sortOrder,
+      groupAR.sortIndex,
       modifiers,
       this.toDate(groupAR.createdAt),
       this.toDate(groupAR.updatedAt)

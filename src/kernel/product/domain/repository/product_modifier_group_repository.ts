@@ -7,7 +7,7 @@ export interface ProductModifierGroupRepository extends RepositoryInterface {
   find(id: AppId): Promise<ProductModifierGroup>
   findByIds(ids: AppId[]): Promise<ProductModifierGroup[]>
   delete(id: AppId): Promise<void>
-  attachToProduct(productId: AppId, modifierGroupId: AppId, sortOrder?: number): Promise<void>
+  attachToProduct(productId: AppId, modifierGroupId: AppId, sortIndex?: number): Promise<void>
   detachFromProduct(productId: AppId, modifierGroupId: AppId): Promise<void>
   findByProductId(productId: AppId): Promise<ProductModifierGroup[]>
 }

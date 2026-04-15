@@ -5,7 +5,7 @@ export interface ProductModifierListItemDto {
   priceAdjustment: number
   adjustmentType: 'fixed' | 'percentage'
   available: boolean
-  sortOrder: number
+  sortIndex: number
   createdAt: unknown
   updatedAt: unknown
 }
@@ -17,7 +17,7 @@ export interface ProductModifierDetailsDto {
   priceAdjustment: number
   adjustmentType: 'fixed' | 'percentage'
   available: boolean
-  sortOrder: number
+  sortIndex: number
   createdAt: unknown
   updatedAt: unknown
 }
@@ -27,10 +27,10 @@ export interface ProductModifierGroupListItemDto {
   designation: string
   minSelections: number
   maxSelections: number | null
-  selectionType: 'single' | 'multi'
+  selectionType: 'single' | 'multiple'
   required: boolean
   available: boolean
-  sortOrder: number
+  sortIndex: number
   modifiersCount: number
   createdAt: unknown
   updatedAt: unknown
@@ -41,10 +41,10 @@ export interface ProductModifierGroupDetailsDto {
   designation: string
   minSelections: number
   maxSelections: number | null
-  selectionType: 'single' | 'multi'
+  selectionType: 'single' | 'multiple'
   required: boolean
   available: boolean
-  sortOrder: number
+  sortIndex: number
   modifiers: ProductModifierListItemDto[]
   createdAt: unknown
   updatedAt: unknown
@@ -55,10 +55,10 @@ export interface ProductModifierGroupWithModifiersDto {
   designation: string
   minSelections: number
   maxSelections: number | null
-  selectionType: 'single' | 'multi'
+  selectionType: 'single' | 'multiple'
   required: boolean
   available: boolean
-  sortOrder: number
+  sortIndex: number
   modifiers: ProductModifierListItemDto[]
   createdAt: unknown
   updatedAt: unknown

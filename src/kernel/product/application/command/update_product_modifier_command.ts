@@ -10,7 +10,7 @@ export class UpdateProductModifierCommand implements Command {
     public readonly priceAdjustment: number = 0,
     public readonly adjustmentType: AdjustmentType = AdjustmentType.FIXED,
     public readonly available: boolean = true,
-    public readonly sortOrder: number = 0
+    public readonly sortIndex: number = 0
   ) {
     this.timestamp = new Date()
   }

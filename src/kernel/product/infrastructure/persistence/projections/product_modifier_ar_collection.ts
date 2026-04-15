@@ -26,7 +26,7 @@ export class ProductModifierARCollection
     }
 
     // Apply sort
-    this.applySort(query.order, ['sort_order', 'designation', 'created_at'], queryBuilder)
+    this.applySort(query.order, ['sort_index', 'designation', 'created_at'], queryBuilder)
 
     // Apply pagination
     const result = await this.applyPaginate(query.pagination, queryBuilder)
@@ -41,7 +41,7 @@ export class ProductModifierARCollection
           priceAdjustment: modifier.priceAdjustment,
           adjustmentType: modifier.adjustmentType as 'fixed' | 'percentage',
           available: modifier.available,
-          sortOrder: modifier.sortOrder,
+          sortIndex: modifier.sortIndex,
           createdAt: modifier.createdAt,
           updatedAt: modifier.updatedAt,
         }

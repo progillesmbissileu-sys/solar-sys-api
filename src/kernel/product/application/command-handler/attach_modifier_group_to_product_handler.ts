@@ -10,7 +10,7 @@ export class AttachModifierGroupToProductHandler implements CommandHandler<Attac
     await this.repository.attachToProduct(
       AppId.fromString(command.productId),
       AppId.fromString(command.modifierGroupId),
-      command.sortOrder
+      command.sortIndex
     )
   }
 }

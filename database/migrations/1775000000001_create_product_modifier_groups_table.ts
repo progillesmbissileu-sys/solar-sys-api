@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.integer('min_selections').defaultTo(0).notNullable()
       table.integer('max_selections').nullable() // null means unlimited
 
-      table.enum('selection_type', ['single', 'multi']).defaultTo('multi').notNullable()
+      table.enum('selection_type', ['single', 'multiple']).defaultTo('multiple').notNullable()
 
       table.boolean('required').defaultTo(false).notNullable()
       table.boolean('available').defaultTo(true).notNullable()

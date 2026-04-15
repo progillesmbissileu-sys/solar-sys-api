@@ -8,10 +8,10 @@ export class ProductModifierGroup {
     private designation: string,
     private minSelections: number = 0,
     private maxSelections: number | null = null,
-    private selectionType: SelectionType = SelectionType.MULTI,
+    private selectionType: SelectionType = SelectionType.MULTIPLE,
     private required: boolean = false,
     private available: boolean = true,
-    private sortOrder: number = 0,
+    private sortIndex: number = 0,
     private modifiers: ProductModifier[] = [],
     private createdAt?: Date,
     private updatedAt?: Date
@@ -49,8 +49,8 @@ export class ProductModifierGroup {
     return this.available
   }
 
-  getSortOrder(): number {
-    return this.sortOrder
+  getSortIndex(): number {
+    return this.sortIndex
   }
 
   getModifiers(): ProductModifier[] {
@@ -89,8 +89,8 @@ export class ProductModifierGroup {
     this.available = available
   }
 
-  setSortOrder(sortOrder: number): void {
-    this.sortOrder = sortOrder
+  setSortIndex(sortIndex: number): void {
+    this.sortIndex = sortIndex
   }
 
   setModifiers(modifiers: ProductModifier[]): void {

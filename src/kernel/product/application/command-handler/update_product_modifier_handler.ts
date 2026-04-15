@@ -15,7 +15,7 @@ export class UpdateProductModifierHandler implements CommandHandler<UpdateProduc
     existingModifier.setPriceAdjustment(command.priceAdjustment)
     existingModifier.setAdjustmentType(command.adjustmentType)
     existingModifier.setAvailable(command.available)
-    existingModifier.setSortOrder(command.sortOrder)
+    existingModifier.setSortIndex(command.sortIndex)
 
     // Save the updated modifier
     await this.repository.save(existingModifier)

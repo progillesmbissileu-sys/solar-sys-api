@@ -1,12 +1,15 @@
 import ProductModifierGroup from '#database/active-records/product_modifier_group'
 import { ProductModifierGroupReadModel } from '#kernel/product/application/read-model/product_modifier_group_read_model'
-import { ProductModifierGroupDetailsDto, ProductModifierListItemDto } from '#kernel/product/application/dto/product_modifier_read_dto'
+import {
+  ProductModifierGroupDetailsDto,
+  ProductModifierListItemDto,
+} from '#kernel/product/application/dto/product_modifier_read_dto'
 
 export class ProductModifierGroupARReadModel implements ProductModifierGroupReadModel {
   async getById(id: string): Promise<ProductModifierGroupDetailsDto | null> {
     const group = await ProductModifierGroup.query()
       .where('id', id)
-      .preload('modifiers', (query) => query.orderBy('sort_order', 'asc'))
+      .preload('modifiers', (query) => query.orderBy('sort_index', 'asc'))
       .first()
 
     if (!group) {
@@ -20,7 +23,7 @@ export class ProductModifierGroupARReadModel implements ProductModifierGroupRead
       priceAdjustment: modifier.priceAdjustment,
       adjustmentType: modifier.adjustmentType as 'fixed' | 'percentage',
       available: modifier.available,
-      sortOrder: modifier.sortOrder,
+      sortIndex: modifier.sortIndex,
       createdAt: modifier.createdAt,
       updatedAt: modifier.updatedAt,
     }))
@@ -30,10 +33,10 @@ export class ProductModifierGroupARReadModel implements ProductModifierGroupRead
       designation: group.designation,
       minSelections: group.minSelections,
       maxSelections: group.maxSelections,
-      selectionType: group.selectionType as 'single' | 'multi',
+      selectionType: group.selectionType as 'single' | 'multiple',
       required: group.required,
       available: group.available,
-      sortOrder: group.sortOrder,
+      sortIndex: group.sortIndex,
       modifiers,
       createdAt: group.createdAt,
       updatedAt: group.updatedAt,

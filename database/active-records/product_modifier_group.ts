@@ -1,11 +1,5 @@
 import { DateTime } from 'luxon'
-import {
-  BaseModel,
-  beforeCreate,
-  column,
-  hasMany,
-  manyToMany,
-} from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import crypto from 'node:crypto'
 import Product from '#database/active-records/product'
@@ -25,7 +19,7 @@ export default class ProductModifierGroup extends BaseModel {
   declare maxSelections: number | null
 
   @column({ columnName: 'selection_type' })
-  declare selectionType: 'single' | 'multi'
+  declare selectionType: 'single' | 'multiple'
 
   @column()
   declare required: boolean
@@ -33,8 +27,8 @@ export default class ProductModifierGroup extends BaseModel {
   @column()
   declare available: boolean
 
-  @column({ columnName: 'sort_order' })
-  declare sortOrder: number
+  @column({ columnName: 'sort_index' })
+  declare sortIndex: number
 
   // @ts-ignore
   @column.dateTime({ autoCreate: true })
@@ -55,7 +49,7 @@ export default class ProductModifierGroup extends BaseModel {
     pivotForeignKey: 'modifier_group_id',
     relatedKey: 'id',
     pivotRelatedForeignKey: 'product_id',
-    pivotColumns: ['sort_order'],
+    pivotColumns: ['sort_index'],
     serializeAs: 'products',
     pivotTimestamps: true,
   })

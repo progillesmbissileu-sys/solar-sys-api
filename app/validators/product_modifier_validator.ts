@@ -5,7 +5,7 @@ export const createProductModifierGroupSchema = vine.compile(
     designation: vine.string().minLength(2).maxLength(255),
     minSelections: vine.number().min(0).optional(),
     maxSelections: vine.number().min(1).nullable().optional(),
-    selectionType: vine.enum(['single', 'multi']).optional(),
+    selectionType: vine.enum(['single', 'multiple']).optional(),
     required: vine.boolean().optional(),
     available: vine.boolean().optional(),
     sortOrder: vine.number().min(0).optional(),
@@ -17,7 +17,7 @@ export const updateProductModifierGroupSchema = vine.compile(
     designation: vine.string().minLength(2).maxLength(255),
     minSelections: vine.number().min(0).optional(),
     maxSelections: vine.number().min(1).nullable().optional(),
-    selectionType: vine.enum(['single', 'multi']).optional(),
+    selectionType: vine.enum(['single', 'multiple']).optional(),
     required: vine.boolean().optional(),
     available: vine.boolean().optional(),
     sortOrder: vine.number().min(0).optional(),
@@ -26,7 +26,6 @@ export const updateProductModifierGroupSchema = vine.compile(
 
 export const createProductModifierSchema = vine.compile(
   vine.object({
-    modifierGroupId: vine.string().uuid(),
     designation: vine.string().minLength(2).maxLength(255),
     priceAdjustment: vine.number().optional(),
     adjustmentType: vine.enum(['fixed', 'percentage']).optional(),

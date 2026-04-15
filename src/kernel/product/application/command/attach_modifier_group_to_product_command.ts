@@ -6,7 +6,7 @@ export class AttachModifierGroupToProductCommand implements Command {
   constructor(
     public readonly productId: string,
     public readonly modifierGroupId: string,
-    public readonly sortOrder: number = 0
+    public readonly sortIndex: number = 0
   ) {
     this.timestamp = new Date()
   }

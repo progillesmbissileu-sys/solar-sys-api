@@ -14,7 +14,7 @@ type ProductModifierGroupActiveRecordWithRelations = ProductModifierGroup & {
     priceAdjustment: number
     adjustmentType: 'fixed' | 'percentage'
     available: boolean
-    sortOrder: number
+    sortIndex: number
   }>
 }
 
@@ -35,7 +35,7 @@ export class ProductModifierGroupARCollection
     // Apply sort
     this.applySort(
       query.order,
-      ['sort_order', 'designation', 'created_at', 'updated_at'],
+      ['sort_index', 'designation', 'created_at', 'updated_at'],
       queryBuilder
     )
 
@@ -58,7 +58,7 @@ export class ProductModifierGroupARCollection
         selectionType: group.selectionType,
         required: group.required,
         available: group.available,
-        sortOrder: group.sortOrder,
+        sortIndex: group.sortIndex,
         modifiersCount: modifiersCount?.$extras.modifiers_count || 0,
         createdAt: group.createdAt,
         updatedAt: group.updatedAt,
@@ -77,7 +77,7 @@ export class ProductModifierGroupARCollection
       )
       .where('product_modifier_group_product.product_id', query.productId)
       .select('product_modifier_groups.*')
-      .select('product_modifier_group_product.sort_order as pivot_sort_order')
+      .select('product_modifier_group_product.sort_index as pivot_sort_index')
 
     // Apply search filters
     if (query.searchQuery.search) {
@@ -90,7 +90,7 @@ export class ProductModifierGroupARCollection
     // Apply sort
     this.applySort(
       query.order,
-      ['sort_order', 'designation', 'created_at', 'updated_at'],
+      ['sort_index', 'designation', 'created_at', 'updated_at'],
       queryBuilder
     )
 
@@ -112,7 +112,7 @@ export class ProductModifierGroupARCollection
           selectionType: group.selectionType,
           required: group.required,
           available: group.available,
-          sortOrder: group.sortOrder,
+          sortIndex: group.sortIndex,
           modifiersCount: modifiersCount?.$extras.modifiers_count || 0,
           createdAt: group.createdAt,
           updatedAt: group.updatedAt,

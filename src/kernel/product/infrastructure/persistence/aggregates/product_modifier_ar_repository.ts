@@ -27,7 +27,7 @@ export class ProductModifierARRepository implements ProductModifierRepository {
   async findByGroup(modifierGroupId: AppId): Promise<ProductModifier[]> {
     const modifiers = await EntityActiveRecord.query()
       .where('modifier_group_id', modifierGroupId.value)
-      .orderBy('sort_order', 'asc')
+      .orderBy('sort_index', 'asc')
 
     return modifiers.map((modifier) => this.mapToDomainEntity(modifier))
   }
@@ -40,7 +40,7 @@ export class ProductModifierARRepository implements ProductModifierRepository {
       priceAdjustment: entity.getPriceAdjustment(),
       adjustmentType: entity.getAdjustmentType(),
       available: entity.isAvailable(),
-      sortOrder: entity.getSortOrder(),
+      sortIndex: entity.getSortIndex(),
     }
 
     const trx = await db.transaction()
@@ -81,7 +81,7 @@ export class ProductModifierARRepository implements ProductModifierRepository {
       modifierAR.priceAdjustment,
       modifierAR.adjustmentType as 'fixed' | 'percentage',
       modifierAR.available,
-      modifierAR.sortOrder,
+      modifierAR.sortIndex,
       this.toDate(modifierAR.createdAt),
       this.toDate(modifierAR.updatedAt)
     )
