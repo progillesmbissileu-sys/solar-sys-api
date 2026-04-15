@@ -23,6 +23,7 @@ const OrderController = () => import('#controllers/order/order_controller')
 const ProductPackController = () => import('#controllers/product/product_pack_controller')
 const MarketProductController = () => import('#controllers/market/market_product_controller')
 const StaffMembersController = () => import('#controllers/staff/staff_members_controller')
+const ProductModifierController = () => import('#controllers/product/product_modifier_controller')
 
 router
   .group(() => {
@@ -163,6 +164,38 @@ router
         router.delete('/:id', [StaffMembersController, 'destroy'])
       })
       .prefix('staff-members')
+      .use(middleware.auth())
+
+    // Product Modifier Groups routes
+    router
+      .group(() => {
+        router.get('/', [ProductModifierController, 'index'])
+        router.post('/', [ProductModifierController, 'store'])
+        router.get('/:id', [ProductModifierController, 'show'])
+        router.put('/:id', [ProductModifierController, 'update'])
+        router.delete('/:id', [ProductModifierController, 'destroy'])
+
+        // Modifiers nested under groups
+        router.get('/:id/modifiers', [ProductModifierController, 'listModifiers'])
+        router.post('/:id/modifiers', [ProductModifierController, 'storeModifier'])
+        router.get('/:id/modifiers/:modifierId', [ProductModifierController, 'showModifier'])
+        router.put('/:id/modifiers/:modifierId', [ProductModifierController, 'updateModifier'])
+        router.delete('/:id/modifiers/:modifierId', [ProductModifierController, 'destroyModifier'])
+      })
+      .prefix('product-modifier-groups')
+      .use(middleware.auth())
+
+    // Product Modifier Group attachment to products
+    router
+      .group(() => {
+        router.get('/:productId/modifier-groups', [ProductModifierController, 'listByProduct'])
+        router.post('/:productId/modifier-groups', [ProductModifierController, 'attachToProduct'])
+        router.delete('/:productId/modifier-groups', [
+          ProductModifierController,
+          'detachFromProduct',
+        ])
+      })
+      .prefix('product')
       .use(middleware.auth())
   })
   .prefix('/api')

@@ -25,6 +25,12 @@ import { StaffMemberARRepository } from '#kernel/staff/infrastructure/persistenc
 import { StaffMemberARCollection } from '#kernel/staff/infrastructure/persistence/projections/staff_member_ar_collection'
 import { StoreARCollection } from '#kernel/store/infrastructure/store_ar_collection'
 import { StoreARReadModel } from '#kernel/store/infrastructure/store_ar_read_model'
+import { ProductModifierGroupARRepository } from '#kernel/product/infrastructure/persistence/aggregates/product_modifier_group_ar_repository'
+import { ProductModifierARRepository } from '#kernel/product/infrastructure/persistence/aggregates/product_modifier_ar_repository'
+import { ProductModifierGroupARCollection } from '#kernel/product/infrastructure/persistence/projections/product_modifier_group_ar_collection'
+import { ProductModifierGroupARReadModel } from '#kernel/product/infrastructure/persistence/projections/product_modifier_group_ar_read_model'
+import { ProductModifierARCollection } from '#kernel/product/infrastructure/persistence/projections/product_modifier_ar_collection'
+import { ProductModifierARReadModel } from '#kernel/product/infrastructure/persistence/projections/product_modifier_ar_read_model'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -114,6 +120,24 @@ export default class RepositoryProvider {
       })
       this.app.container.bind('StaffMemberCollection', () => {
         return new StaffMemberARCollection()
+      })
+      this.app.container.bind('ProductModifierGroupRepository', () => {
+        return new ProductModifierGroupARRepository()
+      })
+      this.app.container.bind('ProductModifierRepository', () => {
+        return new ProductModifierARRepository()
+      })
+      this.app.container.bind('ProductModifierGroupCollection', () => {
+        return new ProductModifierGroupARCollection()
+      })
+      this.app.container.bind('ProductModifierGroupReadModel', () => {
+        return new ProductModifierGroupARReadModel()
+      })
+      this.app.container.bind('ProductModifierCollection', () => {
+        return new ProductModifierARCollection()
+      })
+      this.app.container.bind('ProductModifierReadModel', () => {
+        return new ProductModifierARReadModel()
       })
     }
   }

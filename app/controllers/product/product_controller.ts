@@ -22,7 +22,16 @@ export default class ProductController extends AppAbstractController {
       )
     )
 
-    return response.ok(result)
+    return response.ok({
+      data: (result as any).data.map((item: any) => ({
+        ...item,
+        thumbnail: item.mainImage.url,
+        categoryName: item.category.designation,
+        categoryId: item.category.id,
+        mainImage: undefined,
+        category: undefined,
+      })),
+    })
   }
 
   public async show({ request, response }: HttpContext) {

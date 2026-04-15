@@ -59,6 +59,19 @@ import { GetStaffMemberHandler } from '#kernel/staff/application/query-handler/g
 import { ChangeStoreStatusHandler } from '#kernel/store/application/command_handler/change_store_status_hanler'
 import { ListStoreQueryHandler } from '#kernel/store/application/query_handler/list_stores_query_handler'
 import { GetStoreQueryHandler } from '#kernel/store/application/query_handler/get_store_query_handler'
+import { CreateProductModifierGroupHandler } from '#kernel/product/application/command-handler/create_product_modifier_group_handler'
+import { UpdateProductModifierGroupHandler } from '#kernel/product/application/command-handler/update_product_modifier_group_handler'
+import { DeleteProductModifierGroupHandler } from '#kernel/product/application/command-handler/delete_product_modifier_group_handler'
+import { AttachModifierGroupToProductHandler } from '#kernel/product/application/command-handler/attach_modifier_group_to_product_handler'
+import { DetachModifierGroupFromProductHandler } from '#kernel/product/application/command-handler/detach_modifier_group_from_product_handler'
+import { CreateProductModifierHandler } from '#kernel/product/application/command-handler/create_product_modifier_handler'
+import { UpdateProductModifierHandler } from '#kernel/product/application/command-handler/update_product_modifier_handler'
+import { DeleteProductModifierHandler } from '#kernel/product/application/command-handler/delete_product_modifier_handler'
+import { GetProductModifierGroupHandler } from '#kernel/product/application/query-handler/get_product_modifier_group_handler'
+import { ListProductModifierGroupsHandler } from '#kernel/product/application/query-handler/list_product_modifier_groups_handler'
+import { GetProductModifierHandler } from '#kernel/product/application/query-handler/get_product_modifier_handler'
+import { ListProductModifiersByGroupHandler } from '#kernel/product/application/query-handler/list_product_modifiers_by_group_handler'
+import { ListProductModifierGroupsByProductHandler } from '#kernel/product/application/query-handler/list_product_modifier_groups_by_product_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -181,6 +194,38 @@ export default class CqrsProvider {
         'StaffMemberRepository',
       ])
 
+      //PRODUCT MODIFIER GROUP COMMANDS
+      commandBus.register('CreateProductModifierGroupCommand', CreateProductModifierGroupHandler, [
+        'ProductModifierGroupRepository',
+      ])
+      commandBus.register('UpdateProductModifierGroupCommand', UpdateProductModifierGroupHandler, [
+        'ProductModifierGroupRepository',
+      ])
+      commandBus.register('DeleteProductModifierGroupCommand', DeleteProductModifierGroupHandler, [
+        'ProductModifierGroupRepository',
+      ])
+      commandBus.register(
+        'AttachModifierGroupToProductCommand',
+        AttachModifierGroupToProductHandler,
+        ['ProductModifierGroupRepository']
+      )
+      commandBus.register(
+        'DetachModifierGroupFromProductCommand',
+        DetachModifierGroupFromProductHandler,
+        ['ProductModifierGroupRepository']
+      )
+
+      //PRODUCT MODIFIER COMMANDS
+      commandBus.register('CreateProductModifierCommand', CreateProductModifierHandler, [
+        'ProductModifierRepository',
+      ])
+      commandBus.register('UpdateProductModifierCommand', UpdateProductModifierHandler, [
+        'ProductModifierRepository',
+      ])
+      commandBus.register('DeleteProductModifierCommand', DeleteProductModifierHandler, [
+        'ProductModifierRepository',
+      ])
+
       return commandBus
     })
 
@@ -245,6 +290,27 @@ export default class CqrsProvider {
       //STAFF MEMBER QUERIES
       queryBus.register('ListStaffMembersQuery', ListStaffMembersHandler, ['StaffMemberCollection'])
       queryBus.register('GetStaffMemberQuery', GetStaffMemberHandler, ['StaffMemberRepository'])
+
+      //PRODUCT MODIFIER GROUP QUERIES
+      queryBus.register('GetProductModifierGroupQuery', GetProductModifierGroupHandler, [
+        'ProductModifierGroupReadModel',
+      ])
+      queryBus.register('ListProductModifierGroupsQuery', ListProductModifierGroupsHandler, [
+        'ProductModifierGroupCollection',
+      ])
+      queryBus.register(
+        'ListProductModifierGroupsByProductQuery',
+        ListProductModifierGroupsByProductHandler,
+        ['ProductModifierGroupCollection']
+      )
+
+      //PRODUCT MODIFIER QUERIES
+      queryBus.register('GetProductModifierQuery', GetProductModifierHandler, [
+        'ProductModifierReadModel',
+      ])
+      queryBus.register('ListProductModifiersByGroupQuery', ListProductModifiersByGroupHandler, [
+        'ProductModifierCollection',
+      ])
 
       return queryBus
     })

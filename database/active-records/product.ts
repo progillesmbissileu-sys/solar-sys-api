@@ -12,6 +12,7 @@ import crypto from 'node:crypto'
 import ProductCategory from '#database/active-records/product_category'
 import ImageMedia from '#database/active-records/image_media'
 import ProductImage from '#database/active-records/product_image'
+import ProductModifierGroup from '#database/active-records/product_modifier_group'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -84,6 +85,18 @@ export default class Product extends BaseModel {
     pivotTimestamps: true,
   })
   declare images: ManyToMany<typeof ImageMedia>
+
+  @manyToMany(() => ProductModifierGroup, {
+    pivotTable: 'product_modifier_group_product',
+    localKey: 'id',
+    pivotForeignKey: 'product_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'modifier_group_id',
+    pivotColumns: ['sort_order'],
+    serializeAs: 'modifierGroups',
+    pivotTimestamps: true,
+  })
+  declare modifierGroups: ManyToMany<typeof ProductModifierGroup>
 
   @beforeCreate()
   static async beforeCreate(product: Product) {
