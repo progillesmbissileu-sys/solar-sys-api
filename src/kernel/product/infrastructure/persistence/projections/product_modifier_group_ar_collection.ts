@@ -109,6 +109,7 @@ export class ProductModifierGroupARCollection
         return {
           id: group.id,
           designation: group.designation,
+          selectionType: group.selectionType,
           required: group.required,
           available: group.available,
           modifiers: group.modifiers.map((modifier: any) => ({

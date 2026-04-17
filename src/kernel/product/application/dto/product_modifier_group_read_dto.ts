@@ -45,6 +45,7 @@ export interface ProductModifierByProductDto {
 export interface ProductModifierGroupByProductDto {
   id: string
   designation: string
+  selectionType: 'single' | 'multiple'
   required: boolean
   available: boolean
   modifiers: ProductModifierByProductDto[]
