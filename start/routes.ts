@@ -190,7 +190,7 @@ router
       .group(() => {
         router.get('/:productId/modifier-groups', [ProductModifierController, 'listByProduct'])
         router.post('/:productId/modifier-groups', [ProductModifierController, 'attachToProduct'])
-        router.delete('/:productId/modifier-groups', [
+        router.delete('/:productId/modifier-groups/:modifierGroupId', [
           ProductModifierController,
           'detachFromProduct',
         ])

@@ -50,9 +50,3 @@ export const attachModifierGroupToProductSchema = vine.compile(
     sortOrder: vine.number().min(0).optional(),
   })
 )
-
-export const detachModifierGroupFromProductSchema = vine.compile(
-  vine.object({
-    modifierGroupId: vine.string().uuid(),
-  })
-)

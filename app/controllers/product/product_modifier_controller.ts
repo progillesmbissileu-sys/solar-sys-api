@@ -248,11 +248,9 @@ export default class ProductModifierController extends AppAbstractController {
    */
   public async detachFromProduct({ request, response }: HttpContext) {
     const productId = request.param('productId')
-    const payload = await request.validateUsing(detachModifierGroupFromProductSchema)
+    const modifierGroupId = request.param('modifierGroupId')
 
-    await this.handleCommand(
-      new DetachModifierGroupFromProductCommand(productId, payload.modifierGroupId)
-    )
+    await this.handleCommand(new DetachModifierGroupFromProductCommand(productId, modifierGroupId))
 
     return response.noContent()
   }
