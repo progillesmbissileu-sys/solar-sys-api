@@ -19,7 +19,6 @@ import {
   createProductModifierSchema,
   updateProductModifierSchema,
   attachModifierGroupToProductSchema,
-  detachModifierGroupFromProductSchema,
 } from '#validators/product_modifier_validator'
 import { SelectionType } from '#kernel/product/domain/type/selection_type'
 import { AdjustmentType } from '#kernel/product/domain/type/adjustment_type'
