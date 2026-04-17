@@ -34,3 +34,18 @@ export interface ProductModifierGroupListItemDto {
   createdAt: unknown
   updatedAt: unknown
 }
+
+export interface ProductModifierByProductDto {
+  designation: string
+  priceAdjustment: number
+  adjustmentType: 'fixed' | 'percentage'
+  available: boolean
+}
+
+export interface ProductModifierGroupByProductDto {
+  id: string
+  designation: string
+  required: boolean
+  available: boolean
+  modifiers: ProductModifierByProductDto[]
+}

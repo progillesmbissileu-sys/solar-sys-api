@@ -1,6 +1,9 @@
 import ProductModifierGroup from '#database/active-records/product_modifier_group'
 import { ProductModifierGroupCollection } from '#kernel/product/application/collection/product_modifier_group_collection'
-import { ProductModifierGroupListItemDto } from '#kernel/product/application/dto/product_modifier_group_read_dto'
+import {
+  ProductModifierGroupListItemDto,
+  ProductModifierGroupByProductDto,
+} from '#kernel/product/application/dto/product_modifier_group_read_dto'
 import { PaginatedResultDto } from '#shared/application/collection/paginated_result'
 import { ListProductModifierGroupsQuery } from '#kernel/product/application/query/list_product_modifier_groups_query'
 import { ListProductModifierGroupsByProductQuery } from '#kernel/product/application/query/list_product_modifier_groups_by_product_query'
@@ -68,7 +71,7 @@ export class ProductModifierGroupARCollection
 
   async listByProduct(
     query: ListProductModifierGroupsByProductQuery
-  ): Promise<PaginatedResultDto<ProductModifierGroupListItemDto>> {
+  ): Promise<PaginatedResultDto<ProductModifierGroupByProductDto>> {
     let queryBuilder = ProductModifierGroup.query()
       .join(
         'product_modifier_group_product',
@@ -78,6 +81,9 @@ export class ProductModifierGroupARCollection
       .where('product_modifier_group_product.product_id', query.productId)
       .select('product_modifier_groups.*')
       .select('product_modifier_group_product.sort_index as pivot_sort_index')
+      .preload('modifiers', (modifiersQuery) => {
+        modifiersQuery.select('designation', 'price_adjustment', 'adjustment_type', 'available')
+      })
 
     // Apply search filters
     if (query.searchQuery.search) {
@@ -97,25 +103,20 @@ export class ProductModifierGroupARCollection
     // Apply pagination
     const result = await this.applyPaginate(query.pagination, queryBuilder)
 
-    return mapPaginatedResult<any, ProductModifierGroupListItemDto>(
+    return mapPaginatedResult<any, ProductModifierGroupByProductDto>(
       result as any,
       async (group) => {
-        // Load modifiers count
-        const modifiersCount = await ProductModifierGroup.query()
-          .where('id', group.id)
-          .withCount('modifiers')
-          .first()
-
         return {
           id: group.id,
           designation: group.designation,
-          selectionType: group.selectionType,
           required: group.required,
           available: group.available,
-          sortIndex: group.sortIndex,
-          modifierCount: modifiersCount?.$extras.modifiers_count || 0,
-          createdAt: group.createdAt,
-          updatedAt: group.updatedAt,
+          modifiers: group.modifiers.map((modifier: any) => ({
+            designation: modifier.designation,
+            priceAdjustment: modifier.priceAdjustment,
+            adjustmentType: modifier.adjustmentType,
+            available: modifier.available,
+          })),
         }
       }
     )
