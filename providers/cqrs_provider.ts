@@ -72,6 +72,9 @@ import { ListProductModifierGroupsHandler } from '#kernel/product/application/qu
 import { GetProductModifierHandler } from '#kernel/product/application/query-handler/get_product_modifier_handler'
 import { ListProductModifiersByGroupHandler } from '#kernel/product/application/query-handler/list_product_modifiers_by_group_handler'
 import { ListProductModifierGroupsByProductHandler } from '#kernel/product/application/query-handler/list_product_modifier_groups_by_product_handler'
+import { UpdateImageMediaHandler } from '#kernel/medias/application/command_handler/update_image_media.handler'
+import { ListImageMediasHandler } from '#kernel/medias/application/query-handler/list_image_medias_handler'
+import { GetImageMediaHandler } from '#kernel/medias/application/query-handler/get_image_media_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -125,6 +128,9 @@ export default class CqrsProvider {
       commandBus.register('DeleteImageCommand', DeleteImageHandler, [
         'ImageMediaRepository',
         'MediaUploadService',
+      ])
+      commandBus.register('UpdateImageMediaCommand', UpdateImageMediaHandler, [
+        'ImageMediaRepository',
       ])
 
       //STOCK COMMANDS
@@ -303,6 +309,10 @@ export default class CqrsProvider {
         ListProductModifierGroupsByProductHandler,
         ['ProductModifierGroupCollection']
       )
+
+      //MEDIA QUERIES
+      queryBus.register('ListImageMediasQuery', ListImageMediasHandler, ['ImageMediaCollection'])
+      queryBus.register('GetImageMediaQuery', GetImageMediaHandler, ['ImageMediaReadModel'])
 
       //PRODUCT MODIFIER QUERIES
       queryBus.register('GetProductModifierQuery', GetProductModifierHandler, [
