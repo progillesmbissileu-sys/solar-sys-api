@@ -26,6 +26,8 @@ import { ProductModifierCollection } from '#kernel/product/application/collectio
 import { ProductModifierReadModel } from '#kernel/product/application/read-model/product_modifier_read_model'
 import type { ProductModifierGroupRepository } from '#kernel/product/domain/repository/product_modifier_group_repository'
 import type { ProductModifierRepository } from '#kernel/product/domain/repository/product_modifier_repository'
+import { ImageMediaCollection } from '#kernel/medias/application/collection/image_media_collection'
+import { ImageMediaReadModel } from '#kernel/medias/application/read-model/image_media_read_model'
 
 declare module '@adonisjs/core/types' {
   interface ContainerBindings {
@@ -67,6 +69,10 @@ declare module '@adonisjs/core/types' {
     'ProductModifierGroupReadModel': ProductModifierGroupReadModel
     'ProductModifierCollection': ProductModifierCollection
     'ProductModifierReadModel': ProductModifierReadModel
+
+    //MEDIA
+    'ImageMediaCollection': ImageMediaCollection
+    'ImageMediaReadModel': ImageMediaReadModel
 
     //SERVICE
     'MediaUploadService': MediaManagerInterface

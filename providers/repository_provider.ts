@@ -31,6 +31,8 @@ import { ProductModifierGroupARCollection } from '#kernel/product/infrastructure
 import { ProductModifierGroupARReadModel } from '#kernel/product/infrastructure/persistence/projections/product_modifier_group_ar_read_model'
 import { ProductModifierARCollection } from '#kernel/product/infrastructure/persistence/projections/product_modifier_ar_collection'
 import { ProductModifierARReadModel } from '#kernel/product/infrastructure/persistence/projections/product_modifier_ar_read_model'
+import { ImageMediaARCollection } from '#kernel/medias/infrastructure/persistence/projections/image_media_ar_collection'
+import { ImageMediaARReadModel } from '#kernel/medias/infrastructure/persistence/projections/image_media_ar_read_model'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -138,6 +140,12 @@ export default class RepositoryProvider {
       })
       this.app.container.bind('ProductModifierReadModel', () => {
         return new ProductModifierARReadModel()
+      })
+      this.app.container.bind('ImageMediaCollection', () => {
+        return new ImageMediaARCollection()
+      })
+      this.app.container.bind('ImageMediaReadModel', () => {
+        return new ImageMediaARReadModel()
       })
     }
   }
