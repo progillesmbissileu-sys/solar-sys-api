@@ -23,10 +23,10 @@ export class ImageMediaARCollection
 
     const result = await this.applyPaginate(query.pagination, queryBuilder)
 
-    return mapPaginatedResult<any, ImageMediaListItemDto>(result as any, (img) => ({
+    return mapPaginatedResult<any, ImageMediaListItemDto>(result as any, async (img) => ({
       id: img.id,
       title: img.title,
-      url: img.relativeKey ? this.mediaManager.getSignedUrl(img.relativeKey) : img.url,
+      url: img.relativeKey ? await this.mediaManager.getSignedUrl(img.relativeKey) : img.url,
       altDescription: img.altDescription,
       createdAt: img.createdAt,
       updatedAt: img.updatedAt,
