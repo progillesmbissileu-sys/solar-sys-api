@@ -141,11 +141,13 @@ export default class RepositoryProvider {
       this.app.container.bind('ProductModifierReadModel', () => {
         return new ProductModifierARReadModel()
       })
-      this.app.container.bind('ImageMediaCollection', () => {
-        return new ImageMediaARCollection()
+      this.app.container.bind('ImageMediaCollection', async () => {
+        const mediaUploadService = await this.app.container.make('MediaUploadService')
+        return new ImageMediaARCollection(mediaUploadService)
       })
-      this.app.container.bind('ImageMediaReadModel', () => {
-        return new ImageMediaARReadModel()
+      this.app.container.bind('ImageMediaReadModel', async () => {
+        const mediaUploadService = await this.app.container.make('MediaUploadService')
+        return new ImageMediaARReadModel(mediaUploadService)
       })
     }
   }

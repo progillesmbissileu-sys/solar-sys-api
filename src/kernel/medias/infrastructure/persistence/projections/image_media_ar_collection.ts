@@ -5,11 +5,16 @@ import { PaginatedResultDto } from '#shared/application/collection/paginated_res
 import { ListImageMediasQuery } from '#kernel/medias/application/query/list_image_medias_query'
 import { ModelQueryBuilderHelper } from '#shared/infrastructure/persistence/model_query_builder'
 import { mapPaginatedResult } from '#shared/infrastructure/collection/paginated_result'
+import { MediaManagerInterface } from '#shared/application/services/upload/media_manager_interface'
 
 export class ImageMediaARCollection
   extends ModelQueryBuilderHelper
   implements ImageMediaCollection
 {
+  constructor(private readonly mediaManager: MediaManagerInterface) {
+    super()
+  }
+
   async list(query: ListImageMediasQuery): Promise<PaginatedResultDto<ImageMediaListItemDto>> {
     let queryBuilder = EntityManager.query()
 
@@ -21,7 +26,7 @@ export class ImageMediaARCollection
     return mapPaginatedResult<any, ImageMediaListItemDto>(result as any, (img) => ({
       id: img.id,
       title: img.title,
-      url: img.url,
+      url: img.relativeKey ? this.mediaManager.getSignedUrl(img.relativeKey) : img.url,
       altDescription: img.altDescription,
       createdAt: img.createdAt,
       updatedAt: img.updatedAt,
