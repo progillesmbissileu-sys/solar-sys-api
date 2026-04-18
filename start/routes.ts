@@ -61,7 +61,7 @@ router
       router
         .resource('image-media', ImageMediasController)
         .apiOnly()
-        .only(['store', 'destroy'])
+        .only(['index', 'show', 'store', 'update', 'destroy'])
         .use('*', middleware.auth())
 
       // Stock routes

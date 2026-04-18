@@ -7,3 +7,10 @@ export const mediaSchema = vine.compile(
     image: vine.file(),
   })
 )
+
+export const updateImageMediaSchema = vine.compile(
+  vine.object({
+    title: vine.string().optional(),
+    alt: vine.string().optional(),
+  })
+)
