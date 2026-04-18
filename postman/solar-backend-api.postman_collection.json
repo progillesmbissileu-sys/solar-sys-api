@@ -470,19 +470,139 @@
       "name": "Image Media",
       "item": [
         {
-          "name": "Delete Image",
+          "name": "List Images",
           "request": {
-            "method": "DELETE",
+            "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/image-media/00000-00000000000-0",
+              "raw": "{{base_url}}/api/image-media?page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "image-media"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (max 100)"
+                },
+                {
+                  "key": "q",
+                  "value": "",
+                  "description": "Search query (filters by title)",
+                  "disabled": true
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/image-media/{{image_id}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "image-media",
-                "00000-00000000000-0"
+                "{{image_id}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Image",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/image-media/{{image_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "image-media",
+                "{{image_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Updated Image Title\",\r\n    \"alt\": \"Updated alt description\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/image-media/{{image_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "image-media",
+                "{{image_id}}"
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
               ]
             }
           }
@@ -509,17 +629,27 @@
                   "key": "image",
                   "value": "",
                   "type": "file",
-                  "src": "C:\\Users\\Elkira01\\Pictures\\KBM\\kbm.webp"
+                  "src": ""
                 },
                 {
                   "key": "title",
-                  "value": "service2",
+                  "value": "Image title",
                   "type": "text"
                 },
                 {
                   "key": "alt",
-                  "value": "service2",
+                  "value": "Alt description",
                   "type": "text"
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
                 }
               ]
             }
