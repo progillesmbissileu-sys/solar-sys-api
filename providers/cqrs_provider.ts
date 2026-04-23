@@ -75,6 +75,14 @@ import { ListProductModifierGroupsByProductHandler } from '#kernel/product/appli
 import { UpdateImageMediaHandler } from '#kernel/medias/application/command_handler/update_image_media.handler'
 import { ListImageMediasHandler } from '#kernel/medias/application/query-handler/list_image_medias_handler'
 import { GetImageMediaHandler } from '#kernel/medias/application/query-handler/get_image_media_handler'
+import { CreateMediaCollectionHandler } from '#kernel/medias/application/command_handler/create_media_collection_handler'
+import { UpdateMediaCollectionHandler } from '#kernel/medias/application/command_handler/update_media_collection_handler'
+import { DeleteMediaCollectionHandler } from '#kernel/medias/application/command_handler/delete_media_collection_handler'
+import { AddImagesToCollectionHandler } from '#kernel/medias/application/command_handler/add_images_to_collection_handler'
+import { RemoveImageFromCollectionHandler } from '#kernel/medias/application/command_handler/remove_image_from_collection_handler'
+import { ReorderCollectionImagesHandler } from '#kernel/medias/application/command_handler/reorder_collection_images_handler'
+import { ListMediaCollectionsHandler } from '#kernel/medias/application/query-handler/list_media_collections_handler'
+import { GetMediaCollectionHandler } from '#kernel/medias/application/query-handler/get_media_collection_handler'
 
 export default class CqrsProvider {
   constructor(protected app: ApplicationService) {}
@@ -131,6 +139,31 @@ export default class CqrsProvider {
       ])
       commandBus.register('UpdateImageMediaCommand', UpdateImageMediaHandler, [
         'ImageMediaRepository',
+      ])
+
+      //MEDIA COLLECTION COMMANDS
+      commandBus.register('CreateMediaCollectionCommand', CreateMediaCollectionHandler, [
+        'MediaCollectionRepository',
+      ])
+      commandBus.register('UpdateMediaCollectionCommand', UpdateMediaCollectionHandler, [
+        'MediaCollectionRepository',
+      ])
+      commandBus.register('DeleteMediaCollectionCommand', DeleteMediaCollectionHandler, [
+        'MediaCollectionRepository',
+        'CollectionItemRepository',
+      ])
+      commandBus.register('AddImagesToCollectionCommand', AddImagesToCollectionHandler, [
+        'MediaCollectionRepository',
+        'ImageMediaRepository',
+        'CollectionItemRepository',
+      ])
+      commandBus.register('RemoveImageFromCollectionCommand', RemoveImageFromCollectionHandler, [
+        'MediaCollectionRepository',
+        'CollectionItemRepository',
+      ])
+      commandBus.register('ReorderCollectionImagesCommand', ReorderCollectionImagesHandler, [
+        'MediaCollectionRepository',
+        'CollectionItemRepository',
       ])
 
       //STOCK COMMANDS
@@ -313,6 +346,14 @@ export default class CqrsProvider {
       //MEDIA QUERIES
       queryBus.register('ListImageMediasQuery', ListImageMediasHandler, ['ImageMediaCollection'])
       queryBus.register('GetImageMediaQuery', GetImageMediaHandler, ['ImageMediaReadModel'])
+
+      //MEDIA COLLECTION QUERIES
+      queryBus.register('ListMediaCollectionsQuery', ListMediaCollectionsHandler, [
+        'MediaCollectionCollection',
+      ])
+      queryBus.register('GetMediaCollectionQuery', GetMediaCollectionHandler, [
+        'MediaCollectionReadModel',
+      ])
 
       //PRODUCT MODIFIER QUERIES
       queryBus.register('GetProductModifierQuery', GetProductModifierHandler, [

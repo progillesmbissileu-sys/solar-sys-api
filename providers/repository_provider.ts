@@ -33,6 +33,10 @@ import { ProductModifierARCollection } from '#kernel/product/infrastructure/pers
 import { ProductModifierARReadModel } from '#kernel/product/infrastructure/persistence/projections/product_modifier_ar_read_model'
 import { ImageMediaARCollection } from '#kernel/medias/infrastructure/persistence/projections/image_media_ar_collection'
 import { ImageMediaARReadModel } from '#kernel/medias/infrastructure/persistence/projections/image_media_ar_read_model'
+import { MediaCollectionARRepository } from '#kernel/medias/infrastructure/persistence/media_collection_ar_repository'
+import { CollectionItemARRepository } from '#kernel/medias/infrastructure/persistence/collection_item_ar_repository'
+import { MediaCollectionARCollection } from '#kernel/medias/infrastructure/persistence/projections/media_collection_ar_collection'
+import { MediaCollectionARReadModel } from '#kernel/medias/infrastructure/persistence/projections/media_collection_ar_read_model'
 
 export default class RepositoryProvider {
   constructor(protected app: ApplicationService) {}
@@ -148,6 +152,19 @@ export default class RepositoryProvider {
       this.app.container.bind('ImageMediaReadModel', async () => {
         const mediaUploadService = await this.app.container.make('MediaUploadService')
         return new ImageMediaARReadModel(mediaUploadService)
+      })
+      this.app.container.bind('MediaCollectionRepository', () => {
+        return new MediaCollectionARRepository()
+      })
+      this.app.container.bind('CollectionItemRepository', () => {
+        return new CollectionItemARRepository()
+      })
+      this.app.container.bind('MediaCollectionCollection', () => {
+        return new MediaCollectionARCollection()
+      })
+      this.app.container.bind('MediaCollectionReadModel', async () => {
+        const mediaUploadService = await this.app.container.make('MediaUploadService')
+        return new MediaCollectionARReadModel(mediaUploadService)
       })
     }
   }

@@ -1,6 +1,8 @@
 export { default as AddressRecord } from '#database/active-records/address'
+export { default as CollectionImageRecord } from '#database/active-records/collection_image'
 export { default as CustomerRecord } from '#database/active-records/customer'
 export { default as ImageMediaRecord } from '#database/active-records/image_media'
+export { default as MediaCollectionRecord } from '#database/active-records/media_collection'
 export { default as MarketServiceRecord } from '#database/active-records/market_service'
 export { default as OrderRecord } from '#database/active-records/order'
 export { default as OrderItemRecord } from '#database/active-records/order_item'

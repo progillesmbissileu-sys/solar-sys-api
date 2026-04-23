@@ -24,6 +24,7 @@ const ProductPackController = () => import('#controllers/product/product_pack_co
 const MarketProductController = () => import('#controllers/market/market_product_controller')
 const StaffMembersController = () => import('#controllers/staff/staff_members_controller')
 const ProductModifierController = () => import('#controllers/product/product_modifier_controller')
+const MediaCollectionsController = () => import('#controllers/media/media_collections_controller')
 
 router
   .group(() => {
@@ -183,6 +184,21 @@ router
         router.delete('/:id/modifiers/:modifierId', [ProductModifierController, 'destroyModifier'])
       })
       .prefix('product-modifier-groups')
+      .use(middleware.auth())
+
+    // Media collections routes
+    router
+      .group(() => {
+        router.get('/', [MediaCollectionsController, 'index'])
+        router.post('/', [MediaCollectionsController, 'store'])
+        router.get('/:id', [MediaCollectionsController, 'show'])
+        router.put('/:id', [MediaCollectionsController, 'update'])
+        router.delete('/:id', [MediaCollectionsController, 'destroy'])
+        router.post('/:id/images', [MediaCollectionsController, 'addImages'])
+        router.delete('/:id/images/:imageId', [MediaCollectionsController, 'removeImage'])
+        router.put('/:id/images/reorder', [MediaCollectionsController, 'reorderImages'])
+      })
+      .prefix('media-collections')
       .use(middleware.auth())
 
     // Product Modifier Group attachment to products
